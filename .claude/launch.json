@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 3000
+    },
+    {
+      "name": "static-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4180", "-d", "site"],
+      "port": 4180
     }
   ]
 }

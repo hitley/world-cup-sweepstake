@@ -16,7 +16,7 @@ export default function MatchesTimeline({ history, activeDayIndex }: MatchesTime
         <Calendar className="w-12 h-12 text-slate-600 mx-auto mb-3" />
         <p className="text-lg font-medium text-slate-300">No Matches Played Yet</p>
         <p className="text-sm text-slate-500 mt-1 max-w-md mx-auto">
-          The 2026 World Cup is ready! Press "Simulate Next Matchday" above to let the simulation generate outcomes, or "Fetch Real Updates" to let Gemini scan actual World Cup results.
+          The 2026 World Cup is ready! Press "Fetch Next Matchday" above to let the simulation generate outcomes.
         </p>
       </div>
     );

@@ -2,37 +2,46 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-// Ensure config and data folders exist
-const CONFIG_DIR = path.join(process.cwd(), "config");
+// Competition-scoped storage: each competition keeps its committed tournament
+// state under config/competitions/<slug>/ and its gitignored player setup
+// under data/<slug>/. A competition exists iff its config folder exists.
+const COMPETITIONS_DIR = path.join(process.cwd(), "config", "competitions");
 const DATA_DIR = path.join(process.cwd(), "data");
-for (const dir of [CONFIG_DIR, DATA_DIR]) {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
+if (!fs.existsSync(COMPETITIONS_DIR)) {
+  fs.mkdirSync(COMPETITIONS_DIR, { recursive: true });
 }
 
-const STATE_FILE = path.join(CONFIG_DIR, "sweepstake.json");
-const PLAYERS_FILE = path.join(DATA_DIR, "players_setup.json");
+const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
 
-// Initialize Gemini Client
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || "MOCK_KEY",
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
+function listCompetitions(): string[] {
+  return fs.readdirSync(COMPETITIONS_DIR, { withFileTypes: true })
+    .filter(e => e.isDirectory() && SLUG_PATTERN.test(e.name))
+    .map(e => e.name)
+    .sort();
+}
+
+function isValidCompetition(slug: string): boolean {
+  return SLUG_PATTERN.test(slug) && fs.existsSync(path.join(COMPETITIONS_DIR, slug));
+}
+
+function stateFile(comp: string) {
+  return path.join(COMPETITIONS_DIR, comp, "sweepstake.json");
+}
+
+function playersFile(comp: string) {
+  return path.join(DATA_DIR, comp, "players_setup.json");
+}
+
+function writeFileEnsuringDir(file: string, contents: string) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, contents, "utf-8");
+}
 
 // Setup Initial Teams for 2026 World Cup (48 teams)
 const INITIAL_TEAMS = [
@@ -166,32 +175,32 @@ const DEFAULT_STATE: SweepstakeState = {
   history: []
 };
 
-// Helper to read state
-function readState(): SweepstakeState {
+// Helper to read a competition's state
+function readState(comp: string): SweepstakeState {
   let state: SweepstakeState;
   try {
-    if (fs.existsSync(STATE_FILE)) {
-      const data = fs.readFileSync(STATE_FILE, "utf-8");
+    if (fs.existsSync(stateFile(comp))) {
+      const data = fs.readFileSync(stateFile(comp), "utf-8");
       state = JSON.parse(data);
     } else {
       state = { ...DEFAULT_STATE };
     }
   } catch (error) {
-    console.error("Failed to read state file, returning default", error);
+    console.error(`Failed to read state file for "${comp}", returning default`, error);
     state = { ...DEFAULT_STATE };
   }
 
-  // Fallback/sync to PLAYERS_FILE for participants configuration to guarantee persistent iterations
+  // Fallback/sync to the players file for participants configuration to guarantee persistent iterations
   try {
-    if (fs.existsSync(PLAYERS_FILE)) {
-      const data = fs.readFileSync(PLAYERS_FILE, "utf-8");
+    if (fs.existsSync(playersFile(comp))) {
+      const data = fs.readFileSync(playersFile(comp), "utf-8");
       const savedParticipants = JSON.parse(data);
       if (Array.isArray(savedParticipants) && savedParticipants.length > 0) {
         state.participants = savedParticipants;
       }
     } else {
       // Bootstrap the backup config
-      fs.writeFileSync(PLAYERS_FILE, JSON.stringify(state.participants || DEFAULT_PARTICIPANTS, null, 2), "utf-8");
+      writeFileEnsuringDir(playersFile(comp), JSON.stringify(state.participants || DEFAULT_PARTICIPANTS, null, 2));
     }
   } catch (error) {
     console.error("Failed to sync players configuration backup", error);
@@ -275,9 +284,9 @@ function readState(): SweepstakeState {
 
   if (migrationNeeded) {
     console.log("Migrating state file: Replaced non-qualifying legacy teams with correct 2026 World Cup qualified teams.");
-    writeState(state);
+    writeState(comp, state);
     try {
-      fs.writeFileSync(PLAYERS_FILE, JSON.stringify(state.participants, null, 2), "utf-8");
+      writeFileEnsuringDir(playersFile(comp), JSON.stringify(state.participants, null, 2));
     } catch (e) {
       console.error("Failed to write migrated players file:", e);
     }
@@ -286,10 +295,10 @@ function readState(): SweepstakeState {
   return state;
 }
 
-// Helper to write state
-function writeState(state: SweepstakeState) {
+// Helper to write a competition's state
+function writeState(comp: string, state: SweepstakeState) {
   try {
-    fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
+    writeFileEnsuringDir(stateFile(comp), JSON.stringify(state, null, 2));
   } catch (err) {
     console.error("Failed to save state:", err);
   }
@@ -324,16 +333,29 @@ function getParticipantStandings(participants: Participant[], teams: typeof INIT
 
 // API Routes
 
+// 0. List available competitions (used by the local admin picker)
+app.get("/api/competitions", (req, res) => {
+  res.json(listCompetitions());
+});
+
+// Guard all competition-scoped routes against unknown/malformed slugs
+app.use("/api/:comp/worldcup", (req, res, next) => {
+  if (!isValidCompetition(req.params.comp)) {
+    return res.status(404).json({ error: `Unknown competition "${req.params.comp}"` });
+  }
+  next();
+});
+
 // 1. Get sweepstake current state
-app.get("/api/worldcup/state", (req, res) => {
-  const state = readState();
+app.get("/api/:comp/worldcup/state", (req, res) => {
+  const state = readState(req.params.comp);
   res.json(state);
 });
 
 // 2. Reset / Initialize setup (Standings-only Non-Destructive Reset)
-app.post("/api/worldcup/reset", (req, res) => {
+app.post("/api/:comp/worldcup/reset", (req, res) => {
   // Read current custom state first so we retain players and drafts
-  const state = readState();
+  const state = readState(req.params.comp);
   
   // Clean resets scores, active states, match histories, and days,
   // but perfectly retains custom players and their assigned draft selections!
@@ -344,33 +366,34 @@ app.post("/api/worldcup/reset", (req, res) => {
     history: []
   };
   
-  writeState(resetState);
+  writeState(req.params.comp, resetState);
   res.json(resetState);
 });
 
 // 3. Update Custom Standings Setup
-app.post("/api/worldcup/update-setup", (req, res) => {
+app.post("/api/:comp/worldcup/update-setup", (req, res) => {
+  const comp = req.params.comp;
   const { participants } = req.body;
-  const state = readState();
+  const state = readState(comp);
 
   if (participants) {
     state.participants = participants;
     // Persist custom setup to players_setup.json as the durable truth
     try {
-      fs.writeFileSync(PLAYERS_FILE, JSON.stringify(participants, null, 2), "utf-8");
+      writeFileEnsuringDir(playersFile(comp), JSON.stringify(participants, null, 2));
     } catch (err) {
       console.error("Failed to backup players file:", err);
     }
   }
 
   // Recalculate everything with new configurations
-  writeState(state);
+  writeState(comp, state);
   res.json(state);
 });
 
-// 4. Fetch/Progress World Cup results using Gemini Model
-app.post("/api/worldcup/fetch-results", async (req, res) => {
-  const state = readState();
+// 4. Simulate and progress to the next World Cup matchday
+app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
+  const state = readState(req.params.comp);
   const nextDayIndex = state.currentDayIndex + 1;
 
   if (nextDayIndex > SCHEDULED_DAYS.length) {
@@ -383,143 +406,69 @@ app.post("/api/worldcup/fetch-results", async (req, res) => {
   }
 
   const activeTeams = state.teams.filter(t => t.status === "Active").map(t => t.name);
-  const formattedActiveTeams = activeTeams.join(", ");
-
-  // Real-mode behavior (always): use Google search tools to fetch real results where possible
-  const prompt = `Search Google for the real results of the 2026 FIFA World Cup on ${dayInfo.date}. 
-If no matches were actually played on this day (e.g., if the tournament has not reached this date yet or it is rest day), 
-simulate highly sensible and realistic group stage or knockout matches based on realistic FIFA 2026 scheduling.
-Include real star players like Mbappé, Messi, Vinicius Jr, etc.
-
-Represent matches involving some of these active teams: [${formattedActiveTeams}].
-Only include active teams in matches.
-
-Generate the response strictly as valid JSON conforming to the schema.`;
 
   try {
-    const isMock = process.env.GEMINI_API_KEY === undefined || process.env.GEMINI_API_KEY === "MOCK_KEY";
-    let geminiObj;
-
-      if (!isMock) {
-      const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: prompt,
-        config: {
-          systemInstruction: `You are the lead narrator and stats statistician of the Ultimate FIFA World Cup 2026 Sweepstake. 
-Your goal is to provide highly engaging, funny, and accurate match summaries and update winning probabilities. 
-Return the output strictly in JSON according to the schema provided. No conversational markdown wrap outside the JSON.`,
-          tools: [{ googleSearch: {} }],
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              matches: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    teamHome: { type: Type.STRING },
-                    teamAway: { type: Type.STRING },
-                    scoreHome: { type: Type.INTEGER },
-                    scoreAway: { type: Type.INTEGER },
-                    highlights: { type: Type.STRING, description: "Highly engaging, dramatic, and humorous 1-2 sentence match summary" },
-                    scorers: { type: Type.ARRAY, items: { type: Type.STRING } }
-                  },
-                  required: ["teamHome", "teamAway", "scoreHome", "scoreAway", "highlights"]
-                }
-              },
-              eliminatedTeams: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING },
-                description: "List of team names knocked out on this tournament day."
-              },
-              teamProbabilities: {
-                type: Type.ARRAY,
-                items: {
-                  type: Type.OBJECT,
-                  properties: {
-                    team: { type: Type.STRING },
-                    prob: { type: Type.NUMBER, description: "New tournament success probability (%) (0 to 100). Sum of active teams must equal close to 100%." }
-                  },
-                  required: ["team", "prob"]
-                }
-              },
-              wittyNarrative: {
-                type: Type.STRING,
-                description: "A funny and engaging 2-3 sentence podcast style roundup highlighting today's drama."
-              }
-            },
-            required: ["matches", "eliminatedTeams", "teamProbabilities", "wittyNarrative"]
-          }
-        }
-      });
-
-      const bodyText = response.text || "{}";
-      geminiObj = JSON.parse(bodyText.trim());
-    } else {
-      // Return beautiful simulated mock JSON if API key is not ready
-      console.log("No Gemini API key or mock flag, generating fallback mock data");
-      const sampleMatches: Match[] = [];
-      const numMatches = Math.floor(Math.random() * 2) + 2; // 2-3 matches
-      const shuffledActive = [...activeTeams].sort(() => 0.5 - Math.random());
+    // Simulate the matchday outcomes
+    const sampleMatches: Match[] = [];
+    const numMatches = Math.floor(Math.random() * 2) + 2; // 2-3 matches
+    const shuffledActive = [...activeTeams].sort(() => 0.5 - Math.random());
+    
+    const elTeams: string[] = [];
+    
+    for (let i = 0; i < numMatches && shuffledActive.length >= 2; i++) {
+      const home = shuffledActive.pop()!;
+      const away = shuffledActive.pop()!;
+      const sh = Math.floor(Math.random() * 4);
+      const sa = Math.floor(Math.random() * 4);
       
-      const elTeams: string[] = [];
-      
-      for (let i = 0; i < numMatches && shuffledActive.length >= 2; i++) {
-        const home = shuffledActive.pop()!;
-        const away = shuffledActive.pop()!;
-        const sh = Math.floor(Math.random() * 4);
-        const sa = Math.floor(Math.random() * 4);
-        
-        let hl = `Matchday excitement between ${home} and ${away}! `;
-        if (sh > sa) {
-          hl += `${home} secures a sensational tactical advantage with some beautiful tiki-taka action.`;
-        } else if (sa > sh) {
-          hl += `${away} clinches a late shock-winner leaving fans absolutely ecstatic!`;
-        } else {
-          hl += `A hard-fought battle ends in a draw that keeps both fan camps on the edge of their seats.`;
-        }
-        
-        sampleMatches.push({
-          teamHome: home,
-          teamAway: away,
-          scoreHome: sh,
-          scoreAway: sa,
-          highlights: hl,
-          scorers: [`Scorer A (${10+Math.floor(Math.random()*70)}')`, `Scorer B (${20+Math.floor(Math.random()*60)}')`]
-        });
-
-        // Knockout phase could eliminate one team
-        if (nextDayIndex >= 15) {
-          const loser = sh >= sa ? away : home;
-          elTeams.push(loser);
-        }
+      let hl = `Matchday excitement between ${home} and ${away}! `;
+      if (sh > sa) {
+        hl += `${home} secures a sensational tactical advantage with some beautiful tiki-taka action.`;
+      } else if (sa > sh) {
+        hl += `${away} clinches a late shock-winner leaving fans absolutely ecstatic!`;
+      } else {
+        hl += `A hard-fought battle ends in a draw that keeps both fan camps on the edge of their seats.`;
       }
-
-      // Readjust probabilities
-      const updatedProbs = state.teams.map(t => {
-        let p = t.prob;
-        if (elTeams.includes(t.name)) {
-          p = 0;
-        } else if (t.status === "Active") {
-          p = t.prob + (Math.random() * 2 - 0.5);
-          if (p < 0.5) p = 0.5;
-        }
-        return { team: t.name, prob: parseFloat(p.toFixed(1)) };
+      
+      sampleMatches.push({
+        teamHome: home,
+        teamAway: away,
+        scoreHome: sh,
+        scoreAway: sa,
+        highlights: hl,
+        scorers: [`Scorer A (${10+Math.floor(Math.random()*70)}')`, `Scorer B (${20+Math.floor(Math.random()*60)}')`]
       });
 
-      geminiObj = {
-        matches: sampleMatches,
-        eliminatedTeams: elTeams,
-        teamProbabilities: updatedProbs,
-        wittyNarrative: `Matchday ${nextDayIndex} provided premium footballing action! Underdogs showed massive character while top seeds ran tactical masterclasses. Standings are shaking up rapidly!`
-      };
+      // Knockout phase could eliminate one team
+      if (nextDayIndex >= 15) {
+        const loser = sh >= sa ? away : home;
+        elTeams.push(loser);
+      }
     }
 
+    // Readjust probabilities
+    const updatedProbs = state.teams.map(t => {
+      let p = t.prob;
+      if (elTeams.includes(t.name)) {
+        p = 0;
+      } else if (t.status === "Active") {
+        p = t.prob + (Math.random() * 2 - 0.5);
+        if (p < 0.5) p = 0.5;
+      }
+      return { team: t.name, prob: parseFloat(p.toFixed(1)) };
+    });
+
+    const simulatedDay = {
+      matches: sampleMatches,
+      eliminatedTeams: elTeams,
+      teamProbabilities: updatedProbs,
+      wittyNarrative: `Matchday ${nextDayIndex} provided premium footballing action! Underdogs showed massive character while top seeds ran tactical masterclasses. Standings are shaking up rapidly!`
+    };
+
     // Process & Apply rules to Sweepstake state
-    const fetchedMatches = geminiObj.matches || [];
-    const eliminatedThisTurn = geminiObj.eliminatedTeams || [];
-    const probabilitiesUpdates = geminiObj.teamProbabilities || [];
+    const fetchedMatches = simulatedDay.matches || [];
+    const eliminatedThisTurn = simulatedDay.eliminatedTeams || [];
+    const probabilitiesUpdates = simulatedDay.teamProbabilities || [];
 
     // 1. Update Game/Goal Stats and Points
     fetchedMatches.forEach((m: Match) => {
@@ -606,18 +555,18 @@ Return the output strictly in JSON according to the schema provided. No conversa
       date: dayInfo.date,
       matches: fetchedMatches,
       eliminatedTeams: eliminatedThisTurn,
-      wittyNarrative: geminiObj.wittyNarrative,
+      wittyNarrative: simulatedDay.wittyNarrative,
       participantStandings: currentStandings
     };
 
     state.history.push(historyRecord);
 
-    writeState(state);
+    writeState(req.params.comp, state);
     res.json(state);
 
   } catch (error: any) {
-    console.error("Gemini sweepstake processing failed:", error);
-    res.status(500).json({ error: "Gemini sweepstake generation was interrupted: " + error.message });
+    console.error("Matchday processing failed:", error);
+    res.status(500).json({ error: "Matchday simulation was interrupted: " + error.message });
   }
 });
 
@@ -639,9 +588,9 @@ const startServer = async () => {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server runs on http://localhost:${PORT}`);
-    // Trigger startup upgrade & data sync
+    // Trigger startup upgrade & data sync for every competition
     console.log("Triggering startup players database live-migration sync...");
-    readState();
+    listCompetitions().forEach(comp => readState(comp));
   });
 };
 

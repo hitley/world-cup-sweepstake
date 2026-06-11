@@ -1,6 +1,0 @@
-{
-  "name": "FIFA World Cup 2026 Sweepstake Tracker",
-  "description": "A gamified sweepstake portal for friends tracking players, teams, daily matches, results, and survival probabilities.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

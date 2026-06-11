@@ -18,8 +18,16 @@ import {
   Printer
 } from "lucide-react";
 
+// Competition slug comes from ?c=<slug> when running locally against the API.
+// On the static deployment each competition lives in its own folder with a
+// sweepstake.json next to index.html, and the app runs read-only.
+const competition = new URLSearchParams(window.location.search).get("c");
+const apiBase = `/api/${competition}/worldcup`;
+
 export default function App() {
   const [state, setState] = useState<SweepstakeState | null>(null);
+  const [readOnly, setReadOnly] = useState(false);
+  const [competitions, setCompetitions] = useState<string[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState("");
   const [showSetup, setShowSetup] = useState(false);
@@ -31,7 +39,7 @@ export default function App() {
   // Loading quotes pool
   const LOADING_QUOTES = [
     "Referees tuning their whistles...",
-    "Gemini studying soccer tactical sheets...",
+    "Studying soccer tactical sheets...",
     "Vesting pitch grass on the stadiums...",
     "Warming up the virtual keyboards...",
     "Fetching coordinates of Mbappé's boots...",
@@ -44,11 +52,32 @@ export default function App() {
   const fetchState = async (silently = false) => {
     if (!silently) setIsLoading(true);
     try {
-      const res = await fetch("/api/worldcup/state");
-      if (!res.ok) throw new Error("Failed to contact full-stack server state");
-      const data = await res.json();
-      setState(data);
-      setError(null);
+      if (competition) {
+        // Local admin mode: talk to the Express API for the chosen competition
+        const res = await fetch(`${apiBase}/state`);
+        if (!res.ok) throw new Error("Failed to contact full-stack server state");
+        setState(await res.json());
+        setError(null);
+        return;
+      }
+
+      // No competition in the URL: either a static read-only deployment
+      // (sweepstake.json sits next to index.html) or the local picker.
+      const staticRes = await fetch("sweepstake.json", { cache: "no-store" });
+      const contentType = staticRes.headers.get("content-type") || "";
+      if (staticRes.ok && contentType.includes("json")) {
+        // Static files skip the server's read-time normalization, so guard
+        // against missing fields in older state snapshots
+        const data = await staticRes.json();
+        setState({ participants: [], teams: [], currentDayIndex: 0, history: [], ...data });
+        setReadOnly(true);
+        setError(null);
+        return;
+      }
+
+      const listRes = await fetch("/api/competitions");
+      if (!listRes.ok) throw new Error("No competitions available");
+      setCompetitions(await listRes.json());
     } catch (err: any) {
       console.error(err);
       setError("Cannot sync with server. Check if local backend dev server has completed setup.");
@@ -78,7 +107,7 @@ export default function App() {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/worldcup/fetch-results", {
+      const res = await fetch(`${apiBase}/fetch-results`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }
       });
@@ -108,7 +137,7 @@ export default function App() {
     setShowResetConfirm(false);
     setIsLoading(true);
     try {
-      const res = await fetch("/api/worldcup/reset", {
+      const res = await fetch(`${apiBase}/reset`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ mode: "Real" })
@@ -131,7 +160,7 @@ export default function App() {
     setIsLoading(true);
     try {
       // Put setup
-      const res = await fetch("/api/worldcup/update-setup", {
+      const res = await fetch(`${apiBase}/update-setup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ participants: updatedParticipants })
@@ -146,6 +175,38 @@ export default function App() {
       setIsLoading(false);
     }
   };
+
+  // Local admin landing: no competition chosen yet, offer the available ones
+  if (!state && competitions) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-400 p-6 select-none font-outfit gap-6">
+        <div className="absolute top-0 w-full h-[300px] bg-amber-500/5 blur-3xl rounded-full -z-10" />
+        <div className="p-4 bg-yellow-400 text-slate-950 rounded-2xl shadow-lg shadow-yellow-400/10 rotate-1">
+          <Trophy className="w-8 h-8 stroke-[2.5]" />
+        </div>
+        <div className="text-center">
+          <h1 className="font-bungee text-2xl text-yellow-400 uppercase">Pick a competition</h1>
+          <p className="text-xs text-slate-500 mt-2">Each competition keeps its own draft, standings, and matchday history.</p>
+        </div>
+        <div className="flex flex-col gap-3 w-full max-w-xs">
+          {competitions.length === 0 && (
+            <p className="text-xs text-center text-slate-500">
+              No competitions found. Create a folder under <code className="text-slate-300">config/competitions/</code> to start one.
+            </p>
+          )}
+          {competitions.map(c => (
+            <a
+              key={c}
+              href={`?c=${c}`}
+              className="px-5 py-4 bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-yellow-400/50 rounded-2xl text-center font-bungee text-slate-200 uppercase tracking-wider transition"
+            >
+              {c}
+            </a>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   if (!state) {
     return (
@@ -188,11 +249,13 @@ export default function App() {
           </div>
 
           <div className="flex items-center flex-wrap gap-2">
-            {!printMode && (
+            {/* Admin controls: hidden on the read-only deployment, kept in the
+                layout (invisible) during print mode so the print button never shifts */}
+            {!readOnly && (
               <>
                 <button
                   onClick={handleResetTournament}
-                  className="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-500 rounded-xl transition border border-white/5 cursor-pointer"
+                  className={`p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-500 rounded-xl transition border border-white/5 cursor-pointer ${printMode ? 'invisible' : ''}`}
                   title="Reset Sweepstake"
                 >
                   <RefreshCw className="w-4 h-4" />
@@ -200,7 +263,7 @@ export default function App() {
 
                 <button
                   onClick={() => setShowSetup(true)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold font-outfit rounded-xl flex items-center gap-2 text-xs border border-white/10 transition duration-150 active:scale-95 cursor-pointer uppercase tracking-wider"
+                  className={`px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold font-outfit rounded-xl flex items-center gap-2 text-xs border border-white/10 transition duration-150 active:scale-95 cursor-pointer uppercase tracking-wider ${printMode ? 'invisible' : ''}`}
                   title="Open Setup Room"
                 >
                   <Settings className="w-4 h-4" />
@@ -308,14 +371,16 @@ export default function App() {
                   : "No results fetched yet. Kick off the tournament when you're ready!"}
               </p>
             </div>
-            <button
-              onClick={handleProgressMatchday}
-              disabled={isLoading}
-              className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-slate-950 font-bungee rounded-xl flex items-center gap-2 text-xs uppercase tracking-wider transition duration-150 active:scale-95 cursor-pointer flex-shrink-0 shadow-lg shadow-yellow-400/10"
-            >
-              <Play className="w-4 h-4" />
-              Fetch Next Matchday
-            </button>
+            {!readOnly && (
+              <button
+                onClick={handleProgressMatchday}
+                disabled={isLoading}
+                className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-slate-950 font-bungee rounded-xl flex items-center gap-2 text-xs uppercase tracking-wider transition duration-150 active:scale-95 cursor-pointer flex-shrink-0 shadow-lg shadow-yellow-400/10"
+              >
+                <Play className="w-4 h-4" />
+                Fetch Next Matchday
+              </button>
+            )}
           </div>
 
           {/* Tab navigation */}
@@ -375,7 +440,7 @@ export default function App() {
             Stadium Broadcaster Live Feed
           </span>
           <p className="text-slate-200 font-extrabold text-sm text-center">{loadingMsg}</p>
-          <p className="text-slate-550 text-xs mt-3">Gemini model is scanning web scores or running tactical math...</p>
+          <p className="text-slate-550 text-xs mt-3">Running tactical matchday math...</p>
         </div>
       )}
 
