@@ -234,25 +234,29 @@ export default function DashboardStats({ participants, teams, history, forceExpa
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-          <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
-            <div className="font-bold text-yellow-400">World Cup Winner</div>
-            <div className="text-xs text-slate-400">Receives 65% of the pot</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mt-2">
+          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
+            <div className="text-3xl font-black text-yellow-400">65%</div>
+            <div className="font-bold text-yellow-400 mt-2">Tournament Winner</div>
+            <div className="text-xs text-slate-400">Owner of the world champion squad</div>
           </div>
 
-          <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
-            <div className="font-bold text-rose-400">Runner-up</div>
-            <div className="text-xs text-slate-400">Receives 20% of the pot</div>
+          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
+            <div className="text-3xl font-black text-rose-400">20%</div>
+            <div className="font-bold text-rose-400 mt-2">Runner-Up</div>
+            <div className="text-xs text-slate-400">Beaten finalist</div>
           </div>
 
-          <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
-            <div className="font-bold text-emerald-400">Semi-finalists (losing)</div>
-            <div className="text-xs text-slate-400">Each eliminated semi-finalist receives 5% of the pot</div>
+          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
+            <div className="text-3xl font-black text-emerald-400">5%</div>
+            <div className="font-bold text-emerald-400 mt-2">3rd & 4th Place (each)</div>
+            <div className="text-xs text-slate-400">Each losing semi-finalist</div>
           </div>
 
-          <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
-            <div className="font-bold text-purple-400">Wooden Spoon</div>
-            <div className="text-xs text-slate-400">Team with least points & worst GD receives 5% of the pot</div>
+          <div className="p-4 bg-slate-950/60 rounded-xl border border-slate-800 text-sm">
+            <div className="text-3xl font-black text-purple-400">5%</div>
+            <div className="font-bold text-purple-400 mt-2">Wooden Spoon</div>
+            <div className="text-xs text-slate-400">Team with least points & worst GD</div>
           </div>
         </div>
       </div>

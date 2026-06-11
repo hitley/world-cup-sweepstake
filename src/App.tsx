@@ -1,11 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { SweepstakeState, Participant, MATCHDAY_DATES } from "./types";
 import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
 import SetupDialog from "./components/SetupDialog";
-import html2canvas from "html2canvas";
-import { 
+import {
   Trophy, 
   Calendar, 
   Settings, 
@@ -16,7 +15,6 @@ import {
   Play, 
   AlertCircle,
   TrendingUp,
-  Download,
   Printer
 } from "lucide-react";
 
@@ -29,7 +27,6 @@ export default function App() {
   const [printMode, setPrintMode] = useState(false);
   const [activeTab, setActiveTab ] = useState<"standings" | "matches" | "trends">("standings");
   const [error, setError] = useState<string | null>(null);
-  const posterRef = useRef<HTMLDivElement>(null);
 
   // Loading quotes pool
   const LOADING_QUOTES = [
@@ -150,60 +147,6 @@ export default function App() {
     }
   };
 
-  // Handle Export Poster to PNG
-  const handleExportPoster = async () => {
-    if (!posterRef.current) return;
-    
-    try {
-      setIsLoading(true);
-      // Make the poster temporarily visible for capture
-      posterRef.current.style.visibility = "visible";
-      posterRef.current.style.position = "fixed";
-      posterRef.current.style.left = "0";
-      posterRef.current.style.top = "0";
-      posterRef.current.style.zIndex = "9999";
-      posterRef.current.style.pointerEvents = "none";
-      
-      const canvas = await html2canvas(posterRef.current, {
-        backgroundColor: "#0f172a",
-        scale: 2,
-        logging: true,
-        useCORS: true,
-        allowTaint: true,
-        ignoreElements: (element) => {
-          const tag = element.tagName.toLowerCase();
-          return tag === 'script' || tag === 'style';
-        }
-      });
-      
-      // Hide the poster again
-      posterRef.current.style.position = "absolute";
-      posterRef.current.style.left = "-100%";
-      posterRef.current.style.visibility = "hidden";
-      posterRef.current.style.zIndex = "-1000";
-      
-      const link = document.createElement("a");
-      link.href = canvas.toDataURL("image/png");
-      const timestamp = new Date().toISOString().split('T')[0];
-      link.download = `world-cup-sweepstake-${timestamp}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      setError(null);
-    } catch (err) {
-      console.error("Export failed:", err);
-      if (posterRef.current) {
-        posterRef.current.style.position = "absolute";
-        posterRef.current.style.left = "-100%";
-        posterRef.current.style.visibility = "hidden";
-      }
-      setError("Failed to export poster. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   if (!state) {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-slate-400 p-6 select-none font-sans">
@@ -245,17 +188,16 @@ export default function App() {
           </div>
 
           <div className="flex items-center flex-wrap gap-2">
-            <button
-              onClick={() => setPrintMode(prev => !prev)}
-              className={`p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-blue-400 rounded-xl transition border border-white/5 cursor-pointer ${printMode ? 'ring-2 ring-blue-400/30' : ''}`}
-              title={printMode ? "Exit print-friendly view" : "Show print-friendly view"}
-            >
-              <Printer className="w-4 h-4" />
-              <span className="sr-only">{printMode ? "Exit Print View" : "Print View"}</span>
-            </button>
-
             {!printMode && (
               <>
+                <button
+                  onClick={handleResetTournament}
+                  className="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-500 rounded-xl transition border border-white/5 cursor-pointer"
+                  title="Reset Sweepstake"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                </button>
+
                 <button
                   onClick={() => setShowSetup(true)}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold font-outfit rounded-xl flex items-center gap-2 text-xs border border-white/10 transition duration-150 active:scale-95 cursor-pointer uppercase tracking-wider"
@@ -264,24 +206,17 @@ export default function App() {
                   <Settings className="w-4 h-4" />
                   <span>Draft Setup</span>
                 </button>
-
-                <button
-                  onClick={handleExportPoster}
-                  className="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-blue-400 rounded-xl transition border border-white/5 cursor-pointer"
-                  title="Export as PNG Poster"
-                >
-                  <Download className="w-4 h-4" />
-                </button>
-
-                <button
-                  onClick={handleResetTournament}
-                  className="p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-rose-500 rounded-xl transition border border-white/5 cursor-pointer"
-                  title="Reset Sweepstake"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                </button>
               </>
             )}
+
+            <button
+              onClick={() => setPrintMode(prev => !prev)}
+              className={`p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-blue-400 rounded-xl transition border border-white/5 cursor-pointer ${printMode ? 'ring-2 ring-blue-400/30' : ''}`}
+              title={printMode ? "Exit print-friendly view" : "Show print-friendly view"}
+            >
+              <Printer className="w-4 h-4" />
+              <span className="sr-only">{printMode ? "Exit Print View" : "Print View"}</span>
+            </button>
           </div>
         </div>
       </header>
@@ -290,209 +225,16 @@ export default function App() {
       {printMode ? (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 font-outfit">
           <div className="space-y-8">
-            <div className="bg-slate-950/90 border border-slate-900 rounded-3xl p-8">
-              <div className="flex flex-col gap-4 items-start">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-yellow-400 text-slate-950 rounded-2xl font-black shadow-lg shadow-yellow-400/10 rotate-1">
-                    <Trophy className="w-6 h-6 stroke-[2.5]" />
-                  </div>
-                  <div>
-                    <h1 className="font-bungee text-3xl text-yellow-400 uppercase tracking-widest leading-none">
-                      WORLD CUP 2026 <span className="text-rose-500 underline decoration-rose-500/80 decoration-2">SWEEPSTAKE</span>
-                    </h1>
-                    <p className="text-sm text-slate-400 uppercase tracking-wide font-outfit">
-                      Matchday Live Portal & Survival Probability Math
-                    </p>
-                  </div>
-                </div>
-                <div className="text-xs text-slate-400 uppercase tracking-wide font-bold">Print-friendly mode enabled. Use browser Print / Save as PDF after reviewing.</div>
-              </div>
-            </div>
-
             <DashboardStats
               participants={state.participants}
               teams={state.teams}
               history={state.history}
               forceExpandAll={true}
             />
-
-            <div className="p-6 bg-slate-900/80 border-2 border-slate-800 rounded-3xl">
-              <div className="flex items-center gap-3 mb-4">
-                <Trophy className="w-5 h-5 text-amber-400" />
-                <h2 className="text-sm font-bungee text-amber-400 uppercase tracking-widest">Prize Distribution</h2>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
-                <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800">
-                  <div className="text-3xl font-black text-amber-400">65%</div>
-                  <div className="mt-2 text-slate-400">Tournament Winner</div>
-                </div>
-                <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800">
-                  <div className="text-3xl font-black text-orange-400">20%</div>
-                  <div className="mt-2 text-slate-400">Runner-Up</div>
-                </div>
-                <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800">
-                  <div className="text-3xl font-black text-rose-400">5%</div>
-                  <div className="mt-2 text-slate-400">3rd Place</div>
-                </div>
-                <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800">
-                  <div className="text-3xl font-black text-slate-400">5%</div>
-                  <div className="mt-2 text-slate-400">Wooden Spoon</div>
-                </div>
-              </div>
-            </div>
           </div>
         </main>
       ) : (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 font-outfit">
-          {/* Poster Export Section - Hidden off-screen but ready for capture */}
-          <div
-            ref={posterRef}
-            style={{
-              width: "1200px",
-              left: "-1400px",
-              zIndex: -1000,
-              visibility: "hidden",
-              position: "absolute",
-              top: "0",
-              backgroundColor: "#0f172a",
-              padding: "32px",
-              pointerEvents: "none"
-            }}
-          >
-            {/* Poster Header */}
-            <div style={{ marginBottom: "32px", textAlign: "center" }}>
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
-                <div style={{
-                  padding: "16px",
-                  backgroundColor: "#facc15",
-                  color: "#0f172a",
-                  borderRadius: "16px",
-                  fontWeight: "900",
-                  boxShadow: "0 20px 25px -5px rgba(250, 204, 21, 0.1)",
-                  transform: "rotate(1deg)",
-                  width: "fit-content"
-                }}>
-                  <Trophy className="w-8 h-8" style={{ stroke: "#0f172a", strokeWidth: "2.5" }} />
-                </div>
-              </div>
-              <h1 style={{
-                fontFamily: "bungee",
-                fontSize: "36px",
-                color: "#facc15",
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                lineHeight: "1"
-              }}>
-                WORLD CUP 2026 <span style={{ color: "#f43f5e", textDecoration: "underline", textDecorationColor: "#f43f5e", textDecorationThickness: "2px" }}>SWEEPSTAKE</span>
-              </h1>
-              <p style={{ fontSize: "14px", color: "#94a3b8", fontFamily: "outfit", marginTop: "8px", letterSpacing: "0.05em" }}>
-                Matchday Live Portal & Survival Probability Math
-              </p>
-            </div>
-
-            {/* Static Poster Stats Section */}
-            {state && (
-              <div>
-                {/* Prize Distribution Card */}
-                <div style={{
-                  backgroundColor: "#1e293b",
-                  border: "2px solid rgba(251, 146, 60, 0.2)",
-                  borderRadius: "24px",
-                  padding: "24px",
-                  marginBottom: "24px"
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                    <Trophy className="w-5 h-5" style={{ color: "#fbbf24" }} />
-                    <h3 style={{
-                      fontFamily: "bungee",
-                      color: "#fbbf24",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.125em",
-                      fontSize: "14px"
-                    }}>Prize Distribution</h3>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: "24px", fontWeight: "900", color: "#facc15" }}>65%</div>
-                      <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>Tournament Winner</div>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: "24px", fontWeight: "900", color: "#fb923c" }}>20%</div>
-                      <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>Runner-Up</div>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: "24px", fontWeight: "900", color: "#f43f5e" }}>5%</div>
-                      <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>3rd Place</div>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: "24px", fontWeight: "900", color: "#64748b" }}>5%</div>
-                      <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>Bottom Team</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Standings */}
-                <div style={{
-                  backgroundColor: "#1e293b",
-                  border: "2px solid rgba(250, 204, 21, 0.1)",
-                  borderRadius: "24px",
-                  padding: "24px",
-                  marginBottom: "24px"
-                }}>
-                  <h3 style={{
-                    fontFamily: "bungee",
-                    color: "#facc15",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.125em",
-                    fontSize: "14px",
-                    marginBottom: "16px"
-                  }}>Sweepstake Standings</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "12px" }}>
-                    {state.participants.map((p, idx) => {
-                      const pts = p.teams.reduce((acc, tName) => {
-                        const team = state.teams.find(t => t.name.toLowerCase() === tName.toLowerCase());
-                        return acc + (team?.points || 0);
-                      }, 0);
-                      const activeCount = p.teams.filter(tName => {
-                        const team = state.teams.find(t => t.name.toLowerCase() === tName.toLowerCase());
-                        return team?.status === "Active";
-                      }).length;
-
-                      return (
-                        <div key={p.name} style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          backgroundColor: "rgba(30, 41, 59, 0.5)",
-                          padding: "12px",
-                          borderRadius: "8px",
-                          border: "1px solid rgba(255, 255, 255, 0.05)"
-                        }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                            <div style={{
-                              fontWeight: "900",
-                              color: "#facc15",
-                              fontSize: "18px",
-                              width: "24px"
-                            }}>{idx + 1}</div>
-                            <div>
-                              <div style={{ fontWeight: "600", color: "#ffffff" }}>{p.name}</div>
-                              <div style={{ fontSize: "12px", color: "#94a3b8" }}>{activeCount}/3 Active</div>
-                            </div>
-                          </div>
-                          <div style={{ textAlign: "right" }}>
-                            <div style={{ fontWeight: "900", color: "#facc15" }}>{pts} Pts</div>
-                            <div style={{ fontSize: "12px", color: "#94a3b8" }}>{(pts / state.participants.length * 100).toFixed(0)}% Share</div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Error banner */}
           {error && (
             <div className="flex items-start gap-3 p-4 bg-rose-500/10 border-2 border-rose-500/30 rounded-2xl text-rose-300 text-sm">
