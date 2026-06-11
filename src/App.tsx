@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { SweepstakeState, Participant } from "./types";
+import { SweepstakeState, Participant, MATCHDAY_DATES } from "./types";
 import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
@@ -336,7 +336,7 @@ export default function App() {
                 </div>
                 <div className="bg-slate-950/80 rounded-2xl p-4 border border-slate-800">
                   <div className="text-3xl font-black text-slate-400">5%</div>
-                  <div className="mt-2 text-slate-400">Bottom Team</div>
+                  <div className="mt-2 text-slate-400">Wooden Spoon</div>
                 </div>
               </div>
             </div>
@@ -492,6 +492,134 @@ export default function App() {
               </div>
             )}
           </div>
+
+          {/* Error banner */}
+          {error && (
+            <div className="flex items-start gap-3 p-4 bg-rose-500/10 border-2 border-rose-500/30 rounded-2xl text-rose-300 text-sm">
+              <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-rose-500" />
+              <div>
+                <div className="font-bungee text-xs uppercase tracking-wider text-rose-400 mb-1">Sync Problem</div>
+                <p className="text-xs">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Tournament status stats bar */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bento-card p-5 flex items-center gap-4">
+              <div className="p-3 bg-yellow-400/10 text-yellow-400 rounded-2xl border border-yellow-400/20">
+                <Calendar className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-2xl font-bungee text-slate-100 leading-none">
+                  {state.currentDayIndex === 0 ? "Eve" : `Day ${state.currentDayIndex}`}
+                </div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-1">
+                  {state.currentDayIndex === 0
+                    ? "Tournament not started"
+                    : MATCHDAY_DATES[state.currentDayIndex - 1] || "Knockout stage"}
+                </div>
+              </div>
+            </div>
+
+            <div className="bento-card p-5 flex items-center gap-4">
+              <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-2xl border border-emerald-500/20">
+                <Activity className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-2xl font-bungee text-slate-100 leading-none">{activeCount}</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-1">Teams Alive</div>
+              </div>
+            </div>
+
+            <div className="bento-card p-5 flex items-center gap-4">
+              <div className="p-3 bg-rose-500/10 text-rose-400 rounded-2xl border border-rose-500/20">
+                <Skull className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-2xl font-bungee text-slate-100 leading-none">{eliminatedCount}</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-1">Knocked Out</div>
+              </div>
+            </div>
+
+            <div className="bento-card p-5 flex items-center gap-4">
+              <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-2xl border border-indigo-500/20">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-2xl font-bungee text-slate-100 leading-none">{state.participants.length}</div>
+                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-1">Contenders</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Matchday action + latest roundup */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bento-card">
+            <div className="min-w-0">
+              <div className="text-xs font-bungee text-slate-300 uppercase tracking-widest mb-1 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-yellow-400" />
+                Matchday Control Room
+              </div>
+              <p className="text-xs text-slate-400 truncate">
+                {latestHistory
+                  ? `Last update — ${latestHistory.date}: "${latestHistory.wittyNarrative}"`
+                  : "No results fetched yet. Kick off the tournament when you're ready!"}
+              </p>
+            </div>
+            <button
+              onClick={handleProgressMatchday}
+              disabled={isLoading}
+              className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-slate-950 font-bungee rounded-xl flex items-center gap-2 text-xs uppercase tracking-wider transition duration-150 active:scale-95 cursor-pointer flex-shrink-0 shadow-lg shadow-yellow-400/10"
+            >
+              <Play className="w-4 h-4" />
+              Fetch Next Matchday
+            </button>
+          </div>
+
+          {/* Tab navigation */}
+          <div className="flex gap-2 border-b-2 border-slate-900 pb-0">
+            {([
+              { id: "standings", label: "Standings", icon: Trophy },
+              { id: "matches", label: "Matches", icon: Calendar },
+              { id: "trends", label: "Trends", icon: TrendingUp }
+            ] as const).map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-5 py-3 rounded-t-xl text-xs font-bungee uppercase tracking-wider flex items-center gap-2 transition cursor-pointer border-2 border-b-0 ${
+                  activeTab === tab.id
+                    ? "bg-slate-900 border-slate-800 text-yellow-400"
+                    : "bg-transparent border-transparent text-slate-500 hover:text-slate-300"
+                }`}
+              >
+                <tab.icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Active tab content */}
+          {activeTab === "standings" && (
+            <DashboardStats
+              participants={state.participants}
+              teams={state.teams}
+              history={state.history}
+            />
+          )}
+
+          {activeTab === "matches" && (
+            <MatchesTimeline
+              history={state.history}
+              activeDayIndex={state.currentDayIndex}
+            />
+          )}
+
+          {activeTab === "trends" && (
+            <SvgCharts
+              history={state.history}
+              participants={state.participants}
+            />
+          )}
         </main>
       )}
       {/* Hilarious loading Overlay */}

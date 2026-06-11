@@ -12,13 +12,16 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// Ensure data folder exists
+// Ensure config and data folders exist
+const CONFIG_DIR = path.join(process.cwd(), "config");
 const DATA_DIR = path.join(process.cwd(), "data");
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+for (const dir of [CONFIG_DIR, DATA_DIR]) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 }
 
-const STATE_FILE = path.join(DATA_DIR, "sweepstake.json");
+const STATE_FILE = path.join(CONFIG_DIR, "sweepstake.json");
 const PLAYERS_FILE = path.join(DATA_DIR, "players_setup.json");
 
 // Initialize Gemini Client
