@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Participant, Team, HistoricalRecord } from "../types";
-import { Trophy, ShieldAlert, Sparkles, AlertCircle, Heart, HeartCrack, Lightbulb } from "lucide-react";
+import { Trophy, ShieldAlert, Sparkles, AlertCircle, Heart, HeartCrack } from "lucide-react";
 import { motion } from "motion/react";
 
 interface DashboardStatsProps {
@@ -259,14 +259,6 @@ export default function DashboardStats({ participants, teams, history, forceExpa
             <div className="text-xs text-slate-400">Team with least points & worst GD</div>
           </div>
         </div>
-      </div>
-
-      {/* Gamified sweepstake Tips bar */}
-      <div className="p-4 bg-indigo-950/20 border-2 border-indigo-900/30 rounded-2xl flex items-start gap-4">
-        <Lightbulb className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-0.5" />
-        <p className="text-xs text-slate-400 leading-relaxed font-outfit">
-          <span className="text-yellow-400 font-bungee uppercase tracking-wider block mb-1">Strategy Rulebook</span> Team points accumulate as they score goals, win matches, and secure clean sheets! Reaching successive knockout rounds grants massive point multipliers (+5 to +50 XP bonus) to whoever owns that squad, completely turning rankings around!
-        </p>
       </div>
     </div>
   );

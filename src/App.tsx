@@ -3,18 +3,20 @@ import { SweepstakeState, Participant } from "./types";
 import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
+import XpLadder from "./components/XpLadder";
 import SetupDialog from "./components/SetupDialog";
 import {
-  Trophy, 
-  Calendar, 
-  Settings, 
-  RefreshCw, 
-  Activity, 
-  Users, 
+  Trophy,
+  Calendar,
+  Settings,
+  RefreshCw,
+  Activity,
+  Users,
   Skull,
-  Play, 
+  Play,
   AlertCircle,
   TrendingUp,
+  ListOrdered,
   Printer
 } from "lucide-react";
 
@@ -33,7 +35,7 @@ export default function App() {
   const [showSetup, setShowSetup] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [printMode, setPrintMode] = useState(false);
-  const [activeTab, setActiveTab ] = useState<"standings" | "matches" | "trends">("standings");
+  const [activeTab, setActiveTab ] = useState<"standings" | "ladder" | "matches" | "trends">("standings");
   const [error, setError] = useState<string | null>(null);
 
   // Loading quotes pool
@@ -388,6 +390,7 @@ export default function App() {
           <div className="flex gap-2 border-b-2 border-slate-900 pb-0">
             {([
               { id: "standings", label: "Standings", icon: Trophy },
+              { id: "ladder", label: "XP Ladder", icon: ListOrdered },
               { id: "matches", label: "Matches", icon: Calendar },
               { id: "trends", label: "Trends", icon: TrendingUp }
             ] as const).map(tab => (
@@ -409,6 +412,14 @@ export default function App() {
           {/* Active tab content */}
           {activeTab === "standings" && (
             <DashboardStats
+              participants={state.participants}
+              teams={state.teams}
+              history={state.history}
+            />
+          )}
+
+          {activeTab === "ladder" && (
+            <XpLadder
               participants={state.participants}
               teams={state.teams}
               history={state.history}
