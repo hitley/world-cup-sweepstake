@@ -31,7 +31,9 @@ export interface SharedState {
   history: SharedHistoryRecord[];
 }
 
-export function snapshotFromTeams(teams: SharedState["teams"]): Record<string, TeamSnapshot> {
+export function snapshotFromTeams(
+  teams: Array<{ name: string } & TeamSnapshot>
+): Record<string, TeamSnapshot> {
   const snapshot: Record<string, TeamSnapshot> = {};
   teams.forEach(t => {
     snapshot[t.name] = { points: t.points, status: t.status, prob: t.prob };

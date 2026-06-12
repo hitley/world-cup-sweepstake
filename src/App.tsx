@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SweepstakeState, Participant, MATCHDAY_DATES } from "./types";
+import { SweepstakeState, Participant } from "./types";
 import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
@@ -322,7 +322,7 @@ export default function App() {
                 <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-1">
                   {state.currentDayIndex === 0
                     ? "Tournament not started"
-                    : MATCHDAY_DATES[state.currentDayIndex - 1] || "Knockout stage"}
+                    : latestHistory?.date || "In progress"}
                 </div>
               </div>
             </div>
@@ -367,18 +367,19 @@ export default function App() {
               </div>
               <p className="text-xs text-slate-400 truncate">
                 {latestHistory
-                  ? `Last update — ${latestHistory.date}: "${latestHistory.wittyNarrative}"`
-                  : "No results fetched yet. Kick off the tournament when you're ready!"}
+                  ? `Through ${latestHistory.date} (Day ${state.currentDayIndex}): "${latestHistory.wittyNarrative}"`
+                  : "No results synced yet. Pull the latest scores when you're ready!"}
               </p>
             </div>
             {!readOnly && (
               <button
                 onClick={handleProgressMatchday}
                 disabled={isLoading}
+                title="Pull all finished World Cup results to date (safe to re-run)"
                 className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-slate-950 font-bungee rounded-xl flex items-center gap-2 text-xs uppercase tracking-wider transition duration-150 active:scale-95 cursor-pointer flex-shrink-0 shadow-lg shadow-yellow-400/10"
               >
                 <Play className="w-4 h-4" />
-                Fetch Next Matchday
+                Sync Latest Results
               </button>
             )}
           </div>
@@ -440,7 +441,7 @@ export default function App() {
             Stadium Broadcaster Live Feed
           </span>
           <p className="text-slate-200 font-extrabold text-sm text-center">{loadingMsg}</p>
-          <p className="text-slate-550 text-xs mt-3">Running tactical matchday math...</p>
+          <p className="text-slate-550 text-xs mt-3">Fetching real World Cup results and tallying XP...</p>
         </div>
       )}
 

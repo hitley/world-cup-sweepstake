@@ -41,7 +41,7 @@ How the pot is split when the final whistle blows:
 - 📊 **Sweepstake Standings** — live contender rankings with squad integrity bars, win probability, and gamified badges (🏆 Table Leader, 💔 Heartbroken, 🔥 Golden Path...)
 - 🗓️ **Matchday Logbook** — fixture scorecards, goal scorers, witty AI commentary, and a "Knocked Out Today" obituary column
 - 📈 **Performance Trends** — SVG point-progression charts and win-path probability gauges
-- 🎲 **Matchday simulation** — generates realistic results, eliminations, and a witty roundup for each tournament day
+- ⚽ **Real results** — pulls actual 2026 World Cup scores from [football-data.org](https://www.football-data.org) and tallies XP, eliminations, and a roundup for each tournament day
 - 🖨️ **Print-friendly view** & 🖼️ **PNG poster export** for sharing the standings
 - ⚙️ **Draft Setup room** — configure contenders and their drafted squads
 
@@ -53,11 +53,25 @@ How the pot is split when the final whistle blows:
 # 1. Install dependencies
 npm install
 
-# 2. Kick off
+# 2. Add your football-data.org token (for fetching real results)
+cp .env.example .env   # then paste your free token into FOOTBALL_DATA_TOKEN
+
+# 3. Kick off
 npm run dev            # serves on http://localhost:3000
 ```
 
 Opening `http://localhost:3000` shows a competition picker; each competition is managed at `http://localhost:3000/?c=<slug>`.
+
+### Syncing matchday results
+
+**Sync Latest Results** (local admin view only) pulls every finished World Cup match to date from [football-data.org](https://www.football-data.org) and **recomputes the whole tournament from scratch** — applying the XP rules (above), eliminating real knockout losers, and advancing the **shared** tournament so all competitions update at once.
+
+Because it rebuilds from all results each time, it is **idempotent and self-catching-up**:
+
+- Miss a few days? One click backfills every matchday you missed.
+- Click it again with nothing new? Nothing changes — `config/sweepstake.json` isn't even rewritten, so there's no spurious git diff. Safe to run on a loop/cron.
+
+Get a free API token at [football-data.org/client/register](https://www.football-data.org/client/register) and put it in `.env` as `FOOTBALL_DATA_TOKEN`. After syncing, commit & push `config/sweepstake.json` to refresh the live sites. (The token stays local — it's never needed by the static deploy.)
 
 ## 🏟️ Multiple Competitions
 
@@ -114,7 +128,6 @@ To preview the deployable site locally: `bash scripts/build-site.sh` then serve 
 </div>
 
 ## TODO
-- Set up the participants configuration files
-- Figure out where to get the results data from
-- What happens when results come in.. how does the win percentage work
+- How does the win percentage work
 - What happens with the rankings.
+- Add another fun variant... contenders go up against each other based on the teams they have drafted. Winner gets 3 points, draws are 1 point, and it is shown in a leaderboard, match schedule and matchday results.

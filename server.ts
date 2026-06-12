@@ -4,11 +4,32 @@ import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import {
   composeState,
-  snapshotFromTeams,
   ParticipantConfig,
   SharedHistoryRecord
 } from "./lib/composeState";
 import { loadParticipants, participantsFile, envVarNameForSlug } from "./lib/loadParticipants";
+import { fetchAllMatches } from "./lib/footballData";
+import { replayTournament } from "./lib/replayTournament";
+
+// Load .env (gitignored) for local secrets like FOOTBALL_DATA_TOKEN. Minimal
+// and dependency-free: KEY=value lines, # comments, optional surrounding quotes.
+function loadDotEnv() {
+  const envPath = path.join(process.cwd(), ".env");
+  if (!fs.existsSync(envPath)) return;
+  for (const line of fs.readFileSync(envPath, "utf-8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    if (key && process.env[key] === undefined) process.env[key] = value;
+  }
+}
+loadDotEnv();
 
 const app = express();
 const PORT = 3000;
@@ -104,47 +125,8 @@ const DEFAULT_PARTICIPANTS = [
   { name: "Yuki", teams: ["Spain", "Morocco", "Korea Republic (South Korea)", "Saudi Arabia", "Curaçao", "Côte d'Ivoire", "Panama", "Haiti"], color: "#14b8a6" }
 ];
 
-const SCHEDULED_DAYS = [
-  { dayIndex: 1, date: "June 11, 2026", description: "Opening Matchday & Host Celebrations" },
-  { dayIndex: 2, date: "June 12, 2026", description: "Group Stages - High-Octane Clashes" },
-  { dayIndex: 3, date: "June 13, 2026", description: "Group Stages - Underdog Showdowns" },
-  { dayIndex: 4, date: "June 14, 2026", description: "Group Stages - Battle of the Continents" },
-  { dayIndex: 5, date: "June 15, 2026", description: "Group Stages - Golden Boot Contender Entrances" },
-  { dayIndex: 6, date: "June 16, 2026", description: "Group Stages - Midpoint Crucial Deciders" },
-  { dayIndex: 7, date: "June 17, 2026", description: "Group Stages - Tension Peak" },
-  { dayIndex: 8, date: "June 18, 2026", description: "Group Stages - Mid-tier Desperation" },
-  { dayIndex: 9, date: "June 19, 2026", description: "Group Stages - Heavyweight Showdowns" },
-  { dayIndex: 10, date: "June 20, 2026", description: "Group Stages - Final Round Begins" },
-  { dayIndex: 11, date: "June 21, 2026", description: "Group Stages - Sudden Death Deciders" },
-  { dayIndex: 12, date: "June 22, 2026", description: "Group Stages - Qualification Miracles" },
-  { dayIndex: 13, date: "June 23, 2026", description: "Group Stages - Squeezing Into Knockouts" },
-  { dayIndex: 14, date: "June 24, 2026", description: "Group Stages - Final Group Concluding Day" },
-  { dayIndex: 15, date: "June 27, 2026", description: "Round of 32 - Knockout Warfare Starts" },
-  { dayIndex: 16, date: "June 28, 2026", description: "Round of 32 - Underdog Elimination Drama" },
-  { dayIndex: 17, date: "June 29, 2026", description: "Round of 32 - The Penalty Shootout Fiasco" },
-  { dayIndex: 18, date: "June 30, 2026", description: "Round of 32 - Giants Collide early" },
-  { dayIndex: 19, date: "July 01, 2026", description: "Round of 32 - Last Stand of the Hosts" },
-  { dayIndex: 20, date: "July 02, 2026", description: "Round of 32 - Bracket Wraps up" },
-  { dayIndex: 21, date: "July 04, 2026", description: "Round of 16 - High-Stakes Knockouts" },
-  { dayIndex: 22, date: "July 05, 2026", description: "Round of 16 - Epic Rivalry Matches" },
-  { dayIndex: 23, date: "July 06, 2026", description: "Round of 16 - Squeezed to the Brink" },
-  { dayIndex: 24, date: "July 07, 2026", description: "Round of 16 - Core Quarterfinalists Decided" },
-  { dayIndex: 25, date: "July 10, 2026", description: "Quarter-Finals - Best of the Best" },
-  { dayIndex: 26, date: "July 11, 2026", description: "Quarter-Finals - Last Underdog Alive" },
-  { dayIndex: 27, date: "July 14, 2026", description: "Semi-Finals - The Gate to Glory Part I" },
-  { dayIndex: 28, date: "July 15, 2026", description: "Semi-Finals - The Gate to Glory Part II" },
-  { dayIndex: 29, date: "July 18, 2026", description: "Third Place Playoff - Heartbroken Consolation" },
-  { dayIndex: 30, date: "July 19, 2026", description: "World Cup Grand Final - World Sovereignty" }
-];
 
-interface Match {
-  teamHome: string;
-  teamAway: string;
-  scoreHome: number;
-  scoreAway: number;
-  highlights: string;
-  scorers?: string[];
-}
+
 
 // The shared tournament state (config/sweepstake.json): identical for every
 // competition. History records carry a per-team snapshot so each competition's
@@ -344,184 +326,54 @@ app.post("/api/:comp/worldcup/update-setup", (req, res) => {
   res.json(composeState(readSharedState(), readParticipants(comp)));
 });
 
-// 4. Simulate and progress to the next World Cup matchday. Operates on the
-// shared tournament, so the new matchday lands for all competitions at once.
+// 4. Sync the shared tournament to real results from football-data.org. This
+// recomputes the whole tournament from every finished match, so it is
+// idempotent (re-running changes nothing) and catches up any missed days in
+// one call. Shared, so it updates all competitions at once.
 app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
-  const state = readSharedState();
-  const nextDayIndex = state.currentDayIndex + 1;
-
-  if (nextDayIndex > SCHEDULED_DAYS.length) {
-    return res.status(400).json({ error: "The tournament has concluded!" });
+  const token = process.env.FOOTBALL_DATA_TOKEN?.trim();
+  if (!token) {
+    return res.status(400).json({ error: "No FOOTBALL_DATA_TOKEN configured. Add a football-data.org API token to .env to fetch real results." });
   }
 
-  const dayInfo = SCHEDULED_DAYS.find(d => d.dayIndex === nextDayIndex);
-  if (!dayInfo) {
-    return res.status(500).json({ error: "Day configuration not found" });
-  }
-
-  const activeTeams = state.teams.filter(t => t.status === "Active").map(t => t.name);
-
+  let parsed;
   try {
-    // Simulate the matchday outcomes
-    const sampleMatches: Match[] = [];
-    const numMatches = Math.floor(Math.random() * 2) + 2; // 2-3 matches
-    const shuffledActive = [...activeTeams].sort(() => 0.5 - Math.random());
-    
-    const elTeams: string[] = [];
-    
-    for (let i = 0; i < numMatches && shuffledActive.length >= 2; i++) {
-      const home = shuffledActive.pop()!;
-      const away = shuffledActive.pop()!;
-      const sh = Math.floor(Math.random() * 4);
-      const sa = Math.floor(Math.random() * 4);
-      
-      let hl = `Matchday excitement between ${home} and ${away}! `;
-      if (sh > sa) {
-        hl += `${home} secures a sensational tactical advantage with some beautiful tiki-taka action.`;
-      } else if (sa > sh) {
-        hl += `${away} clinches a late shock-winner leaving fans absolutely ecstatic!`;
-      } else {
-        hl += `A hard-fought battle ends in a draw that keeps both fan camps on the edge of their seats.`;
-      }
-      
-      sampleMatches.push({
-        teamHome: home,
-        teamAway: away,
-        scoreHome: sh,
-        scoreAway: sa,
-        highlights: hl,
-        scorers: [`Scorer A (${10+Math.floor(Math.random()*70)}')`, `Scorer B (${20+Math.floor(Math.random()*60)}')`]
-      });
-
-      // Knockout phase could eliminate one team
-      if (nextDayIndex >= 15) {
-        const loser = sh >= sa ? away : home;
-        elTeams.push(loser);
-      }
-    }
-
-    // Readjust probabilities
-    const updatedProbs = state.teams.map(t => {
-      let p = t.prob;
-      if (elTeams.includes(t.name)) {
-        p = 0;
-      } else if (t.status === "Active") {
-        p = t.prob + (Math.random() * 2 - 0.5);
-        if (p < 0.5) p = 0.5;
-      }
-      return { team: t.name, prob: parseFloat(p.toFixed(1)) };
-    });
-
-    const simulatedDay = {
-      matches: sampleMatches,
-      eliminatedTeams: elTeams,
-      teamProbabilities: updatedProbs,
-      wittyNarrative: `Matchday ${nextDayIndex} provided premium footballing action! Underdogs showed massive character while top seeds ran tactical masterclasses. Standings are shaking up rapidly!`
-    };
-
-    // Process & Apply rules to Sweepstake state
-    const fetchedMatches = simulatedDay.matches || [];
-    const eliminatedThisTurn = simulatedDay.eliminatedTeams || [];
-    const probabilitiesUpdates = simulatedDay.teamProbabilities || [];
-
-    // 1. Update Game/Goal Stats and Points
-    fetchedMatches.forEach((m: Match) => {
-      const homeTeam = state.teams.find(t => t.name.toLowerCase() === m.teamHome.toLowerCase());
-      const awayTeam = state.teams.find(t => t.name.toLowerCase() === m.teamAway.toLowerCase());
-
-      if (homeTeam && awayTeam) {
-        homeTeam.goalsFor += m.scoreHome;
-        homeTeam.goalsAgainst += m.scoreAway;
-        awayTeam.goalsFor += m.scoreAway;
-        awayTeam.goalsAgainst += m.scoreHome;
-
-        // Base points awarding
-        if (m.scoreHome > m.scoreAway) {
-          homeTeam.points += 3; // Win
-        } else if (m.scoreAway > m.scoreHome) {
-          awayTeam.points += 3; // Win
-        } else {
-          homeTeam.points += 1; // Draw
-          awayTeam.points += 1; // Draw
-        }
-
-        // Gamified point rule: bonus for clean sheets
-        if (m.scoreAway === 0) homeTeam.points += 2;
-        if (m.scoreHome === 0) awayTeam.points += 2;
-
-        // Goal bonus (max +3 points for goals scored to prevent anomalous blowouts)
-        homeTeam.points += Math.min(3, m.scoreHome);
-        awayTeam.points += Math.min(3, m.scoreAway);
-      }
-    });
-
-    // 2. Process Knockout qualifications and elimination status
-    eliminatedThisTurn.forEach((elimName: string) => {
-      const teamInstance = state.teams.find(t => t.name.toLowerCase() === elimName.toLowerCase());
-      if (teamInstance) {
-        teamInstance.status = "Eliminated";
-        teamInstance.prob = 0;
-      }
-    });
-
-    // 3. Apply baseline/survival updates
-    probabilitiesUpdates.forEach((up: { team: string; prob: number }) => {
-      const teamInstance = state.teams.find(t => t.name.toLowerCase() === up.team.toLowerCase());
-      if (teamInstance) {
-        if (teamInstance.status === "Eliminated") {
-          teamInstance.prob = 0;
-        } else {
-          teamInstance.prob = up.prob;
-        }
-      }
-    });
-
-    // Award bonus points for advancing in rounds (to active teams)
-    if (nextDayIndex === 15) { // R32 enters
-      state.teams.forEach(t => { if (t.status === "Active") t.points += 5; });
-    } else if (nextDayIndex === 21) { // R16 enters
-      state.teams.forEach(t => { if (t.status === "Active") t.points += 10; });
-    } else if (nextDayIndex === 25) { // QF enters
-      state.teams.forEach(t => { if (t.status === "Active") t.points += 15; });
-    } else if (nextDayIndex === 27) { // SF enters
-      state.teams.forEach(t => { if (t.status === "Active") t.points += 20; });
-    } else if (nextDayIndex === 30) { // Final enters & winner
-      // Final has concluded! Locate champion
-      let championName = "";
-      const lastFinalMatch = fetchedMatches[0]; // assuming final match is matches[0] on final day
-      if (lastFinalMatch) {
-         championName = lastFinalMatch.scoreHome > lastFinalMatch.scoreAway ? lastFinalMatch.teamHome : lastFinalMatch.teamAway;
-         const champTeam = state.teams.find(t => t.name.toLowerCase() === championName.toLowerCase());
-         if (champTeam) {
-           champTeam.points += 50; // Mass champion boost
-           // Also make everyone else prob = 0, champion prob = 100
-           state.teams.forEach(t => { t.prob = t.name.toLowerCase() === championName.toLowerCase() ? 100 : 0; });
-         }
-      }
-    }
-
-    // 4. Update index and create history record. We store a per-team snapshot
-    // so any competition can derive its own standings for this day.
-    state.currentDayIndex = nextDayIndex;
-
-    const historyRecord: SharedHistoryRecord = {
-      dayIndex: nextDayIndex,
-      date: dayInfo.date,
-      matches: fetchedMatches,
-      eliminatedTeams: eliminatedThisTurn,
-      wittyNarrative: simulatedDay.wittyNarrative,
-      teamSnapshot: snapshotFromTeams(state.teams)
-    };
-
-    state.history.push(historyRecord);
-
-    writeSharedState(state);
-    res.json(composeState(state, readParticipants(req.params.comp)));
-
-  } catch (error: any) {
-    console.error("Matchday processing failed:", error);
-    res.status(500).json({ error: "Matchday simulation was interrupted: " + error.message });
+    parsed = await fetchAllMatches(token, INITIAL_TEAMS.map(t => t.name));
+  } catch (e: any) {
+    return res.status(502).json({ error: `Could not reach football-data.org: ${e.message}` });
   }
+
+  if (parsed.unmapped.length > 0) {
+    console.warn(`Unmapped team names from football-data.org: ${parsed.unmapped.join(", ")}`);
+  }
+
+  if (parsed.finished === 0) {
+    const detail = parsed.totalReturned > 0
+      ? "Fixtures are scheduled but none have finished yet."
+      : "No fixtures found for the competition yet.";
+    return res.status(400).json({ error: `No finished World Cup matches to sync. ${detail}` });
+  }
+
+  // Rebuild the entire tournament from scratch (idempotent)
+  const replay = replayTournament(INITIAL_TEAMS, parsed.matches);
+  const newState: SharedTournamentState = {
+    teams: replay.teams as typeof INITIAL_TEAMS,
+    currentDayIndex: replay.currentDayIndex,
+    history: replay.history
+  };
+
+  // Only persist when something actually changed, so re-running produces no
+  // spurious git diff on config/sweepstake.json.
+  const previous = readSharedState();
+  const changed = JSON.stringify(previous) !== JSON.stringify(newState);
+  if (changed) {
+    writeSharedState(newState);
+    console.log(`Synced tournament: ${newState.currentDayIndex} matchday(s) processed (was ${previous.currentDayIndex}).`);
+  } else {
+    console.log("Tournament already up to date — no changes.");
+  }
+
+  res.json(composeState(newState, readParticipants(req.params.comp)));
 });
 
 // Setup dev server or static serving

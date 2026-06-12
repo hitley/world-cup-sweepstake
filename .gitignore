@@ -6,6 +6,7 @@ coverage/
 .DS_Store
 *.log
 .env*
+!.env.example
 site/
 
 # Participant names are kept out of git — provided via PARTICIPANTS_<SLUG> env
