@@ -2,17 +2,25 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
+import {
+  composeState,
+  snapshotFromTeams,
+  ParticipantConfig,
+  SharedHistoryRecord
+} from "./lib/composeState";
+import { loadParticipants, participantsFile, envVarNameForSlug } from "./lib/loadParticipants";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-// Competition-scoped storage: each competition keeps its committed tournament
-// state under config/competitions/<slug>/ and its gitignored player setup
-// under data/<slug>/. A competition exists iff its config folder exists.
+// Storage: the tournament itself (teams, matchdays, history) is shared by all
+// competitions and lives in config/sweepstake.json. Each competition only owns
+// its participants, in config/competitions/<slug>/participants.json. A
+// competition exists iff its config folder exists.
+const SHARED_STATE_FILE = path.join(process.cwd(), "config", "sweepstake.json");
 const COMPETITIONS_DIR = path.join(process.cwd(), "config", "competitions");
-const DATA_DIR = path.join(process.cwd(), "data");
 if (!fs.existsSync(COMPETITIONS_DIR)) {
   fs.mkdirSync(COMPETITIONS_DIR, { recursive: true });
 }
@@ -28,14 +36,6 @@ function listCompetitions(): string[] {
 
 function isValidCompetition(slug: string): boolean {
   return SLUG_PATTERN.test(slug) && fs.existsSync(path.join(COMPETITIONS_DIR, slug));
-}
-
-function stateFile(comp: string) {
-  return path.join(COMPETITIONS_DIR, comp, "sweepstake.json");
-}
-
-function playersFile(comp: string) {
-  return path.join(DATA_DIR, comp, "players_setup.json");
 }
 
 function writeFileEnsuringDir(file: string, contents: string) {
@@ -137,12 +137,6 @@ const SCHEDULED_DAYS = [
   { dayIndex: 30, date: "July 19, 2026", description: "World Cup Grand Final - World Sovereignty" }
 ];
 
-interface Participant {
-  name: string;
-  teams: string[];
-  color: string;
-}
-
 interface Match {
   teamHome: string;
   teamAway: string;
@@ -152,81 +146,56 @@ interface Match {
   scorers?: string[];
 }
 
-interface HistoricalRecord {
-  dayIndex: number;
-  date: string;
-  matches: Match[];
-  eliminatedTeams: string[];
-  wittyNarrative: string;
-  participantStandings: { participant: string; points: number; activeTeamsCount: number; combinedProb: number }[];
-}
-
-interface SweepstakeState {
-  participants: Participant[];
+// The shared tournament state (config/sweepstake.json): identical for every
+// competition. History records carry a per-team snapshot so each competition's
+// standings can be derived for any day from its own participants.
+interface SharedTournamentState {
   teams: typeof INITIAL_TEAMS;
-  currentDayIndex: number; // 0 means not started (Eve of Word Cup)
-  history: HistoricalRecord[];
+  currentDayIndex: number; // 0 means not started (Eve of World Cup)
+  history: SharedHistoryRecord[];
 }
 
-const DEFAULT_STATE: SweepstakeState = {
-  participants: DEFAULT_PARTICIPANTS,
+const DEFAULT_SHARED_STATE: SharedTournamentState = {
   teams: INITIAL_TEAMS,
   currentDayIndex: 0,
   history: []
 };
 
-// Helper to read a competition's state
-function readState(comp: string): SweepstakeState {
-  let state: SweepstakeState;
+// Legacy/non-qualifying team names → correct 2026 qualified teams
+const migrationMap: Record<string, { name: string; emoji: string; confed: string; prob: number }> = {
+  "Iran": { name: "IR Iran", emoji: "🇮🇷", confed: "AFC", prob: 0.8 },
+  "South Korea": { name: "Korea Republic (South Korea)", emoji: "🇰🇷", confed: "AFC", prob: 1.2 },
+  "Turkey": { name: "Türkiye", emoji: "🇹🇷", confed: "UEFA", prob: 0.7 },
+  "Ivory Coast": { name: "Côte d'Ivoire", emoji: "🇨🇮", confed: "CAF", prob: 0.5 },
+  "Italy": { name: "Bosnia and Herzegovina", emoji: "🇧🇦", confed: "UEFA", prob: 0.5 },
+  "Denmark": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
+  "Slovakia": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
+  "Nigeria": { name: "Cabo Verde", emoji: "🇨🇻", confed: "CAF", prob: 0.3 },
+  "Comoros": { name: "Cabo Verde", emoji: "🇨🇻", confed: "CAF", prob: 0.3 },
+  "Ukraine": { name: "Scotland", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", prob: 0.6 },
+  "Slovenia": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
+  "Serbia": { name: "Sweden", emoji: "🇸🇪", confed: "UEFA", prob: 1.2 },
+  "Poland": { name: "Scotland", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", prob: 0.6 },
+  "Cameroon": { name: "Congo DR", emoji: "🇨🇩", confed: "CAF", prob: 0.4 },
+  "Costa Rica": { name: "Haiti", emoji: "🇭🇹", confed: "CONCACAF", prob: 0.3 },
+  "Venezuela": { name: "Congo DR", emoji: "🇨🇩", confed: "CAF", prob: 0.4 }
+};
+
+// Helper to read the shared tournament state (migrating legacy teams in place)
+function readSharedState(): SharedTournamentState {
+  let state: SharedTournamentState;
   try {
-    if (fs.existsSync(stateFile(comp))) {
-      const data = fs.readFileSync(stateFile(comp), "utf-8");
-      state = JSON.parse(data);
+    if (fs.existsSync(SHARED_STATE_FILE)) {
+      state = JSON.parse(fs.readFileSync(SHARED_STATE_FILE, "utf-8"));
     } else {
-      state = { ...DEFAULT_STATE };
+      state = { ...DEFAULT_SHARED_STATE };
     }
   } catch (error) {
-    console.error(`Failed to read state file for "${comp}", returning default`, error);
-    state = { ...DEFAULT_STATE };
+    console.error("Failed to read shared state file, returning default", error);
+    state = { ...DEFAULT_SHARED_STATE };
   }
 
-  // Fallback/sync to the players file for participants configuration to guarantee persistent iterations
-  try {
-    if (fs.existsSync(playersFile(comp))) {
-      const data = fs.readFileSync(playersFile(comp), "utf-8");
-      const savedParticipants = JSON.parse(data);
-      if (Array.isArray(savedParticipants) && savedParticipants.length > 0) {
-        state.participants = savedParticipants;
-      }
-    } else {
-      // Bootstrap the backup config
-      writeFileEnsuringDir(playersFile(comp), JSON.stringify(state.participants || DEFAULT_PARTICIPANTS, null, 2));
-    }
-  } catch (error) {
-    console.error("Failed to sync players configuration backup", error);
-  }
-
-  // Automatic programmatic live-upgrade: Migrate any legacy or non-qualifying elements to the correct qualified ones
   let migrationNeeded = false;
-
-  const migrationMap: Record<string, { name: string; emoji: string; confed: string; prob: number }> = {
-    "Iran": { name: "IR Iran", emoji: "🇮🇷", confed: "AFC", prob: 0.8 },
-    "South Korea": { name: "Korea Republic (South Korea)", emoji: "🇰🇷", confed: "AFC", prob: 1.2 },
-    "Turkey": { name: "Türkiye", emoji: "🇹🇷", confed: "UEFA", prob: 0.7 },
-    "Ivory Coast": { name: "Côte d'Ivoire", emoji: "🇨🇮", confed: "CAF", prob: 0.5 },
-    "Italy": { name: "Bosnia and Herzegovina", emoji: "🇧🇦", confed: "UEFA", prob: 0.5 },
-    "Denmark": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
-    "Slovakia": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
-    "Nigeria": { name: "Cabo Verde", emoji: "🇨🇻", confed: "CAF", prob: 0.3 },
-    "Comoros": { name: "Cabo Verde", emoji: "🇨🇻", confed: "CAF", prob: 0.3 },
-    "Ukraine": { name: "Scotland", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", prob: 0.6 },
-    "Slovenia": { name: "Czechia", emoji: "🇨🇿", confed: "UEFA", prob: 0.6 },
-    "Serbia": { name: "Sweden", emoji: "🇸🇪", confed: "UEFA", prob: 1.2 },
-    "Poland": { name: "Scotland", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", prob: 0.6 },
-    "Cameroon": { name: "Congo DR", emoji: "🇨🇩", confed: "CAF", prob: 0.4 },
-    "Costa Rica": { name: "Haiti", emoji: "🇭🇹", confed: "CONCACAF", prob: 0.3 },
-    "Venezuela": { name: "Congo DR", emoji: "🇨🇩", confed: "CAF", prob: 0.4 }
-  };
 
   if (state.teams) {
     state.teams = state.teams.map(t => {
@@ -238,9 +207,8 @@ function readState(comp: string): SweepstakeState {
       return t;
     });
 
-    // Deduplicate state.teams in case multiple migrated names collide (e.g. Sweden and Italy both mapping to Norway)
+    // Deduplicate in case multiple migrated names collide
     const seenTeams = new Set<string>();
-    const originalCount = state.teams.length;
     state.teams = state.teams.filter(t => {
       if (seenTeams.has(t.name)) {
         migrationNeeded = true;
@@ -250,7 +218,7 @@ function readState(comp: string): SweepstakeState {
       return true;
     });
 
-    // If we filtered out some teams, replenish from INITIAL_TEAMS to always guarantee exactly 48 teams
+    // Always guarantee exactly 48 teams
     if (state.teams.length < 48) {
       migrationNeeded = true;
       const existingNames = new Set(state.teams.map(t => t.name));
@@ -264,71 +232,70 @@ function readState(comp: string): SweepstakeState {
     }
   }
 
-  if (state.participants) {
-    state.participants = state.participants.map(p => {
-      const updatedTeams = p.teams.map(t => {
-        if (migrationMap[t]) {
-          migrationNeeded = true;
-          return migrationMap[t].name;
-        }
-        return t;
-      });
-      // Deduplicate participant's assigned teams just in case
-      const uniqueTeams = Array.from(new Set(updatedTeams));
-      if (uniqueTeams.length < updatedTeams.length) {
-        migrationNeeded = true;
-      }
-      return { ...p, teams: uniqueTeams };
-    });
-  }
-
   if (migrationNeeded) {
-    console.log("Migrating state file: Replaced non-qualifying legacy teams with correct 2026 World Cup qualified teams.");
-    writeState(comp, state);
-    try {
-      writeFileEnsuringDir(playersFile(comp), JSON.stringify(state.participants, null, 2));
-    } catch (e) {
-      console.error("Failed to write migrated players file:", e);
-    }
+    console.log("Migrating shared state: Replaced non-qualifying legacy teams with correct 2026 World Cup qualified teams.");
+    writeSharedState(state);
   }
 
   return state;
 }
 
-// Helper to write a competition's state
-function writeState(comp: string, state: SweepstakeState) {
+function writeSharedState(state: SharedTournamentState) {
   try {
-    writeFileEnsuringDir(stateFile(comp), JSON.stringify(state, null, 2));
+    writeFileEnsuringDir(SHARED_STATE_FILE, JSON.stringify(state, null, 2));
   } catch (err) {
-    console.error("Failed to save state:", err);
+    console.error("Failed to save shared state:", err);
   }
 }
 
-// Calculate standigs for participants
-function getParticipantStandings(participants: Participant[], teams: typeof INITIAL_TEAMS) {
-  return participants.map(p => {
-    let pts = 0;
-    let activeTeamsCount = 0;
-    let combinedProb = 0;
+// Helper to read a competition's participants (migrating legacy team names).
+// Source is an env var (deploys) or the local gitignored file (dev); see
+// lib/loadParticipants.ts.
+function readParticipants(comp: string): ParticipantConfig[] {
+  const fileBacked = !process.env[envVarNameForSlug(comp)]?.trim();
+  let participants = loadParticipants(comp);
 
-    p.teams.forEach(tName => {
-      const t = teams.find(team => team.name.toLowerCase() === tName.toLowerCase());
-      if (t) {
-        pts += t.points;
-        combinedProb += t.prob;
-        if (t.status === "Active") {
-          activeTeamsCount++;
-        }
+  if (!participants) {
+    // No env var and no file → bootstrap a local file with the defaults (dev)
+    participants = DEFAULT_PARTICIPANTS;
+    writeParticipants(comp, participants);
+  }
+
+  let migrationNeeded = false;
+  participants = participants.map(p => {
+    const updatedTeams = p.teams.map(t => {
+      if (migrationMap[t]) {
+        migrationNeeded = true;
+        return migrationMap[t].name;
       }
+      return t;
     });
+    const uniqueTeams = Array.from(new Set(updatedTeams));
+    if (uniqueTeams.length < updatedTeams.length) migrationNeeded = true;
+    return { ...p, teams: uniqueTeams };
+  });
 
-    return {
-      participant: p.name,
-      points: pts,
-      activeTeamsCount,
-      combinedProb: parseFloat(combinedProb.toFixed(1))
-    };
-  }).sort((a, b) => b.points - a.points || b.combinedProb - a.combinedProb);
+  // Only persist migrations when we're backed by a writable local file
+  if (migrationNeeded && fileBacked) {
+    console.log(`Migrating participants for "${comp}": updated legacy team names.`);
+    writeParticipants(comp, participants);
+  }
+
+  return participants;
+}
+
+function writeParticipants(comp: string, participants: ParticipantConfig[]) {
+  try {
+    writeFileEnsuringDir(participantsFile(comp), JSON.stringify(participants, null, 2));
+  } catch (err) {
+    console.error("Failed to save participants:", err);
+  }
+}
+
+// Read a competition's full state (shared tournament + its participants),
+// shaped the way the frontend expects
+function readState(comp: string) {
+  return composeState(readSharedState(), readParticipants(comp));
 }
 
 // API Routes
@@ -352,48 +319,35 @@ app.get("/api/:comp/worldcup/state", (req, res) => {
   res.json(state);
 });
 
-// 2. Reset / Initialize setup (Standings-only Non-Destructive Reset)
+// 2. Reset / Initialize tournament. The tournament is shared, so this resets
+// standings for EVERY competition; each competition's participants are retained.
 app.post("/api/:comp/worldcup/reset", (req, res) => {
-  // Read current custom state first so we retain players and drafts
-  const state = readState(req.params.comp);
-  
-  // Clean resets scores, active states, match histories, and days,
-  // but perfectly retains custom players and their assigned draft selections!
-  const resetState: SweepstakeState = {
-    participants: state.participants && state.participants.length > 0 ? state.participants : DEFAULT_PARTICIPANTS,
+  const resetState: SharedTournamentState = {
     teams: INITIAL_TEAMS.map(t => ({ ...t, points: 0, goalsFor: 0, goalsAgainst: 0, status: "Active" })),
     currentDayIndex: 0,
     history: []
   };
-  
-  writeState(req.params.comp, resetState);
-  res.json(resetState);
+
+  writeSharedState(resetState);
+  res.json(composeState(resetState, readParticipants(req.params.comp)));
 });
 
-// 3. Update Custom Standings Setup
+// 3. Update this competition's participants (draft setup)
 app.post("/api/:comp/worldcup/update-setup", (req, res) => {
   const comp = req.params.comp;
   const { participants } = req.body;
-  const state = readState(comp);
 
   if (participants) {
-    state.participants = participants;
-    // Persist custom setup to players_setup.json as the durable truth
-    try {
-      writeFileEnsuringDir(playersFile(comp), JSON.stringify(participants, null, 2));
-    } catch (err) {
-      console.error("Failed to backup players file:", err);
-    }
+    writeParticipants(comp, participants);
   }
 
-  // Recalculate everything with new configurations
-  writeState(comp, state);
-  res.json(state);
+  res.json(composeState(readSharedState(), readParticipants(comp)));
 });
 
-// 4. Simulate and progress to the next World Cup matchday
+// 4. Simulate and progress to the next World Cup matchday. Operates on the
+// shared tournament, so the new matchday lands for all competitions at once.
 app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
-  const state = readState(req.params.comp);
+  const state = readSharedState();
   const nextDayIndex = state.currentDayIndex + 1;
 
   if (nextDayIndex > SCHEDULED_DAYS.length) {
@@ -546,23 +500,23 @@ app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
       }
     }
 
-    // 4. Update index and create history record
+    // 4. Update index and create history record. We store a per-team snapshot
+    // so any competition can derive its own standings for this day.
     state.currentDayIndex = nextDayIndex;
-    const currentStandings = getParticipantStandings(state.participants, state.teams);
 
-    const historyRecord: HistoricalRecord = {
+    const historyRecord: SharedHistoryRecord = {
       dayIndex: nextDayIndex,
       date: dayInfo.date,
       matches: fetchedMatches,
       eliminatedTeams: eliminatedThisTurn,
       wittyNarrative: simulatedDay.wittyNarrative,
-      participantStandings: currentStandings
+      teamSnapshot: snapshotFromTeams(state.teams)
     };
 
     state.history.push(historyRecord);
 
-    writeState(req.params.comp, state);
-    res.json(state);
+    writeSharedState(state);
+    res.json(composeState(state, readParticipants(req.params.comp)));
 
   } catch (error: any) {
     console.error("Matchday processing failed:", error);

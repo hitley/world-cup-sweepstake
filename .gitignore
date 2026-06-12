@@ -7,3 +7,7 @@ coverage/
 *.log
 .env*
 site/
+
+# Participant names are kept out of git — provided via PARTICIPANTS_<SLUG> env
+# vars on deploy, or these local files for dev.
+config/competitions/*/participants.json

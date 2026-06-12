@@ -61,14 +61,19 @@ Opening `http://localhost:3000` shows a competition picker; each competition is 
 
 ## 🏟️ Multiple Competitions
 
-The tracker supports several completely independent competitions — separate drafts, standings, and matchday histories. A competition exists when a folder for it exists:
+Several private competitions can run side by side. They all track the **same World Cup** — the tournament state (teams, results, matchday history) is shared — but each has its own set of contenders and therefore its own standings:
 
 ```
-config/competitions/<slug>/sweepstake.json   # committed tournament state
-data/<slug>/players_setup.json               # gitignored draft setup backup
+config/sweepstake.json                       # shared tournament state — committed (no personal data)
+config/competitions/<slug>/.gitkeep          # marks the competition (and its slug) — committed
+config/competitions/<slug>/participants.json # this competition's contenders — gitignored
 ```
 
-To start a new competition, just create `config/competitions/<your-slug>/` and configure it via the Draft Setup room. Pick non-guessable slugs if the groups shouldn't find each other's pages.
+A competition exists when its folder exists. To start a new one, create `config/competitions/<your-slug>/` (with a `.gitkeep`) and configure it via the Draft Setup room. Pick non-guessable slugs if the groups shouldn't find each other's pages.
+
+> **Participant privacy:** contender names never go into git. Locally they live in the gitignored `participants.json`; on deploy they come from environment variables (see below).
+
+> **Shared-tournament note:** fetching a matchday or resetting affects the shared tournament, so it updates *every* competition at once. Editing a draft only touches that one competition.
 
 ## 🚢 Deployment (Vercel)
 
@@ -78,7 +83,18 @@ The repo deploys as a fully static site via [scripts/build-site.sh](scripts/buil
 https://<project>.vercel.app/<slug>/
 ```
 
-Each group only gets their own URL — the site root is intentionally blank. The matchday workflow stays local: run `npm run dev`, fetch the next matchday for each competition, then commit & push the updated `sweepstake.json` files to refresh the live sites.
+Each group only gets their own URL — the site root is intentionally blank. The matchday workflow stays local: run `npm run dev`, fetch the next matchday (updates the shared tournament), then commit & push the updated `config/sweepstake.json` to refresh every live site.
+
+### Contenders via environment variables
+
+Since `participants.json` is gitignored, each competition's contenders are supplied to the build as an environment variable. In **Vercel → Settings → Environment Variables**, add one per competition:
+
+| Variable | Value |
+|---|---|
+| `PARTICIPANTS_TEAM` | the JSON array from `config/competitions/team/participants.json` |
+| `PARTICIPANTS_GBC_FAMILIA` | the JSON array from `config/competitions/gbc-familia/participants.json` |
+
+The name is `PARTICIPANTS_` + the slug uppercased with `-` → `_`. Paste the file's JSON as the value (minified is fine). At build time the env var wins; if it's absent the build falls back to the local file (so local previews just work). A competition with neither is skipped with a warning.
 
 To preview the deployable site locally: `bash scripts/build-site.sh` then serve the `site/` folder.
 
@@ -96,3 +112,9 @@ To preview the deployable site locally: `bash scripts/build-site.sh` then serve 
 **💡 Strategy Rulebook:** *Reaching successive knockout rounds completely turns rankings around — never count out a Long Shot.* 🏔️
 
 </div>
+
+## TODO
+- Set up the participants configuration files
+- Figure out where to get the results data from
+- What happens when results come in.. how does the win percentage work
+- What happens with the rankings.

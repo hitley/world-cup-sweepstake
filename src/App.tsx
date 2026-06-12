@@ -465,7 +465,7 @@ export default function App() {
               <h3 className="font-bungee text-lg text-rose-500 uppercase">Reset Standing?</h3>
             </div>
             <p className="text-xs text-slate-350 font-outfit leading-relaxed">
-              Are you sure you want to reset the sweepstake standings? All matchday history will be cleared and reset to Day 0 (Eve of World Cup).
+              Are you sure you want to reset the tournament? All matchday history will be cleared and reset to Day 0 (Eve of World Cup). The tournament is <span className="text-rose-400 font-bold">shared across all competitions</span>, so every group's standings reset — drafts are kept.
             </p>
             <div className="flex gap-3 justify-end mt-2">
               <button
