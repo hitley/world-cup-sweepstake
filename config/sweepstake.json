@@ -1505,7 +1505,9 @@
   "groupFixtures": [
     {
       "round": 1,
+      "group": "Group A",
       "date": "2026-06-11",
+      "kickoff": "2026-06-11T19:00:00Z",
       "teamHome": "Mexico",
       "teamAway": "South Africa",
       "played": true,
@@ -1514,7 +1516,9 @@
     },
     {
       "round": 1,
+      "group": "Group A",
       "date": "2026-06-12",
+      "kickoff": "2026-06-12T02:00:00Z",
       "teamHome": "Korea Republic (South Korea)",
       "teamAway": "Czechia",
       "played": true,
@@ -1523,7 +1527,9 @@
     },
     {
       "round": 1,
+      "group": "Group B",
       "date": "2026-06-12",
+      "kickoff": "2026-06-12T19:00:00Z",
       "teamHome": "Canada",
       "teamAway": "Bosnia and Herzegovina",
       "played": true,
@@ -1532,7 +1538,9 @@
     },
     {
       "round": 1,
+      "group": "Group D",
       "date": "2026-06-13",
+      "kickoff": "2026-06-13T01:00:00Z",
       "teamHome": "USA",
       "teamAway": "Paraguay",
       "played": true,
@@ -1541,7 +1549,9 @@
     },
     {
       "round": 1,
+      "group": "Group B",
       "date": "2026-06-13",
+      "kickoff": "2026-06-13T19:00:00Z",
       "teamHome": "Qatar",
       "teamAway": "Switzerland",
       "played": false,
@@ -1550,7 +1560,9 @@
     },
     {
       "round": 1,
+      "group": "Group C",
       "date": "2026-06-13",
+      "kickoff": "2026-06-13T22:00:00Z",
       "teamHome": "Brazil",
       "teamAway": "Morocco",
       "played": false,
@@ -1559,7 +1571,9 @@
     },
     {
       "round": 1,
+      "group": "Group C",
       "date": "2026-06-14",
+      "kickoff": "2026-06-14T01:00:00Z",
       "teamHome": "Haiti",
       "teamAway": "Scotland",
       "played": false,
@@ -1568,7 +1582,9 @@
     },
     {
       "round": 1,
+      "group": "Group D",
       "date": "2026-06-14",
+      "kickoff": "2026-06-14T04:00:00Z",
       "teamHome": "Australia",
       "teamAway": "Türkiye",
       "played": false,
@@ -1577,7 +1593,9 @@
     },
     {
       "round": 1,
+      "group": "Group E",
       "date": "2026-06-14",
+      "kickoff": "2026-06-14T17:00:00Z",
       "teamHome": "Germany",
       "teamAway": "Curaçao",
       "played": false,
@@ -1586,7 +1604,9 @@
     },
     {
       "round": 1,
+      "group": "Group F",
       "date": "2026-06-14",
+      "kickoff": "2026-06-14T20:00:00Z",
       "teamHome": "Netherlands",
       "teamAway": "Japan",
       "played": false,
@@ -1595,7 +1615,9 @@
     },
     {
       "round": 1,
+      "group": "Group E",
       "date": "2026-06-14",
+      "kickoff": "2026-06-14T23:00:00Z",
       "teamHome": "Côte d'Ivoire",
       "teamAway": "Ecuador",
       "played": false,
@@ -1604,7 +1626,9 @@
     },
     {
       "round": 1,
+      "group": "Group F",
       "date": "2026-06-15",
+      "kickoff": "2026-06-15T02:00:00Z",
       "teamHome": "Sweden",
       "teamAway": "Tunisia",
       "played": false,
@@ -1613,7 +1637,20 @@
     },
     {
       "round": 1,
+      "group": "Group H",
       "date": "2026-06-15",
+      "kickoff": "2026-06-15T16:00:00Z",
+      "teamHome": "Spain",
+      "teamAway": "Cabo Verde",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "group": "Group G",
+      "date": "2026-06-15",
+      "kickoff": "2026-06-15T19:00:00Z",
       "teamHome": "Belgium",
       "teamAway": "Egypt",
       "played": false,
@@ -1622,7 +1659,9 @@
     },
     {
       "round": 1,
+      "group": "Group H",
       "date": "2026-06-15",
+      "kickoff": "2026-06-15T22:00:00Z",
       "teamHome": "Saudi Arabia",
       "teamAway": "Uruguay",
       "played": false,
@@ -1631,7 +1670,9 @@
     },
     {
       "round": 1,
+      "group": "Group G",
       "date": "2026-06-16",
+      "kickoff": "2026-06-16T01:00:00Z",
       "teamHome": "IR Iran",
       "teamAway": "New Zealand",
       "played": false,
@@ -1640,7 +1681,9 @@
     },
     {
       "round": 1,
+      "group": "Group I",
       "date": "2026-06-16",
+      "kickoff": "2026-06-16T19:00:00Z",
       "teamHome": "France",
       "teamAway": "Senegal",
       "played": false,
@@ -1649,7 +1692,9 @@
     },
     {
       "round": 1,
+      "group": "Group I",
       "date": "2026-06-16",
+      "kickoff": "2026-06-16T22:00:00Z",
       "teamHome": "Iraq",
       "teamAway": "Norway",
       "played": false,
@@ -1658,7 +1703,9 @@
     },
     {
       "round": 1,
+      "group": "Group J",
       "date": "2026-06-17",
+      "kickoff": "2026-06-17T01:00:00Z",
       "teamHome": "Argentina",
       "teamAway": "Algeria",
       "played": false,
@@ -1667,7 +1714,9 @@
     },
     {
       "round": 1,
+      "group": "Group J",
       "date": "2026-06-17",
+      "kickoff": "2026-06-17T04:00:00Z",
       "teamHome": "Austria",
       "teamAway": "Jordan",
       "played": false,
@@ -1676,7 +1725,9 @@
     },
     {
       "round": 1,
+      "group": "Group K",
       "date": "2026-06-17",
+      "kickoff": "2026-06-17T17:00:00Z",
       "teamHome": "Portugal",
       "teamAway": "Congo DR",
       "played": false,
@@ -1685,7 +1736,9 @@
     },
     {
       "round": 1,
+      "group": "Group L",
       "date": "2026-06-17",
+      "kickoff": "2026-06-17T20:00:00Z",
       "teamHome": "England",
       "teamAway": "Croatia",
       "played": false,
@@ -1694,7 +1747,9 @@
     },
     {
       "round": 1,
+      "group": "Group L",
       "date": "2026-06-17",
+      "kickoff": "2026-06-17T23:00:00Z",
       "teamHome": "Ghana",
       "teamAway": "Panama",
       "played": false,
@@ -1703,7 +1758,9 @@
     },
     {
       "round": 1,
+      "group": "Group K",
       "date": "2026-06-18",
+      "kickoff": "2026-06-18T02:00:00Z",
       "teamHome": "Uzbekistan",
       "teamAway": "Colombia",
       "played": false,
@@ -1712,7 +1769,9 @@
     },
     {
       "round": 2,
+      "group": "Group A",
       "date": "2026-06-18",
+      "kickoff": "2026-06-18T16:00:00Z",
       "teamHome": "Czechia",
       "teamAway": "South Africa",
       "played": false,
@@ -1721,7 +1780,9 @@
     },
     {
       "round": 2,
+      "group": "Group B",
       "date": "2026-06-18",
+      "kickoff": "2026-06-18T19:00:00Z",
       "teamHome": "Switzerland",
       "teamAway": "Bosnia and Herzegovina",
       "played": false,
@@ -1730,7 +1791,9 @@
     },
     {
       "round": 2,
+      "group": "Group B",
       "date": "2026-06-18",
+      "kickoff": "2026-06-18T22:00:00Z",
       "teamHome": "Canada",
       "teamAway": "Qatar",
       "played": false,
@@ -1739,7 +1802,9 @@
     },
     {
       "round": 2,
+      "group": "Group A",
       "date": "2026-06-19",
+      "kickoff": "2026-06-19T01:00:00Z",
       "teamHome": "Mexico",
       "teamAway": "Korea Republic (South Korea)",
       "played": false,
@@ -1748,7 +1813,9 @@
     },
     {
       "round": 2,
+      "group": "Group D",
       "date": "2026-06-19",
+      "kickoff": "2026-06-19T19:00:00Z",
       "teamHome": "USA",
       "teamAway": "Australia",
       "played": false,
@@ -1757,7 +1824,9 @@
     },
     {
       "round": 2,
+      "group": "Group C",
       "date": "2026-06-19",
+      "kickoff": "2026-06-19T22:00:00Z",
       "teamHome": "Scotland",
       "teamAway": "Morocco",
       "played": false,
@@ -1766,7 +1835,9 @@
     },
     {
       "round": 2,
+      "group": "Group C",
       "date": "2026-06-20",
+      "kickoff": "2026-06-20T00:30:00Z",
       "teamHome": "Brazil",
       "teamAway": "Haiti",
       "played": false,
@@ -1775,7 +1846,9 @@
     },
     {
       "round": 2,
+      "group": "Group D",
       "date": "2026-06-20",
+      "kickoff": "2026-06-20T03:00:00Z",
       "teamHome": "Türkiye",
       "teamAway": "Paraguay",
       "played": false,
@@ -1784,7 +1857,9 @@
     },
     {
       "round": 2,
+      "group": "Group F",
       "date": "2026-06-20",
+      "kickoff": "2026-06-20T17:00:00Z",
       "teamHome": "Netherlands",
       "teamAway": "Sweden",
       "played": false,
@@ -1793,7 +1868,9 @@
     },
     {
       "round": 2,
+      "group": "Group E",
       "date": "2026-06-20",
+      "kickoff": "2026-06-20T20:00:00Z",
       "teamHome": "Germany",
       "teamAway": "Côte d'Ivoire",
       "played": false,
@@ -1802,7 +1879,9 @@
     },
     {
       "round": 2,
+      "group": "Group E",
       "date": "2026-06-21",
+      "kickoff": "2026-06-21T00:00:00Z",
       "teamHome": "Ecuador",
       "teamAway": "Curaçao",
       "played": false,
@@ -1811,7 +1890,9 @@
     },
     {
       "round": 2,
+      "group": "Group F",
       "date": "2026-06-21",
+      "kickoff": "2026-06-21T04:00:00Z",
       "teamHome": "Tunisia",
       "teamAway": "Japan",
       "played": false,
@@ -1820,7 +1901,9 @@
     },
     {
       "round": 2,
+      "group": "Group H",
       "date": "2026-06-21",
+      "kickoff": "2026-06-21T16:00:00Z",
       "teamHome": "Spain",
       "teamAway": "Saudi Arabia",
       "played": false,
@@ -1829,7 +1912,9 @@
     },
     {
       "round": 2,
+      "group": "Group G",
       "date": "2026-06-21",
+      "kickoff": "2026-06-21T19:00:00Z",
       "teamHome": "Belgium",
       "teamAway": "IR Iran",
       "played": false,
@@ -1838,7 +1923,20 @@
     },
     {
       "round": 2,
+      "group": "Group H",
+      "date": "2026-06-21",
+      "kickoff": "2026-06-21T22:00:00Z",
+      "teamHome": "Uruguay",
+      "teamAway": "Cabo Verde",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "group": "Group G",
       "date": "2026-06-22",
+      "kickoff": "2026-06-22T01:00:00Z",
       "teamHome": "New Zealand",
       "teamAway": "Egypt",
       "played": false,
@@ -1847,7 +1945,9 @@
     },
     {
       "round": 2,
+      "group": "Group J",
       "date": "2026-06-22",
+      "kickoff": "2026-06-22T17:00:00Z",
       "teamHome": "Argentina",
       "teamAway": "Austria",
       "played": false,
@@ -1856,7 +1956,9 @@
     },
     {
       "round": 2,
+      "group": "Group I",
       "date": "2026-06-22",
+      "kickoff": "2026-06-22T21:00:00Z",
       "teamHome": "France",
       "teamAway": "Iraq",
       "played": false,
@@ -1865,7 +1967,9 @@
     },
     {
       "round": 2,
+      "group": "Group I",
       "date": "2026-06-23",
+      "kickoff": "2026-06-23T00:00:00Z",
       "teamHome": "Norway",
       "teamAway": "Senegal",
       "played": false,
@@ -1874,7 +1978,9 @@
     },
     {
       "round": 2,
+      "group": "Group J",
       "date": "2026-06-23",
+      "kickoff": "2026-06-23T03:00:00Z",
       "teamHome": "Jordan",
       "teamAway": "Algeria",
       "played": false,
@@ -1883,7 +1989,9 @@
     },
     {
       "round": 2,
+      "group": "Group K",
       "date": "2026-06-23",
+      "kickoff": "2026-06-23T17:00:00Z",
       "teamHome": "Portugal",
       "teamAway": "Uzbekistan",
       "played": false,
@@ -1892,7 +2000,9 @@
     },
     {
       "round": 2,
+      "group": "Group L",
       "date": "2026-06-23",
+      "kickoff": "2026-06-23T20:00:00Z",
       "teamHome": "England",
       "teamAway": "Ghana",
       "played": false,
@@ -1901,7 +2011,9 @@
     },
     {
       "round": 2,
+      "group": "Group L",
       "date": "2026-06-23",
+      "kickoff": "2026-06-23T23:00:00Z",
       "teamHome": "Panama",
       "teamAway": "Croatia",
       "played": false,
@@ -1910,7 +2022,9 @@
     },
     {
       "round": 2,
+      "group": "Group K",
       "date": "2026-06-24",
+      "kickoff": "2026-06-24T02:00:00Z",
       "teamHome": "Colombia",
       "teamAway": "Congo DR",
       "played": false,
@@ -1919,7 +2033,9 @@
     },
     {
       "round": 3,
+      "group": "Group B",
       "date": "2026-06-24",
+      "kickoff": "2026-06-24T19:00:00Z",
       "teamHome": "Switzerland",
       "teamAway": "Canada",
       "played": false,
@@ -1928,7 +2044,9 @@
     },
     {
       "round": 3,
+      "group": "Group B",
       "date": "2026-06-24",
+      "kickoff": "2026-06-24T19:00:00Z",
       "teamHome": "Bosnia and Herzegovina",
       "teamAway": "Qatar",
       "played": false,
@@ -1937,7 +2055,9 @@
     },
     {
       "round": 3,
+      "group": "Group C",
       "date": "2026-06-24",
+      "kickoff": "2026-06-24T22:00:00Z",
       "teamHome": "Morocco",
       "teamAway": "Haiti",
       "played": false,
@@ -1946,7 +2066,9 @@
     },
     {
       "round": 3,
+      "group": "Group C",
       "date": "2026-06-24",
+      "kickoff": "2026-06-24T22:00:00Z",
       "teamHome": "Scotland",
       "teamAway": "Brazil",
       "played": false,
@@ -1955,7 +2077,9 @@
     },
     {
       "round": 3,
+      "group": "Group A",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T01:00:00Z",
       "teamHome": "Czechia",
       "teamAway": "Mexico",
       "played": false,
@@ -1964,7 +2088,9 @@
     },
     {
       "round": 3,
+      "group": "Group A",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T01:00:00Z",
       "teamHome": "South Africa",
       "teamAway": "Korea Republic (South Korea)",
       "played": false,
@@ -1973,7 +2099,9 @@
     },
     {
       "round": 3,
+      "group": "Group E",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T20:00:00Z",
       "teamHome": "Ecuador",
       "teamAway": "Germany",
       "played": false,
@@ -1982,7 +2110,9 @@
     },
     {
       "round": 3,
+      "group": "Group E",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T20:00:00Z",
       "teamHome": "Curaçao",
       "teamAway": "Côte d'Ivoire",
       "played": false,
@@ -1991,7 +2121,9 @@
     },
     {
       "round": 3,
+      "group": "Group F",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T23:00:00Z",
       "teamHome": "Tunisia",
       "teamAway": "Netherlands",
       "played": false,
@@ -2000,7 +2132,9 @@
     },
     {
       "round": 3,
+      "group": "Group F",
       "date": "2026-06-25",
+      "kickoff": "2026-06-25T23:00:00Z",
       "teamHome": "Japan",
       "teamAway": "Sweden",
       "played": false,
@@ -2009,7 +2143,9 @@
     },
     {
       "round": 3,
+      "group": "Group D",
       "date": "2026-06-26",
+      "kickoff": "2026-06-26T02:00:00Z",
       "teamHome": "Türkiye",
       "teamAway": "USA",
       "played": false,
@@ -2018,7 +2154,9 @@
     },
     {
       "round": 3,
+      "group": "Group D",
       "date": "2026-06-26",
+      "kickoff": "2026-06-26T02:00:00Z",
       "teamHome": "Paraguay",
       "teamAway": "Australia",
       "played": false,
@@ -2027,7 +2165,9 @@
     },
     {
       "round": 3,
+      "group": "Group I",
       "date": "2026-06-26",
+      "kickoff": "2026-06-26T19:00:00Z",
       "teamHome": "Norway",
       "teamAway": "France",
       "played": false,
@@ -2036,7 +2176,9 @@
     },
     {
       "round": 3,
+      "group": "Group I",
       "date": "2026-06-26",
+      "kickoff": "2026-06-26T19:00:00Z",
       "teamHome": "Senegal",
       "teamAway": "Iraq",
       "played": false,
@@ -2045,7 +2187,9 @@
     },
     {
       "round": 3,
+      "group": "Group H",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T00:00:00Z",
       "teamHome": "Uruguay",
       "teamAway": "Spain",
       "played": false,
@@ -2054,7 +2198,20 @@
     },
     {
       "round": 3,
+      "group": "Group H",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T00:00:00Z",
+      "teamHome": "Cabo Verde",
+      "teamAway": "Saudi Arabia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "group": "Group G",
+      "date": "2026-06-27",
+      "kickoff": "2026-06-27T03:00:00Z",
       "teamHome": "New Zealand",
       "teamAway": "Belgium",
       "played": false,
@@ -2063,7 +2220,9 @@
     },
     {
       "round": 3,
+      "group": "Group G",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T03:00:00Z",
       "teamHome": "Egypt",
       "teamAway": "IR Iran",
       "played": false,
@@ -2072,7 +2231,9 @@
     },
     {
       "round": 3,
+      "group": "Group L",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T21:00:00Z",
       "teamHome": "Panama",
       "teamAway": "England",
       "played": false,
@@ -2081,7 +2242,9 @@
     },
     {
       "round": 3,
+      "group": "Group L",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T21:00:00Z",
       "teamHome": "Croatia",
       "teamAway": "Ghana",
       "played": false,
@@ -2090,7 +2253,9 @@
     },
     {
       "round": 3,
+      "group": "Group K",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T23:30:00Z",
       "teamHome": "Colombia",
       "teamAway": "Portugal",
       "played": false,
@@ -2099,7 +2264,9 @@
     },
     {
       "round": 3,
+      "group": "Group K",
       "date": "2026-06-27",
+      "kickoff": "2026-06-27T23:30:00Z",
       "teamHome": "Congo DR",
       "teamAway": "Uzbekistan",
       "played": false,
@@ -2108,7 +2275,9 @@
     },
     {
       "round": 3,
+      "group": "Group J",
       "date": "2026-06-28",
+      "kickoff": "2026-06-28T02:00:00Z",
       "teamHome": "Jordan",
       "teamAway": "Argentina",
       "played": false,
@@ -2117,7 +2286,9 @@
     },
     {
       "round": 3,
+      "group": "Group J",
       "date": "2026-06-28",
+      "kickoff": "2026-06-28T02:00:00Z",
       "teamHome": "Algeria",
       "teamAway": "Austria",
       "played": false,
