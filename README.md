@@ -112,6 +112,22 @@ The name is `PARTICIPANTS_` + the slug uppercased with `-` → `_`. Paste the fi
 
 To preview the deployable site locally: `bash scripts/build-site.sh` then serve the `site/` folder.
 
+### Usage analytics
+
+Uses **Vercel Web Analytics** (cookieless, free on Hobby). Enable it once in **Vercel → your project → Analytics → Enable Web Analytics**. Page views are tracked automatically — and since each competition is its own URL, you get per-competition view counts for free.
+
+Custom events (see [src/analytics.ts](src/analytics.ts)), each tagged with the competition:
+
+| Event | Fires when | Visible where |
+|---|---|---|
+| `tab_view` | a tab is opened (`standings` / `ladder` / `matches` / `trends`) | live sites |
+| `contender_expand` | a contender card is expanded on Standings | live sites |
+| `matchday_select` | a day is picked in the Matchday Logbook | live sites |
+| `print_view` | print-friendly view is toggled | live sites |
+| `sync_results` / `reset_tournament` / `open_draft_setup` | admin actions | local only (admin view isn't deployed) |
+
+Analytics is disabled in local dev (events log to the console instead of being sent), so your own admin clicks don't pollute the data.
+
 ## 🛠️ Built With
 
 ![React](https://img.shields.io/badge/React_19-0f172a?style=flat-square&logo=react&logoColor=facc15)

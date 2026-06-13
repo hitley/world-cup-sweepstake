@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HistoricalRecord } from "../types";
 import { Calendar, RefreshCw, AlertCircle, Quote, Star, Goal, AlertTriangle } from "lucide-react";
+import { trackEvent } from "../analytics";
 
 interface MatchesTimelineProps {
   history: HistoricalRecord[];
@@ -36,7 +37,7 @@ export default function MatchesTimeline({ history, activeDayIndex }: MatchesTime
             return (
               <button
                 key={record.dayIndex}
-                onClick={() => setSelectedDayTab(record.dayIndex)}
+                onClick={() => { trackEvent("matchday_select", { day: record.dayIndex }); setSelectedDayTab(record.dayIndex); }}
                 className={`py-2 px-4 rounded-xl text-xs transition flex-shrink-0 flex items-center gap-1.5 border-2 select-none font-bungee tracking-wider uppercase cursor-pointer ${
                   isSelected
                     ? "bg-yellow-400 border-yellow-400 text-slate-950 font-black"

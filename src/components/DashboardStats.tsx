@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Participant, Team, HistoricalRecord } from "../types";
 import { Trophy, ShieldAlert, Sparkles, AlertCircle, Heart, HeartCrack } from "lucide-react";
 import { motion } from "motion/react";
+import { trackEvent } from "../analytics";
 
 interface DashboardStatsProps {
   participants: Participant[];
@@ -105,6 +106,7 @@ export default function DashboardStats({ participants, teams, history, forceExpa
               key={player.name}
               onClick={() => {
                 if (forceExpandAll) return; // Disable click when exporting
+                if (!isSelected) trackEvent("contender_expand");
                 if (effectiveExpandAll) {
                   setExpandAll(false);
                   setSelectedFriend(player.name);

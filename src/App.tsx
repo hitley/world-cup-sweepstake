@@ -5,6 +5,7 @@ import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
 import XpLadder from "./components/XpLadder";
 import SetupDialog from "./components/SetupDialog";
+import { trackEvent } from "./analytics";
 import {
   Trophy,
   Calendar,
@@ -106,6 +107,7 @@ export default function App() {
 
   // Handle Fetch Results for next Matchday
   const handleProgressMatchday = async () => {
+    trackEvent("sync_results");
     setIsLoading(true);
     setError(null);
     try {
@@ -136,6 +138,7 @@ export default function App() {
   };
 
   const executeResetTournament = async () => {
+    trackEvent("reset_tournament");
     setShowResetConfirm(false);
     setIsLoading(true);
     try {
@@ -264,7 +267,7 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => setShowSetup(true)}
+                  onClick={() => { trackEvent("open_draft_setup"); setShowSetup(true); }}
                   className={`px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold font-outfit rounded-xl flex items-center gap-2 text-xs border border-white/10 transition duration-150 active:scale-95 cursor-pointer uppercase tracking-wider ${printMode ? 'invisible' : ''}`}
                   title="Open Setup Room"
                 >
@@ -275,7 +278,7 @@ export default function App() {
             )}
 
             <button
-              onClick={() => setPrintMode(prev => !prev)}
+              onClick={() => setPrintMode(prev => { trackEvent("print_view", { enabled: !prev }); return !prev; })}
               className={`p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-blue-400 rounded-xl transition border border-white/5 cursor-pointer ${printMode ? 'ring-2 ring-blue-400/30' : ''}`}
               title={printMode ? "Exit print-friendly view" : "Show print-friendly view"}
             >
@@ -396,7 +399,7 @@ export default function App() {
             ] as const).map(tab => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => { trackEvent("tab_view", { tab: tab.id }); setActiveTab(tab.id); }}
                 className={`px-5 py-3 rounded-t-xl text-xs font-bungee uppercase tracking-wider flex items-center gap-2 transition cursor-pointer border-2 border-b-0 ${
                   activeTab === tab.id
                     ? "bg-slate-900 border-slate-800 text-yellow-400"
