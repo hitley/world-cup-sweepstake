@@ -1,54 +1,34 @@
-import { Participant, Team, HistoricalRecord } from "../types";
+import { Participant, Team } from "../types";
 import { ListOrdered, Medal, Lightbulb } from "lucide-react";
 
 interface XpLadderProps {
   participants: Participant[];
   teams: Team[];
-  history: HistoricalRecord[];
 }
 
-// EPL-ladder-style table of every contender's XP and the lower-level stats that
-// feed it (match wins, goals for/against, goal difference).
-export default function XpLadder({ participants, teams, history }: XpLadderProps) {
+// EPL-ladder-style table of every contender's XP, broken down into the
+// components that actually earn it. Every column here feeds the XP total:
+//   XP = 3·Wins + 1·Draw + 2·Clean Sheet + Goal XP + Bonus
+export default function XpLadder({ participants, teams }: XpLadderProps) {
   const teamByName = new Map(teams.map(t => [t.name.toLowerCase(), t]));
 
-  // Wins per team, derived from the real match scores in history
-  const teamWins = new Map<string, number>();
-  history.forEach(rec =>
-    rec.matches.forEach(m => {
-      let winner: string | null = null;
-      if (m.scoreHome > m.scoreAway) winner = m.teamHome;
-      else if (m.scoreAway > m.scoreHome) winner = m.teamAway;
-      if (winner) {
-        const key = winner.toLowerCase();
-        teamWins.set(key, (teamWins.get(key) || 0) + 1);
-      }
-    })
-  );
-
   const rows = participants.map(p => {
-    let xp = 0, wins = 0, goalsFor = 0, goalsAgainst = 0;
+    let xp = 0, wins = 0, draws = 0, cleanSheets = 0, goalPoints = 0, bonusPoints = 0;
     p.teams.forEach(name => {
       const t = teamByName.get(name.toLowerCase());
       if (!t) return;
       xp += t.points;
-      goalsFor += t.goalsFor;
-      goalsAgainst += t.goalsAgainst;
-      wins += teamWins.get(name.toLowerCase()) || 0;
+      wins += t.wins ?? 0;
+      draws += t.draws ?? 0;
+      cleanSheets += t.cleanSheets ?? 0;
+      goalPoints += t.goalPoints ?? 0;
+      bonusPoints += t.bonusPoints ?? 0;
     });
-    return {
-      name: p.name,
-      color: p.color,
-      xp,
-      wins,
-      goalsFor,
-      goalsAgainst,
-      goalDiff: goalsFor - goalsAgainst
-    };
+    return { name: p.name, color: p.color, xp, wins, draws, cleanSheets, goalPoints, bonusPoints };
   }).sort((a, b) =>
     b.xp - a.xp ||
-    b.goalDiff - a.goalDiff ||
-    b.goalsFor - a.goalsFor ||
+    b.wins - a.wins ||
+    b.goalPoints - a.goalPoints ||
     a.name.localeCompare(b.name)
   );
 
@@ -63,7 +43,7 @@ export default function XpLadder({ participants, teams, history }: XpLadderProps
             <ListOrdered className="w-6 h-6 text-yellow-400" />
             XP LADDER
           </h2>
-          <p className="text-xs text-slate-400 font-outfit mt-1">Full contender table — XP and the stats that build it</p>
+          <p className="text-xs text-slate-400 font-outfit mt-1">Full contender table — XP broken down by where it's earned</p>
         </div>
         <span className="text-xs px-3 py-1 bg-slate-950 border-2 border-slate-900 rounded-full text-yellow-400 font-bungee uppercase tracking-wider self-start sm:self-auto">
           {participants.length} Contenders
@@ -72,15 +52,16 @@ export default function XpLadder({ participants, teams, history }: XpLadderProps
 
       {/* Ladder table */}
       <div className="bento-card overflow-x-auto !p-0">
-        <table className="w-full text-sm font-outfit min-w-[520px]">
+        <table className="w-full text-sm font-outfit min-w-[560px]">
           <thead>
             <tr className="text-[10px] uppercase font-bungee tracking-wider text-slate-400 border-b-2 border-slate-800">
               <th className="text-left py-3 px-4 w-10">#</th>
               <th className="text-left py-3 px-2">Contender</th>
-              <th className="text-center py-3 px-2" title="Total match wins across drafted squads">Wins</th>
-              <th className="text-center py-3 px-2" title="Goals for">GF</th>
-              <th className="text-center py-3 px-2" title="Goals against">GA</th>
-              <th className="text-center py-3 px-2" title="Goal difference">GD</th>
+              <th className="text-center py-3 px-2" title="Match wins (3 XP each)">W</th>
+              <th className="text-center py-3 px-2" title="Draws (1 XP each)">D</th>
+              <th className="text-center py-3 px-2" title="Clean sheets (2 XP each)">CS</th>
+              <th className="text-center py-3 px-2" title="Goal XP (1 per goal, max 3 per match)">Gls</th>
+              <th className="text-center py-3 px-2" title="Knockout & champion bonuses">Bon</th>
               <th className="text-right py-3 px-4">XP</th>
             </tr>
           </thead>
@@ -107,13 +88,10 @@ export default function XpLadder({ participants, teams, history }: XpLadderProps
                   </span>
                 </td>
                 <td className="text-center py-3 px-2 font-mono text-slate-200">{r.wins}</td>
-                <td className="text-center py-3 px-2 font-mono text-slate-300">{r.goalsFor}</td>
-                <td className="text-center py-3 px-2 font-mono text-slate-400">{r.goalsAgainst}</td>
-                <td className="text-center py-3 px-2 font-mono">
-                  <span className={r.goalDiff > 0 ? "text-emerald-400" : r.goalDiff < 0 ? "text-rose-400" : "text-slate-400"}>
-                    {r.goalDiff > 0 ? "+" : ""}{r.goalDiff}
-                  </span>
-                </td>
+                <td className="text-center py-3 px-2 font-mono text-slate-400">{r.draws}</td>
+                <td className="text-center py-3 px-2 font-mono text-slate-300">{r.cleanSheets}</td>
+                <td className="text-center py-3 px-2 font-mono text-slate-300">{r.goalPoints}</td>
+                <td className="text-center py-3 px-2 font-mono text-indigo-300">{r.bonusPoints}</td>
                 <td className="text-right py-3 px-4">
                   <span className="font-bungee text-yellow-400 text-base">{r.xp}</span>
                   <span className="text-[10px] text-slate-500 uppercase tracking-widest font-sans font-bold ml-1">XP</span>
@@ -124,9 +102,9 @@ export default function XpLadder({ participants, teams, history }: XpLadderProps
         </table>
       </div>
 
-      {/* Legend */}
+      {/* Formula legend */}
       <p className="text-[10px] text-slate-500 font-outfit uppercase tracking-wider px-1">
-        Wins = individual squad match wins · GF/GA = goals for/against · GD = goal difference
+        XP = 3·W (wins) + 1·D (draws) + 2·CS (clean sheets) + Gls (goal XP, max 3/match) + Bon (round &amp; champion bonuses)
       </p>
 
       {/* Strategy Rulebook — explains how XP is earned */}

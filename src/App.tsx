@@ -422,7 +422,6 @@ export default function App() {
             <XpLadder
               participants={state.participants}
               teams={state.teams}
-              history={state.history}
             />
           )}
 

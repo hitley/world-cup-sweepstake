@@ -65,7 +65,7 @@ function writeFileEnsuringDir(file: string, contents: string) {
 }
 
 // Setup Initial Teams for 2026 World Cup (48 teams)
-const INITIAL_TEAMS = [
+const BASE_TEAMS = [
   { name: "Brazil", emoji: "🇧🇷", confed: "CONMEBOL", prob: 10.0, status: "Active", points: 0, goalsFor: 0, goalsAgainst: 0 },
   { name: "France", emoji: "🇫🇷", confed: "UEFA", prob: 9.0, status: "Active", points: 0, goalsFor: 0, goalsAgainst: 0 },
   { name: "Argentina", emoji: "🇦🇷", confed: "CONMEBOL", prob: 8.5, status: "Active", points: 0, goalsFor: 0, goalsAgainst: 0 },
@@ -115,6 +115,17 @@ const INITIAL_TEAMS = [
   { name: "Haiti", emoji: "🇭🇹", confed: "CONCACAF", prob: 0.3, status: "Active", points: 0, goalsFor: 0, goalsAgainst: 0 },
   { name: "Scotland", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", confed: "UEFA", prob: 0.6, status: "Active", points: 0, goalsFor: 0, goalsAgainst: 0 }
 ];
+
+// Canonical seed: every team carries a zeroed XP breakdown so all persisted
+// states (default, reset, replayed) share one shape.
+const INITIAL_TEAMS = BASE_TEAMS.map(t => ({
+  ...t,
+  wins: 0,
+  draws: 0,
+  cleanSheets: 0,
+  goalPoints: 0,
+  bonusPoints: 0
+}));
 
 const DEFAULT_PARTICIPANTS = [
   { name: "Hitesh Bechar", teams: ["Brazil", "USA", "Croatia", "Australia", "Germany", "Austria", "Algeria", "Iraq"], color: "#f59e0b" },

@@ -14,6 +14,12 @@ export interface ReplayTeam {
   points: number;
   goalsFor: number;
   goalsAgainst: number;
+  // XP breakdown (points = 3*wins + draws + 2*cleanSheets + goalPoints + bonusPoints)
+  wins: number;
+  draws: number;
+  cleanSheets: number;
+  goalPoints: number;
+  bonusPoints: number;
 }
 
 export interface ReplayResult {
@@ -56,7 +62,12 @@ export function replayTournament(initialTeams: ReplayTeam[], matches: RealMatch[
     points: 0,
     goalsFor: 0,
     goalsAgainst: 0,
-    status: "Active"
+    status: "Active",
+    wins: 0,
+    draws: 0,
+    cleanSheets: 0,
+    goalPoints: 0,
+    bonusPoints: 0
   }));
   const byName = new Map(teams.map(t => [t.name.toLowerCase(), t]));
 
@@ -80,18 +91,20 @@ export function replayTournament(initialTeams: ReplayTeam[], matches: RealMatch[
       away.goalsFor += m.scoreAway;
       away.goalsAgainst += m.scoreHome;
 
-      // Base points
-      if (m.scoreHome > m.scoreAway) home.points += 3;
-      else if (m.scoreAway > m.scoreHome) away.points += 3;
-      else { home.points += 1; away.points += 1; }
+      // Result (win +3 / draw +1)
+      if (m.scoreHome > m.scoreAway) { home.wins += 1; home.points += 3; }
+      else if (m.scoreAway > m.scoreHome) { away.wins += 1; away.points += 3; }
+      else { home.draws += 1; away.draws += 1; home.points += 1; away.points += 1; }
 
-      // Clean-sheet bonus
-      if (m.scoreAway === 0) home.points += 2;
-      if (m.scoreHome === 0) away.points += 2;
+      // Clean sheet (+2)
+      if (m.scoreAway === 0) { home.cleanSheets += 1; home.points += 2; }
+      if (m.scoreHome === 0) { away.cleanSheets += 1; away.points += 2; }
 
-      // Goal bonus (capped to avoid blowout anomalies)
-      home.points += Math.min(3, m.scoreHome);
-      away.points += Math.min(3, m.scoreAway);
+      // Goal XP (1 per goal, capped at 3 per match)
+      const homeGoalXp = Math.min(3, m.scoreHome);
+      const awayGoalXp = Math.min(3, m.scoreAway);
+      home.goalPoints += homeGoalXp; home.points += homeGoalXp;
+      away.goalPoints += awayGoalXp; away.points += awayGoalXp;
 
       // Round-entry bonus: reaching a knockout stage, once per team per stage
       const bonus = STAGE_BONUS[m.stage];
@@ -100,6 +113,7 @@ export function replayTournament(initialTeams: ReplayTeam[], matches: RealMatch[
           const key = `${t.name}|${m.stage}`;
           if (!awardedStageBonus.has(key)) {
             awardedStageBonus.add(key);
+            t.bonusPoints += bonus;
             t.points += bonus;
           }
         }
@@ -117,6 +131,7 @@ export function replayTournament(initialTeams: ReplayTeam[], matches: RealMatch[
       if (m.stage === "FINAL" && m.winner) {
         const champ = byName.get(m.winner.toLowerCase());
         if (champ) {
+          champ.bonusPoints += 50;
           champ.points += 50;
           teams.forEach(t => { t.prob = t.name.toLowerCase() === m.winner!.toLowerCase() ? 100 : 0; });
         }

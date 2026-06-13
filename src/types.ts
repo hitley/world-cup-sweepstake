@@ -4,9 +4,15 @@ export interface Team {
   confed: string;
   prob: number;
   status: "Active" | "Eliminated";
-  points: number;
+  points: number; // total XP = 3*wins + draws + 2*cleanSheets + goalPoints + bonusPoints
   goalsFor: number;
   goalsAgainst: number;
+  // XP breakdown — makes the points total transparent
+  wins: number;
+  draws: number;
+  cleanSheets: number;
+  goalPoints: number; // 1 XP per goal, capped at 3 per match
+  bonusPoints: number; // knockout round-entry (+5..+20) and champion (+50)
 }
 
 export interface Participant {

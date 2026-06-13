@@ -8,7 +8,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "France",
@@ -18,7 +23,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Argentina",
@@ -28,7 +38,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "England",
@@ -38,7 +53,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Spain",
@@ -48,7 +68,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Germany",
@@ -58,7 +83,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Portugal",
@@ -68,7 +98,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Netherlands",
@@ -78,7 +113,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Norway",
@@ -88,7 +128,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Belgium",
@@ -98,7 +143,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Croatia",
@@ -108,7 +158,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Uruguay",
@@ -118,7 +173,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Colombia",
@@ -128,7 +188,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Morocco",
@@ -138,7 +203,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "USA",
@@ -148,7 +218,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Senegal",
@@ -158,7 +233,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Japan",
@@ -168,7 +248,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Korea Republic (South Korea)",
@@ -178,7 +263,12 @@
       "status": "Active",
       "points": 5,
       "goalsFor": 2,
-      "goalsAgainst": 1
+      "goalsAgainst": 1,
+      "wins": 1,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 2,
+      "bonusPoints": 0
     },
     {
       "name": "Mexico",
@@ -188,7 +278,12 @@
       "status": "Active",
       "points": 7,
       "goalsFor": 2,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 1,
+      "draws": 0,
+      "cleanSheets": 1,
+      "goalPoints": 2,
+      "bonusPoints": 0
     },
     {
       "name": "Sweden",
@@ -198,7 +293,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Switzerland",
@@ -208,7 +308,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Ecuador",
@@ -218,7 +323,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Canada",
@@ -228,7 +338,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "IR Iran",
@@ -238,7 +353,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Saudi Arabia",
@@ -248,7 +368,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Austria",
@@ -258,7 +383,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Türkiye",
@@ -268,7 +398,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Paraguay",
@@ -278,7 +413,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Algeria",
@@ -288,7 +428,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Egypt",
@@ -298,7 +443,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Côte d'Ivoire",
@@ -308,7 +458,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Ghana",
@@ -318,7 +473,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Tunisia",
@@ -328,7 +488,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Australia",
@@ -338,7 +503,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Panama",
@@ -348,7 +518,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "South Africa",
@@ -358,7 +533,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 2
+      "goalsAgainst": 2,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Qatar",
@@ -368,7 +548,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Uzbekistan",
@@ -378,7 +563,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Iraq",
@@ -388,7 +578,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Jordan",
@@ -398,7 +593,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "New Zealand",
@@ -408,7 +608,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Bosnia and Herzegovina",
@@ -418,7 +623,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Cabo Verde",
@@ -428,7 +638,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Congo DR",
@@ -438,7 +653,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Curaçao",
@@ -448,7 +668,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Czechia",
@@ -458,7 +683,12 @@
       "status": "Active",
       "points": 1,
       "goalsFor": 1,
-      "goalsAgainst": 2
+      "goalsAgainst": 2,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 1,
+      "bonusPoints": 0
     },
     {
       "name": "Haiti",
@@ -468,7 +698,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     },
     {
       "name": "Scotland",
@@ -478,7 +713,12 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0
+      "goalsAgainst": 0,
+      "wins": 0,
+      "draws": 0,
+      "cleanSheets": 0,
+      "goalPoints": 0,
+      "bonusPoints": 0
     }
   ],
   "currentDayIndex": 2,
