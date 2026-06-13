@@ -83,11 +83,25 @@ function normalize(name: string): string {
 }
 
 // Resolve an API team name to the app's canonical name, or null if unknown.
+// Tries: alias map → exact normalized match → a conservative prefix match that
+// tolerates trailing qualifiers (e.g. "Cape Verde Islands" → "Cape Verde").
 export function resolveTeamName(apiName: string, appTeamNames: string[]): string | null {
   const key = normalize(apiName);
+  if (!key) return null;
   if (NAME_ALIASES[key]) return NAME_ALIASES[key];
-  const match = appTeamNames.find(n => normalize(n) === key);
-  return match ?? null;
+
+  const exact = appTeamNames.find(n => normalize(n) === key);
+  if (exact) return exact;
+
+  // Fuzzy fallback: one normalized name is a prefix of the other (≥5 chars),
+  // covering trailing words the API may add ("Islands", "Is.", etc.)
+  const prefixMatch = (a: string, b: string) => a.length >= 5 && b.length >= 5 && (a.startsWith(b) || b.startsWith(a));
+
+  for (const aliasKey of Object.keys(NAME_ALIASES)) {
+    if (prefixMatch(key, aliasKey)) return NAME_ALIASES[aliasKey];
+  }
+  const fuzzy = appTeamNames.find(n => prefixMatch(key, normalize(n)));
+  return fuzzy ?? null;
 }
 
 export function isKnockoutStage(stage: string): boolean {
