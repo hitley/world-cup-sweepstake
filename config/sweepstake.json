@@ -1501,5 +1501,628 @@
         }
       }
     }
+  ],
+  "groupFixtures": [
+    {
+      "round": 1,
+      "date": "2026-06-11",
+      "teamHome": "Mexico",
+      "teamAway": "South Africa",
+      "played": true,
+      "scoreHome": 2,
+      "scoreAway": 0
+    },
+    {
+      "round": 1,
+      "date": "2026-06-12",
+      "teamHome": "Korea Republic (South Korea)",
+      "teamAway": "Czechia",
+      "played": true,
+      "scoreHome": 2,
+      "scoreAway": 1
+    },
+    {
+      "round": 1,
+      "date": "2026-06-12",
+      "teamHome": "Canada",
+      "teamAway": "Bosnia and Herzegovina",
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 1
+    },
+    {
+      "round": 1,
+      "date": "2026-06-13",
+      "teamHome": "USA",
+      "teamAway": "Paraguay",
+      "played": true,
+      "scoreHome": 4,
+      "scoreAway": 1
+    },
+    {
+      "round": 1,
+      "date": "2026-06-13",
+      "teamHome": "Qatar",
+      "teamAway": "Switzerland",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-13",
+      "teamHome": "Brazil",
+      "teamAway": "Morocco",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-14",
+      "teamHome": "Haiti",
+      "teamAway": "Scotland",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-14",
+      "teamHome": "Australia",
+      "teamAway": "Türkiye",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-14",
+      "teamHome": "Germany",
+      "teamAway": "Curaçao",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-14",
+      "teamHome": "Netherlands",
+      "teamAway": "Japan",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-14",
+      "teamHome": "Côte d'Ivoire",
+      "teamAway": "Ecuador",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-15",
+      "teamHome": "Sweden",
+      "teamAway": "Tunisia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-15",
+      "teamHome": "Belgium",
+      "teamAway": "Egypt",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-15",
+      "teamHome": "Saudi Arabia",
+      "teamAway": "Uruguay",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-16",
+      "teamHome": "IR Iran",
+      "teamAway": "New Zealand",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-16",
+      "teamHome": "France",
+      "teamAway": "Senegal",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-16",
+      "teamHome": "Iraq",
+      "teamAway": "Norway",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-17",
+      "teamHome": "Argentina",
+      "teamAway": "Algeria",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-17",
+      "teamHome": "Austria",
+      "teamAway": "Jordan",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-17",
+      "teamHome": "Portugal",
+      "teamAway": "Congo DR",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-17",
+      "teamHome": "England",
+      "teamAway": "Croatia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-17",
+      "teamHome": "Ghana",
+      "teamAway": "Panama",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 1,
+      "date": "2026-06-18",
+      "teamHome": "Uzbekistan",
+      "teamAway": "Colombia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-18",
+      "teamHome": "Czechia",
+      "teamAway": "South Africa",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-18",
+      "teamHome": "Switzerland",
+      "teamAway": "Bosnia and Herzegovina",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-18",
+      "teamHome": "Canada",
+      "teamAway": "Qatar",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-19",
+      "teamHome": "Mexico",
+      "teamAway": "Korea Republic (South Korea)",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-19",
+      "teamHome": "USA",
+      "teamAway": "Australia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-19",
+      "teamHome": "Scotland",
+      "teamAway": "Morocco",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-20",
+      "teamHome": "Brazil",
+      "teamAway": "Haiti",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-20",
+      "teamHome": "Türkiye",
+      "teamAway": "Paraguay",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-20",
+      "teamHome": "Netherlands",
+      "teamAway": "Sweden",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-20",
+      "teamHome": "Germany",
+      "teamAway": "Côte d'Ivoire",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-21",
+      "teamHome": "Ecuador",
+      "teamAway": "Curaçao",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-21",
+      "teamHome": "Tunisia",
+      "teamAway": "Japan",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-21",
+      "teamHome": "Spain",
+      "teamAway": "Saudi Arabia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-21",
+      "teamHome": "Belgium",
+      "teamAway": "IR Iran",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-22",
+      "teamHome": "New Zealand",
+      "teamAway": "Egypt",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-22",
+      "teamHome": "Argentina",
+      "teamAway": "Austria",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-22",
+      "teamHome": "France",
+      "teamAway": "Iraq",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-23",
+      "teamHome": "Norway",
+      "teamAway": "Senegal",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-23",
+      "teamHome": "Jordan",
+      "teamAway": "Algeria",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-23",
+      "teamHome": "Portugal",
+      "teamAway": "Uzbekistan",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-23",
+      "teamHome": "England",
+      "teamAway": "Ghana",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-23",
+      "teamHome": "Panama",
+      "teamAway": "Croatia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 2,
+      "date": "2026-06-24",
+      "teamHome": "Colombia",
+      "teamAway": "Congo DR",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-24",
+      "teamHome": "Switzerland",
+      "teamAway": "Canada",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-24",
+      "teamHome": "Bosnia and Herzegovina",
+      "teamAway": "Qatar",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-24",
+      "teamHome": "Morocco",
+      "teamAway": "Haiti",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-24",
+      "teamHome": "Scotland",
+      "teamAway": "Brazil",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "Czechia",
+      "teamAway": "Mexico",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "South Africa",
+      "teamAway": "Korea Republic (South Korea)",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "Ecuador",
+      "teamAway": "Germany",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "Curaçao",
+      "teamAway": "Côte d'Ivoire",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "Tunisia",
+      "teamAway": "Netherlands",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-25",
+      "teamHome": "Japan",
+      "teamAway": "Sweden",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-26",
+      "teamHome": "Türkiye",
+      "teamAway": "USA",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-26",
+      "teamHome": "Paraguay",
+      "teamAway": "Australia",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-26",
+      "teamHome": "Norway",
+      "teamAway": "France",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-26",
+      "teamHome": "Senegal",
+      "teamAway": "Iraq",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Uruguay",
+      "teamAway": "Spain",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "New Zealand",
+      "teamAway": "Belgium",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Egypt",
+      "teamAway": "IR Iran",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Panama",
+      "teamAway": "England",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Croatia",
+      "teamAway": "Ghana",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Colombia",
+      "teamAway": "Portugal",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-27",
+      "teamHome": "Congo DR",
+      "teamAway": "Uzbekistan",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-28",
+      "teamHome": "Jordan",
+      "teamAway": "Argentina",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    },
+    {
+      "round": 3,
+      "date": "2026-06-28",
+      "teamHome": "Algeria",
+      "teamAway": "Austria",
+      "played": false,
+      "scoreHome": null,
+      "scoreAway": null
+    }
   ]
 }
