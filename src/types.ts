@@ -44,11 +44,22 @@ export interface HistoricalRecord {
   }[];
 }
 
+export interface GroupFixture {
+  round: number; // group matchday 1, 2 or 3
+  date: string;
+  teamHome: string;
+  teamAway: string;
+  played: boolean;
+  scoreHome: number | null;
+  scoreAway: number | null;
+}
+
 export interface SweepstakeState {
   participants: Participant[];
   teams: Team[];
   currentDayIndex: number;
   history: HistoricalRecord[];
+  groupFixtures: GroupFixture[];
 }
 
 export const MATCHDAY_DATES = [

@@ -25,10 +25,23 @@ export interface SharedHistoryRecord {
   teamSnapshot: Record<string, TeamSnapshot>;
 }
 
+// Group-stage fixture for the Head-to-Head game (same shape as footballData's
+// GroupFixture; duplicated here to keep this module dependency-free).
+export interface GroupFixtureRecord {
+  round: number;
+  date: string;
+  teamHome: string;
+  teamAway: string;
+  played: boolean;
+  scoreHome: number | null;
+  scoreAway: number | null;
+}
+
 export interface SharedState {
   teams: ({ name: string } & TeamSnapshot & Record<string, unknown>)[];
   currentDayIndex: number;
   history: SharedHistoryRecord[];
+  groupFixtures?: GroupFixtureRecord[];
 }
 
 export function snapshotFromTeams(
@@ -75,6 +88,7 @@ export function composeState(shared: SharedState, participants: ParticipantConfi
     participants,
     teams: shared.teams,
     currentDayIndex: shared.currentDayIndex,
+    groupFixtures: shared.groupFixtures ?? [],
     history: shared.history.map(h => ({
       dayIndex: h.dayIndex,
       date: h.date,

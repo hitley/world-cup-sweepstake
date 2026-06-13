@@ -40,6 +40,7 @@ How the pot is split when the final whistle blows:
 
 - 📊 **Sweepstake Standings** — live contender rankings with squad integrity bars, win probability, and gamified badges (🏆 Table Leader, 💔 Heartbroken, 🔥 Golden Path...)
 - 🗓️ **Matchday Logbook** — fixture scorecards, goal scorers, witty AI commentary, and a "Knocked Out Today" obituary column
+- ⚔️ **Head-to-Head** — group-stage fixtures mirrored onto the contenders who drafted each team; football points (3/1/0) + goals across the 3 group rounds, with a league table
 - 📈 **Performance Trends** — SVG point-progression charts and win-path probability gauges
 - ⚽ **Real results** — pulls actual 2026 World Cup scores from [football-data.org](https://www.football-data.org) and tallies XP, eliminations, and a roundup for each tournament day
 - 🖨️ **Print-friendly view** & 🖼️ **PNG poster export** for sharing the standings

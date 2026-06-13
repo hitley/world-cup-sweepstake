@@ -46,8 +46,20 @@ export interface RealMatch {
   winner: string | null; // canonical app name of the winner, or null for a draw
 }
 
+// A group-stage fixture (played or scheduled), used for the Head-to-Head game.
+export interface GroupFixture {
+  round: number; // group matchday 1, 2 or 3
+  date: string; // YYYY-MM-DD (UTC)
+  teamHome: string; // canonical app name
+  teamAway: string; // canonical app name
+  played: boolean;
+  scoreHome: number | null; // null until played
+  scoreAway: number | null;
+}
+
 export interface ParsedMatches {
   matches: RealMatch[]; // FINISHED, mapped matches (sorted by date)
+  groupFixtures: GroupFixture[]; // all GROUP_STAGE fixtures, played + scheduled
   finished: number; // count of FINISHED matches the API returned
   totalReturned: number; // all matches returned (any status)
   unmapped: string[]; // API team names we couldn't map to the app's 48
@@ -77,39 +89,58 @@ export function isKnockoutStage(stage: string): boolean {
 // sorted by date. Designed to be replayed from scratch for idempotency.
 export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatches {
   const all: any[] = Array.isArray(payload?.matches) ? payload.matches : [];
-  const finishedRaw = all.filter(m => m.status === "FINISHED");
   const matches: RealMatch[] = [];
+  const groupFixtures: GroupFixture[] = [];
   const unmapped = new Set<string>();
+  let finished = 0;
 
-  for (const m of finishedRaw) {
+  for (const m of all) {
     const homeApi = m.homeTeam?.name ?? "";
     const awayApi = m.awayTeam?.name ?? "";
     const teamHome = resolveTeamName(homeApi, appTeamNames);
     const teamAway = resolveTeamName(awayApi, appTeamNames);
+    const isFinished = m.status === "FINISHED";
+    if (isFinished) finished += 1;
 
-    if (!teamHome) unmapped.add(homeApi);
-    if (!teamAway) unmapped.add(awayApi);
+    if (!teamHome && homeApi) unmapped.add(homeApi);
+    if (!teamAway && awayApi) unmapped.add(awayApi);
     if (!teamHome || !teamAway) continue; // skip matches we can't map cleanly
 
     const ft = m.score?.fullTime ?? {};
-    const scoreHome = typeof ft.home === "number" ? ft.home : 0;
-    const scoreAway = typeof ft.away === "number" ? ft.away : 0;
-
-    let winner: string | null = null;
-    if (m.score?.winner === "HOME_TEAM") winner = teamHome;
-    else if (m.score?.winner === "AWAY_TEAM") winner = teamAway;
-
+    const hasScore = typeof ft.home === "number" && typeof ft.away === "number";
+    const scoreHome = hasScore ? ft.home : 0;
+    const scoreAway = hasScore ? ft.away : 0;
     const date = typeof m.utcDate === "string" ? m.utcDate.slice(0, 10) : "";
 
-    matches.push({ date, teamHome, teamAway, scoreHome, scoreAway, stage: m.stage ?? "", winner });
+    if (isFinished) {
+      let winner: string | null = null;
+      if (m.score?.winner === "HOME_TEAM") winner = teamHome;
+      else if (m.score?.winner === "AWAY_TEAM") winner = teamAway;
+      matches.push({ date, teamHome, teamAway, scoreHome, scoreAway, stage: m.stage ?? "", winner });
+    }
+
+    // Capture every group-stage fixture (played or not) for the Head-to-Head game
+    if (m.stage === "GROUP_STAGE") {
+      groupFixtures.push({
+        round: typeof m.matchday === "number" ? m.matchday : 1,
+        date,
+        teamHome,
+        teamAway,
+        played: isFinished,
+        scoreHome: isFinished && hasScore ? ft.home : null,
+        scoreAway: isFinished && hasScore ? ft.away : null
+      });
+    }
   }
 
   // Stable sort by date so replay order is deterministic
   matches.sort((a, b) => a.date.localeCompare(b.date));
+  groupFixtures.sort((a, b) => a.round - b.round || a.date.localeCompare(b.date));
 
   return {
     matches,
-    finished: finishedRaw.length,
+    groupFixtures,
+    finished,
     totalReturned: all.length,
     unmapped: [...unmapped]
   };

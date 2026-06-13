@@ -4,6 +4,7 @@ import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
 import XpLadder from "./components/XpLadder";
+import HeadToHead from "./components/HeadToHead";
 import SetupDialog from "./components/SetupDialog";
 import { trackEvent } from "./analytics";
 import {
@@ -18,6 +19,7 @@ import {
   AlertCircle,
   TrendingUp,
   ListOrdered,
+  Swords,
   Printer
 } from "lucide-react";
 
@@ -36,7 +38,7 @@ export default function App() {
   const [showSetup, setShowSetup] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [printMode, setPrintMode] = useState(false);
-  const [activeTab, setActiveTab ] = useState<"standings" | "ladder" | "matches" | "trends">("standings");
+  const [activeTab, setActiveTab ] = useState<"standings" | "ladder" | "headtohead" | "matches" | "trends">("standings");
   const [error, setError] = useState<string | null>(null);
 
   // Loading quotes pool
@@ -72,7 +74,7 @@ export default function App() {
         // Static files skip the server's read-time normalization, so guard
         // against missing fields in older state snapshots
         const data = await staticRes.json();
-        setState({ participants: [], teams: [], currentDayIndex: 0, history: [], ...data });
+        setState({ participants: [], teams: [], currentDayIndex: 0, history: [], groupFixtures: [], ...data });
         setReadOnly(true);
         setError(null);
         return;
@@ -394,6 +396,7 @@ export default function App() {
             {([
               { id: "standings", label: "Standings", icon: Trophy },
               { id: "ladder", label: "XP Ladder", icon: ListOrdered },
+              { id: "headtohead", label: "Head-to-Head", icon: Swords },
               { id: "matches", label: "Matches", icon: Calendar },
               { id: "trends", label: "Trends", icon: TrendingUp }
             ] as const).map(tab => (
@@ -425,6 +428,13 @@ export default function App() {
             <XpLadder
               participants={state.participants}
               teams={state.teams}
+            />
+          )}
+
+          {activeTab === "headtohead" && (
+            <HeadToHead
+              participants={state.participants}
+              groupFixtures={state.groupFixtures}
             />
           )}
 

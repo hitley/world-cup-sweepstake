@@ -8,7 +8,7 @@ import {
   SharedHistoryRecord
 } from "./lib/composeState";
 import { loadParticipants, participantsFile, envVarNameForSlug } from "./lib/loadParticipants";
-import { fetchAllMatches } from "./lib/footballData";
+import { fetchAllMatches, GroupFixture } from "./lib/footballData";
 import { replayTournament } from "./lib/replayTournament";
 
 // Load .env (gitignored) for local secrets like FOOTBALL_DATA_TOKEN. Minimal
@@ -146,12 +146,14 @@ interface SharedTournamentState {
   teams: typeof INITIAL_TEAMS;
   currentDayIndex: number; // 0 means not started (Eve of World Cup)
   history: SharedHistoryRecord[];
+  groupFixtures: GroupFixture[]; // group-stage fixtures for the Head-to-Head game
 }
 
 const DEFAULT_SHARED_STATE: SharedTournamentState = {
   teams: INITIAL_TEAMS,
   currentDayIndex: 0,
-  history: []
+  history: [],
+  groupFixtures: []
 };
 
 // Legacy/non-qualifying team names → correct 2026 qualified teams
@@ -318,7 +320,8 @@ app.post("/api/:comp/worldcup/reset", (req, res) => {
   const resetState: SharedTournamentState = {
     teams: INITIAL_TEAMS.map(t => ({ ...t, points: 0, goalsFor: 0, goalsAgainst: 0, status: "Active" })),
     currentDayIndex: 0,
-    history: []
+    history: [],
+    groupFixtures: []
   };
 
   writeSharedState(resetState);
@@ -370,7 +373,8 @@ app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
   const newState: SharedTournamentState = {
     teams: replay.teams as typeof INITIAL_TEAMS,
     currentDayIndex: replay.currentDayIndex,
-    history: replay.history
+    history: replay.history,
+    groupFixtures: parsed.groupFixtures
   };
 
   // Only persist when something actually changed, so re-running produces no
