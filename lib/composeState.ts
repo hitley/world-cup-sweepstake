@@ -29,6 +29,7 @@ export interface SharedHistoryRecord {
 // GroupFixture; duplicated here to keep this module dependency-free).
 export interface GroupFixtureRecord {
   round: number;
+  group: string;
   date: string;
   teamHome: string;
   teamAway: string;

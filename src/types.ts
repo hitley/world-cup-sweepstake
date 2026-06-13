@@ -46,6 +46,7 @@ export interface HistoricalRecord {
 
 export interface GroupFixture {
   round: number; // group matchday 1, 2 or 3
+  group: string; // e.g. "Group A"
   date: string;
   teamHome: string;
   teamAway: string;

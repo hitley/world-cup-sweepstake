@@ -25,6 +25,15 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
   const medalColor = ["text-yellow-400", "text-slate-300", "text-amber-700"];
   const colorOf = new Map(participants.map(p => [p.name, p.color]));
 
+  // Bucket this round's fixtures by their real World Cup group (A, B, C…)
+  const byGroup = new Map<string, typeof fixtures>();
+  fixtures.forEach(f => {
+    const arr = byGroup.get(f.group) ?? [];
+    arr.push(f);
+    byGroup.set(f.group, arr);
+  });
+  const groupOrder = [...byGroup.keys()].sort((a, b) => a.localeCompare(b));
+
   if (groupFixtures.length === 0) {
     return (
       <div className="bg-slate-900/40 rounded-3xl p-10 border border-slate-800 text-center text-slate-400">
@@ -130,57 +139,72 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
         </div>
       </div>
 
-      {/* Round fixtures */}
+      {/* Round fixtures, split into the real World Cup groups */}
       <div>
         <h3 className="text-xs uppercase font-bungee tracking-widest text-slate-400 mb-3">Round {round} Fixtures</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {fixtures.map((f, idx) => {
-            const draw = f.played && f.scoreHome === f.scoreAway;
-            const homeWon = f.played && (f.scoreHome ?? 0) > (f.scoreAway ?? 0);
-            const awayWon = f.played && (f.scoreAway ?? 0) > (f.scoreHome ?? 0);
-            return (
-              <div key={idx} className="bento-card p-3 sm:p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-2 min-w-0">
-                    <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerHome ?? "") ?? "#64748b", opacity: awayWon ? 0.45 : 1 }} />
-                    <span className={`text-sm truncate ${awayWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerHome ?? "—"}</span>
-                  </span>
-                  {f.played ? (
-                    <span className="font-bungee text-slate-100 text-sm flex-shrink-0">{f.scoreHome}&nbsp;–&nbsp;{f.scoreAway}</span>
-                  ) : (
-                    <span className="font-bungee text-slate-600 text-[10px] flex-shrink-0">VS</span>
-                  )}
-                  <span className="flex items-center gap-2 min-w-0 justify-end">
-                    <span className={`text-sm truncate ${homeWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerAway ?? "—"}</span>
-                    <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerAway ?? "") ?? "#64748b", opacity: homeWon ? 0.45 : 1 }} />
-                  </span>
-                </div>
-                <div className="flex items-center justify-between mt-1.5 text-[10px] text-slate-500 uppercase tracking-wide font-outfit">
-                  <span className="truncate">{f.teamHome}</span>
-                  <span className="truncate text-right">{f.teamAway}</span>
-                </div>
-                <div className="mt-2.5 text-center">
-                  {!f.played
-                    ? chip("bg-slate-800/40 border-slate-700/50 text-slate-400", "Scheduled")
-                    : f.selfFixture
-                      ? (draw
-                          ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", `${f.ownerHome} · own group`)
-                          : chip("bg-indigo-500/12 border-indigo-500/30 text-indigo-300", `${f.ownerHome} +3 · own group`))
-                      : draw
-                        ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", "Draw · 1 pt each")
-                        : chip("bg-emerald-500/12 border-emerald-500/30 text-emerald-400", `${homeWon ? f.ownerHome : f.ownerAway} +3`)}
+        {fixtures.length === 0 ? (
+          <div className="text-center py-8 bg-slate-950/30 rounded-2xl text-slate-500 text-xs font-outfit flex flex-col items-center gap-2">
+            <CalendarClock className="w-6 h-6 text-slate-600" />
+            No fixtures for this round yet.
+          </div>
+        ) : (
+          <div className="space-y-5">
+            {groupOrder.map(g => (
+              <div key={g || "ungrouped"}>
+                {g && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[11px] font-bungee uppercase tracking-widest text-yellow-400/90">{g}</span>
+                    <span className="flex-1 h-px bg-slate-900" />
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {byGroup.get(g)!.map((f, idx) => renderFixture(f, idx))}
                 </div>
               </div>
-            );
-          })}
-          {fixtures.length === 0 && (
-            <div className="col-span-full text-center py-8 bg-slate-950/30 rounded-2xl text-slate-500 text-xs font-outfit flex flex-col items-center gap-2">
-              <CalendarClock className="w-6 h-6 text-slate-600" />
-              No fixtures for this round yet.
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
+
+  function renderFixture(f: ReturnType<typeof buildFixtures>[number], idx: number) {
+    const draw = f.played && f.scoreHome === f.scoreAway;
+    const homeWon = f.played && (f.scoreHome ?? 0) > (f.scoreAway ?? 0);
+    const awayWon = f.played && (f.scoreAway ?? 0) > (f.scoreHome ?? 0);
+    return (
+      <div key={idx} className="bento-card p-3 sm:p-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="flex items-center gap-2 min-w-0">
+            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerHome ?? "") ?? "#64748b", opacity: awayWon ? 0.45 : 1 }} />
+            <span className={`text-sm truncate ${awayWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerHome ?? "—"}</span>
+          </span>
+          {f.played ? (
+            <span className="font-bungee text-slate-100 text-sm flex-shrink-0">{f.scoreHome}&nbsp;–&nbsp;{f.scoreAway}</span>
+          ) : (
+            <span className="font-bungee text-slate-600 text-[10px] flex-shrink-0">VS</span>
+          )}
+          <span className="flex items-center gap-2 min-w-0 justify-end">
+            <span className={`text-sm truncate ${homeWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerAway ?? "—"}</span>
+            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerAway ?? "") ?? "#64748b", opacity: homeWon ? 0.45 : 1 }} />
+          </span>
+        </div>
+        <div className="flex items-center justify-between mt-1.5 text-[10px] text-slate-500 uppercase tracking-wide font-outfit">
+          <span className="truncate">{f.teamHome}</span>
+          <span className="truncate text-right">{f.teamAway}</span>
+        </div>
+        <div className="mt-2.5 text-center">
+          {!f.played
+            ? chip("bg-slate-800/40 border-slate-700/50 text-slate-400", "Scheduled")
+            : f.selfFixture
+              ? (draw
+                  ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", `${f.ownerHome} · own group`)
+                  : chip("bg-indigo-500/12 border-indigo-500/30 text-indigo-300", `${f.ownerHome} +3 · own group`))
+              : draw
+                ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", "Draw · 1 pt each")
+                : chip("bg-emerald-500/12 border-emerald-500/30 text-emerald-400", `${homeWon ? f.ownerHome : f.ownerAway} +3`)}
+        </div>
+      </div>
+    );
+  }
 }

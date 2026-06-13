@@ -6,6 +6,7 @@ import { GroupFixtureRecord, ParticipantConfig } from "./composeState";
 
 export interface H2HFixture {
   round: number;
+  group: string;
   date: string;
   ownerHome: string | null; // contender who drafted teamHome
   ownerAway: string | null;
@@ -44,6 +45,7 @@ export function buildFixtures(groupFixtures: GroupFixtureRecord[], participants:
     const away = ownerOf(f.teamAway, teamToOwner);
     return {
       round: f.round,
+      group: f.group,
       date: f.date,
       ownerHome: home?.name ?? null,
       ownerAway: away?.name ?? null,

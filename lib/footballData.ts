@@ -49,12 +49,20 @@ export interface RealMatch {
 // A group-stage fixture (played or scheduled), used for the Head-to-Head game.
 export interface GroupFixture {
   round: number; // group matchday 1, 2 or 3
+  group: string; // e.g. "Group A" ("" if the API didn't provide one)
   date: string; // YYYY-MM-DD (UTC)
   teamHome: string; // canonical app name
   teamAway: string; // canonical app name
   played: boolean;
   scoreHome: number | null; // null until played
   scoreAway: number | null;
+}
+
+// Normalize football-data's group value ("GROUP_A", "Group A", "A") → "Group A"
+function groupLabel(raw: unknown): string {
+  if (!raw) return "";
+  const token = String(raw).replace(/_/g, " ").trim().split(/\s+/).pop() ?? "";
+  return token ? `Group ${token.toUpperCase()}` : "";
 }
 
 export interface ParsedMatches {
@@ -123,6 +131,7 @@ export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatche
     if (m.stage === "GROUP_STAGE") {
       groupFixtures.push({
         round: typeof m.matchday === "number" ? m.matchday : 1,
+        group: groupLabel(m.group),
         date,
         teamHome,
         teamAway,
