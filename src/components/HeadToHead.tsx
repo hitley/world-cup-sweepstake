@@ -62,23 +62,6 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
         </span>
       </div>
 
-      {/* Round selector */}
-      <div className="flex gap-2">
-        {rounds.map(r => (
-          <button
-            key={r}
-            onClick={() => { trackEvent("h2h_round", { round: r }); setRound(r); }}
-            className={`px-4 py-2 rounded-xl text-[10px] font-bungee uppercase tracking-wider transition cursor-pointer border-2 ${
-              round === r
-                ? "bg-yellow-400 border-yellow-400 text-slate-950"
-                : "bg-slate-950/60 border-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-800"
-            }`}
-          >
-            Round {r}
-          </button>
-        ))}
-      </div>
-
       {/* League table */}
       <div>
         <h3 className="text-xs uppercase font-bungee tracking-widest text-slate-400 mb-3">League Table</h3>
@@ -133,6 +116,23 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Round selector — sits between the league table and the group cards */}
+      <div className="flex gap-2">
+        {rounds.map(r => (
+          <button
+            key={r}
+            onClick={() => { trackEvent("h2h_round", { round: r }); setRound(r); }}
+            className={`px-4 py-2 rounded-xl text-[10px] font-bungee uppercase tracking-wider transition cursor-pointer border-2 ${
+              round === r
+                ? "bg-yellow-400 border-yellow-400 text-slate-950"
+                : "bg-slate-950/60 border-slate-900 text-slate-400 hover:text-slate-200 hover:border-slate-800"
+            }`}
+          >
+            Round {r}
+          </button>
+        ))}
       </div>
 
       {/* Round fixtures — one card per group, results + this round's games */}
