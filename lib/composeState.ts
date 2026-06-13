@@ -31,6 +31,7 @@ export interface GroupFixtureRecord {
   round: number;
   group: string;
   date: string;
+  kickoff: string;
   teamHome: string;
   teamAway: string;
   played: boolean;

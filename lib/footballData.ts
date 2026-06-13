@@ -51,6 +51,7 @@ export interface GroupFixture {
   round: number; // group matchday 1, 2 or 3
   group: string; // e.g. "Group A" ("" if the API didn't provide one)
   date: string; // YYYY-MM-DD (UTC)
+  kickoff: string; // full UTC ISO datetime ("" if missing)
   teamHome: string; // canonical app name
   teamAway: string; // canonical app name
   played: boolean;
@@ -133,6 +134,7 @@ export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatche
         round: typeof m.matchday === "number" ? m.matchday : 1,
         group: groupLabel(m.group),
         date,
+        kickoff: typeof m.utcDate === "string" ? m.utcDate : "",
         teamHome,
         teamAway,
         played: isFinished,

@@ -46,10 +46,6 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
     );
   }
 
-  const chip = (cls: string, text: string) => (
-    <span className={`text-[9px] font-bungee tracking-wider uppercase px-2 py-0.5 rounded-lg border ${cls}`}>{text}</span>
-  );
-
   return (
     <div className="space-y-6">
       {/* Title */}
@@ -139,7 +135,7 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
         </div>
       </div>
 
-      {/* Round fixtures, split into the real World Cup groups */}
+      {/* Round fixtures — one card per group, results + this round's games */}
       <div>
         <h3 className="text-xs uppercase font-bungee tracking-widest text-slate-400 mb-3">Round {round} Fixtures</h3>
         {fixtures.length === 0 ? (
@@ -148,36 +144,38 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
             No fixtures for this round yet.
           </div>
         ) : (
-          <div className="space-y-5">
-            {groupOrder.map(g => (
-              <div key={g || "ungrouped"}>
-                {g && (
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[11px] font-bungee uppercase tracking-widest text-yellow-400/90">{g}</span>
-                    <span className="flex-1 h-px bg-slate-900" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {groupOrder.map(g => {
+              const gf = byGroup.get(g)!;
+              const playedCount = gf.filter(f => f.played).length;
+              return (
+                <div key={g || "ungrouped"} className="bento-card !p-0 overflow-hidden">
+                  <div className="flex items-center justify-between px-4 py-3 border-b-2 border-slate-800">
+                    <span className="font-bungee text-base text-slate-100">{g || "Fixtures"}</span>
+                    <span className="text-[10px] font-bungee uppercase tracking-wider text-slate-500">{playedCount} of {gf.length} played</span>
                   </div>
-                )}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {byGroup.get(g)!.map((f, idx) => renderFixture(f, idx))}
+                  {gf.map((f, idx) => renderFixtureRow(f, idx))}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
     </div>
   );
 
-  function renderFixture(f: ReturnType<typeof buildFixtures>[number], idx: number) {
-    const draw = f.played && f.scoreHome === f.scoreAway;
+  function renderFixtureRow(f: ReturnType<typeof buildFixtures>[number], idx: number) {
     const homeWon = f.played && (f.scoreHome ?? 0) > (f.scoreAway ?? 0);
     const awayWon = f.played && (f.scoreAway ?? 0) > (f.scoreHome ?? 0);
     return (
-      <div key={idx} className="bento-card p-3 sm:p-4">
+      <div key={idx} className="px-4 py-3 border-t border-slate-900/70 first:border-t-0">
+        <div className="text-[10px] text-slate-500 uppercase tracking-wide font-outfit mb-1.5 flex items-center gap-1.5">
+          <CalendarClock className="w-3 h-3 flex-shrink-0" /> {formatKickoff(f)}
+        </div>
         <div className="flex items-center justify-between gap-2">
           <span className="flex items-center gap-2 min-w-0">
-            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerHome ?? "") ?? "#64748b", opacity: awayWon ? 0.45 : 1 }} />
-            <span className={`text-sm truncate ${awayWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerHome ?? "—"}</span>
+            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerHome ?? "") ?? "#64748b", opacity: awayWon ? 0.4 : 1 }} />
+            <span className={`text-sm font-semibold truncate ${awayWon ? "text-slate-500" : "text-slate-100"}`}>{f.ownerHome ?? "—"}</span>
           </span>
           {f.played ? (
             <span className="font-bungee text-slate-100 text-sm flex-shrink-0">{f.scoreHome}&nbsp;–&nbsp;{f.scoreAway}</span>
@@ -185,26 +183,22 @@ export default function HeadToHead({ participants, groupFixtures }: HeadToHeadPr
             <span className="font-bungee text-slate-600 text-[10px] flex-shrink-0">VS</span>
           )}
           <span className="flex items-center gap-2 min-w-0 justify-end">
-            <span className={`text-sm truncate ${homeWon ? "text-slate-500" : "text-slate-100 font-semibold"}`}>{f.ownerAway ?? "—"}</span>
-            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerAway ?? "") ?? "#64748b", opacity: homeWon ? 0.45 : 1 }} />
+            <span className={`text-sm font-semibold truncate ${homeWon ? "text-slate-500" : "text-slate-100"}`}>{f.ownerAway ?? "—"}</span>
+            <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf.get(f.ownerAway ?? "") ?? "#64748b", opacity: homeWon ? 0.4 : 1 }} />
           </span>
         </div>
-        <div className="flex items-center justify-between mt-1.5 text-[10px] text-slate-500 uppercase tracking-wide font-outfit">
+        <div className="flex items-center justify-between mt-1 text-[10px] text-slate-500 uppercase tracking-wide font-outfit">
           <span className="truncate">{f.teamHome}</span>
           <span className="truncate text-right">{f.teamAway}</span>
         </div>
-        <div className="mt-2.5 text-center">
-          {!f.played
-            ? chip("bg-slate-800/40 border-slate-700/50 text-slate-400", "Scheduled")
-            : f.selfFixture
-              ? (draw
-                  ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", `${f.ownerHome} · own group`)
-                  : chip("bg-indigo-500/12 border-indigo-500/30 text-indigo-300", `${f.ownerHome} +3 · own group`))
-              : draw
-                ? chip("bg-slate-700/20 border-slate-600/40 text-slate-300", "Draw · 1 pt each")
-                : chip("bg-emerald-500/12 border-emerald-500/30 text-emerald-400", `${homeWon ? f.ownerHome : f.ownerAway} +3`)}
-        </div>
       </div>
     );
+  }
+
+  function formatKickoff(f: ReturnType<typeof buildFixtures>[number]): string {
+    if (!f.kickoff) return f.date || "";
+    const d = new Date(f.kickoff);
+    if (isNaN(d.getTime())) return f.date || "";
+    return d.toLocaleString(undefined, { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
   }
 }

@@ -48,6 +48,7 @@ export interface GroupFixture {
   round: number; // group matchday 1, 2 or 3
   group: string; // e.g. "Group A"
   date: string;
+  kickoff: string; // full UTC ISO datetime
   teamHome: string;
   teamAway: string;
   played: boolean;

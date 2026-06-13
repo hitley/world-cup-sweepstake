@@ -8,6 +8,7 @@ export interface H2HFixture {
   round: number;
   group: string;
   date: string;
+  kickoff: string;
   ownerHome: string | null; // contender who drafted teamHome
   ownerAway: string | null;
   teamHome: string;
@@ -47,6 +48,7 @@ export function buildFixtures(groupFixtures: GroupFixtureRecord[], participants:
       round: f.round,
       group: f.group,
       date: f.date,
+      kickoff: f.kickoff,
       ownerHome: home?.name ?? null,
       ownerAway: away?.name ?? null,
       teamHome: f.teamHome,
