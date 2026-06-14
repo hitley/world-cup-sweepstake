@@ -7,6 +7,7 @@
     "dev": "tsx server.ts",
     "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "build:site": "bash scripts/build-site.sh",
+    "sync": "tsx scripts/sync.ts",
     "print-env": "tsx scripts/print-env-vars.ts",
     "start": "node dist/server.cjs",
     "clean": "rm -rf dist",
