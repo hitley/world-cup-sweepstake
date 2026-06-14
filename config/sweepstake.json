@@ -6,13 +6,13 @@
       "confed": "CONMEBOL",
       "prob": 10,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -201,13 +201,13 @@
       "confed": "CAF",
       "prob": 2.5,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -306,13 +306,13 @@
       "confed": "UEFA",
       "prob": 1.1,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -546,13 +546,13 @@
       "confed": "AFC",
       "prob": 0.2,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -1254,13 +1254,27 @@
           "scoreHome": 4,
           "scoreAway": 1,
           "highlights": "USA 4-1 Paraguay — USA won 4-1."
+        },
+        {
+          "teamHome": "Qatar",
+          "teamAway": "Switzerland",
+          "scoreHome": 1,
+          "scoreAway": 1,
+          "highlights": "Qatar 1-1 Switzerland — Qatar and Switzerland drew 1-1."
+        },
+        {
+          "teamHome": "Brazil",
+          "teamAway": "Morocco",
+          "scoreHome": 1,
+          "scoreAway": 1,
+          "highlights": "Brazil 1-1 Morocco — Brazil and Morocco drew 1-1."
         }
       ],
       "eliminatedTeams": [],
-      "wittyNarrative": "Matchday 3 (June 13, 2026): 1 match settled, 5 goals scored.",
+      "wittyNarrative": "Matchday 3 (June 13, 2026): 3 matches settled, 9 goals scored.",
       "teamSnapshot": {
         "Brazil": {
-          "points": 0,
+          "points": 2,
           "status": "Active",
           "prob": 10
         },
@@ -1325,7 +1339,7 @@
           "prob": 2.5
         },
         "Morocco": {
-          "points": 0,
+          "points": 2,
           "status": "Active",
           "prob": 2.5
         },
@@ -1360,7 +1374,7 @@
           "prob": 1.2
         },
         "Switzerland": {
-          "points": 0,
+          "points": 2,
           "status": "Active",
           "prob": 1.1
         },
@@ -1440,7 +1454,7 @@
           "prob": 0.3
         },
         "Qatar": {
-          "points": 0,
+          "points": 2,
           "status": "Active",
           "prob": 0.2
         },
@@ -1554,9 +1568,9 @@
       "kickoff": "2026-06-13T19:00:00Z",
       "teamHome": "Qatar",
       "teamAway": "Switzerland",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 1
     },
     {
       "round": 1,
@@ -1565,9 +1579,9 @@
       "kickoff": "2026-06-13T22:00:00Z",
       "teamHome": "Brazil",
       "teamAway": "Morocco",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 1
     },
     {
       "round": 1,

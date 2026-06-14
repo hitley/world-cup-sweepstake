@@ -47,6 +47,11 @@ app pulls real results and ranks them. Runs several **private competitions**
 - Headless: `npm run sync` (no UI/server needed). The nightly job uses it.
 - After syncing, `config/sweepstake.json` is committed + pushed to refresh the
   live sites.
+- **Nightly automation**: `scripts/nightly-sync.sh` runs the sync then commits +
+  pushes (only if the file changed). Scheduled via **launchd** (not cron) so a
+  run missed while the Mac is asleep fires on wake. LaunchAgent:
+  `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist` (daily 22:00,
+  logs to `sync.log`). See `scripts/README.md` for managing it.
 
 ## Deploy
 
