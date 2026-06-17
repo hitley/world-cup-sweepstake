@@ -20,7 +20,9 @@ import {
   TrendingUp,
   ListOrdered,
   Swords,
-  Printer
+  Printer,
+  Menu,
+  X
 } from "lucide-react";
 
 // Competition slug comes from ?c=<slug> when running locally against the API.
@@ -28,6 +30,16 @@ import {
 // sweepstake.json next to index.html, and the app runs read-only.
 const competition = new URLSearchParams(window.location.search).get("c");
 const apiBase = `/api/${competition}/worldcup`;
+
+// Single source of truth for the main navigation tabs, shared by the desktop
+// tab bar and the mobile hamburger menu.
+const TABS = [
+  { id: "standings", label: "Standings", icon: Trophy },
+  { id: "ladder", label: "XP Ladder", icon: ListOrdered },
+  { id: "headtohead", label: "Head-to-Head", icon: Swords },
+  { id: "matches", label: "Matches", icon: Calendar },
+  { id: "trends", label: "Trends", icon: TrendingUp }
+] as const;
 
 export default function App() {
   const [state, setState] = useState<SweepstakeState | null>(null);
@@ -39,6 +51,7 @@ export default function App() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [printMode, setPrintMode] = useState(false);
   const [activeTab, setActiveTab ] = useState<"standings" | "ladder" | "headtohead" | "matches" | "trends">("standings");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Loading quotes pool
@@ -255,7 +268,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center flex-wrap gap-2">
+          <div className="relative flex items-center flex-wrap gap-2">
             {/* Admin controls: hidden on the read-only deployment, kept in the
                 layout (invisible) during print mode so the print button never shifts */}
             {!readOnly && (
@@ -287,6 +300,46 @@ export default function App() {
               <Printer className="w-4 h-4" />
               <span className="sr-only">{printMode ? "Exit Print View" : "Print View"}</span>
             </button>
+
+            {/* Mobile nav: the tab bar overflows on narrow screens, so collapse
+                navigation into a hamburger menu next to the print button. Hidden
+                in print mode and on sm+ where the full tab bar is shown. */}
+            {!printMode && (
+              <button
+                onClick={() => setMenuOpen(prev => !prev)}
+                className="sm:hidden p-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-yellow-400 rounded-xl transition border border-white/5 cursor-pointer"
+                title="Menu"
+                aria-expanded={menuOpen}
+                aria-haspopup="true"
+              >
+                {menuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+                <span className="sr-only">Navigation menu</span>
+              </button>
+            )}
+
+            {/* Mobile nav dropdown */}
+            {menuOpen && !printMode && (
+              <div className="sm:hidden absolute right-0 top-full mt-2 z-50 w-56 p-2 bg-slate-900 border-2 border-slate-800 rounded-2xl shadow-xl shadow-black/40 flex flex-col gap-1">
+                {TABS.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      trackEvent("tab_view", { tab: tab.id });
+                      setActiveTab(tab.id);
+                      setMenuOpen(false);
+                    }}
+                    className={`px-4 py-3 rounded-xl text-xs font-bungee uppercase tracking-wider flex items-center gap-3 transition cursor-pointer ${
+                      activeTab === tab.id
+                        ? "bg-slate-800 text-yellow-400"
+                        : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/60"
+                    }`}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -391,15 +444,10 @@ export default function App() {
             )}
           </div>
 
-          {/* Tab navigation */}
-          <div className="flex gap-2 border-b-2 border-slate-900 pb-0">
-            {([
-              { id: "standings", label: "Standings", icon: Trophy },
-              { id: "ladder", label: "XP Ladder", icon: ListOrdered },
-              { id: "headtohead", label: "Head-to-Head", icon: Swords },
-              { id: "matches", label: "Matches", icon: Calendar },
-              { id: "trends", label: "Trends", icon: TrendingUp }
-            ] as const).map(tab => (
+          {/* Tab navigation (desktop). On mobile this collapses into the
+              hamburger menu in the header — see TABS. */}
+          <div className="hidden sm:flex gap-2 border-b-2 border-slate-900 pb-0">
+            {TABS.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => { trackEvent("tab_view", { tab: tab.id }); setActiveTab(tab.id); }}
