@@ -21,13 +21,13 @@
       "confed": "UEFA",
       "prob": 9,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
-      "wins": 0,
+      "points": 6,
+      "goalsFor": 3,
+      "goalsAgainst": 1,
+      "wins": 1,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -36,13 +36,13 @@
       "confed": "CONMEBOL",
       "prob": 8.5,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
+      "points": 8,
+      "goalsFor": 3,
       "goalsAgainst": 0,
-      "wins": 0,
+      "wins": 1,
       "draws": 0,
-      "cleanSheets": 0,
-      "goalPoints": 0,
+      "cleanSheets": 1,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -96,13 +96,13 @@
       "confed": "UEFA",
       "prob": 5.5,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -126,13 +126,13 @@
       "confed": "UEFA",
       "prob": 4,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
-      "wins": 0,
+      "points": 6,
+      "goalsFor": 4,
+      "goalsAgainst": 1,
+      "wins": 1,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -231,13 +231,13 @@
       "confed": "CAF",
       "prob": 1.8,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 1,
+      "goalsFor": 1,
+      "goalsAgainst": 3,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -381,13 +381,13 @@
       "confed": "UEFA",
       "prob": 0.7,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
-      "wins": 0,
+      "points": 6,
+      "goalsFor": 3,
+      "goalsAgainst": 1,
+      "wins": 1,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -428,7 +428,7 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 0,
+      "goalsAgainst": 3,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
@@ -576,13 +576,13 @@
       "confed": "AFC",
       "prob": 0.2,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 1,
+      "goalsFor": 1,
+      "goalsAgainst": 4,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -591,13 +591,13 @@
       "confed": "AFC",
       "prob": 0.2,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 1,
+      "goalsFor": 1,
+      "goalsAgainst": 3,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -651,13 +651,13 @@
       "confed": "CAF",
       "prob": 0.4,
       "status": "Active",
-      "points": 0,
-      "goalsFor": 0,
-      "goalsAgainst": 0,
+      "points": 2,
+      "goalsFor": 1,
+      "goalsAgainst": 1,
       "wins": 0,
-      "draws": 0,
+      "draws": 1,
       "cleanSheets": 0,
-      "goalPoints": 0,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -721,7 +721,7 @@
       "bonusPoints": 0
     }
   ],
-  "currentDayIndex": 6,
+  "currentDayIndex": 7,
   "history": [
     {
       "dayIndex": 1,
@@ -2088,10 +2088,24 @@
           "scoreHome": 2,
           "scoreAway": 2,
           "highlights": "IR Iran 2-2 New Zealand — IR Iran and New Zealand drew 2-2."
+        },
+        {
+          "teamHome": "France",
+          "teamAway": "Senegal",
+          "scoreHome": 3,
+          "scoreAway": 1,
+          "highlights": "France 3-1 Senegal — France won 3-1."
+        },
+        {
+          "teamHome": "Iraq",
+          "teamAway": "Norway",
+          "scoreHome": 1,
+          "scoreAway": 4,
+          "highlights": "Iraq 1-4 Norway — Norway won 4-1."
         }
       ],
       "eliminatedTeams": [],
-      "wittyNarrative": "Matchday 6 (June 16, 2026): 1 match settled, 4 goals scored.",
+      "wittyNarrative": "Matchday 6 (June 16, 2026): 3 matches settled, 13 goals scored.",
       "teamSnapshot": {
         "Brazil": {
           "points": 2,
@@ -2099,7 +2113,7 @@
           "prob": 10
         },
         "France": {
-          "points": 0,
+          "points": 6,
           "status": "Active",
           "prob": 9
         },
@@ -2134,7 +2148,7 @@
           "prob": 4.5
         },
         "Norway": {
-          "points": 0,
+          "points": 6,
           "status": "Active",
           "prob": 4
         },
@@ -2169,7 +2183,7 @@
           "prob": 1.8
         },
         "Senegal": {
-          "points": 0,
+          "points": 1,
           "status": "Active",
           "prob": 1.8
         },
@@ -2284,7 +2298,7 @@
           "prob": 0.2
         },
         "Iraq": {
-          "points": 0,
+          "points": 1,
           "status": "Active",
           "prob": 0.2
         },
@@ -2310,6 +2324,277 @@
         },
         "Congo DR": {
           "points": 0,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Curaçao": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Czechia": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.6
+        },
+        "Haiti": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Scotland": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.6
+        }
+      }
+    },
+    {
+      "dayIndex": 7,
+      "date": "June 17, 2026",
+      "matches": [
+        {
+          "teamHome": "Argentina",
+          "teamAway": "Algeria",
+          "scoreHome": 3,
+          "scoreAway": 0,
+          "highlights": "Argentina 3-0 Algeria — Argentina won 3-0."
+        },
+        {
+          "teamHome": "Austria",
+          "teamAway": "Jordan",
+          "scoreHome": 3,
+          "scoreAway": 1,
+          "highlights": "Austria 3-1 Jordan — Austria won 3-1."
+        },
+        {
+          "teamHome": "Portugal",
+          "teamAway": "Congo DR",
+          "scoreHome": 1,
+          "scoreAway": 1,
+          "highlights": "Portugal 1-1 Congo DR — Portugal and Congo DR drew 1-1."
+        }
+      ],
+      "eliminatedTeams": [],
+      "wittyNarrative": "Matchday 7 (June 17, 2026): 3 matches settled, 9 goals scored.",
+      "teamSnapshot": {
+        "Brazil": {
+          "points": 2,
+          "status": "Active",
+          "prob": 10
+        },
+        "France": {
+          "points": 6,
+          "status": "Active",
+          "prob": 9
+        },
+        "Argentina": {
+          "points": 8,
+          "status": "Active",
+          "prob": 8.5
+        },
+        "England": {
+          "points": 0,
+          "status": "Active",
+          "prob": 7.6
+        },
+        "Spain": {
+          "points": 3,
+          "status": "Active",
+          "prob": 7
+        },
+        "Germany": {
+          "points": 6,
+          "status": "Active",
+          "prob": 6
+        },
+        "Portugal": {
+          "points": 2,
+          "status": "Active",
+          "prob": 5.5
+        },
+        "Netherlands": {
+          "points": 3,
+          "status": "Active",
+          "prob": 4.5
+        },
+        "Norway": {
+          "points": 6,
+          "status": "Active",
+          "prob": 4
+        },
+        "Belgium": {
+          "points": 2,
+          "status": "Active",
+          "prob": 3.5
+        },
+        "Croatia": {
+          "points": 0,
+          "status": "Active",
+          "prob": 3
+        },
+        "Uruguay": {
+          "points": 2,
+          "status": "Active",
+          "prob": 3
+        },
+        "Colombia": {
+          "points": 0,
+          "status": "Active",
+          "prob": 2.5
+        },
+        "Morocco": {
+          "points": 2,
+          "status": "Active",
+          "prob": 2.5
+        },
+        "USA": {
+          "points": 6,
+          "status": "Active",
+          "prob": 1.8
+        },
+        "Senegal": {
+          "points": 1,
+          "status": "Active",
+          "prob": 1.8
+        },
+        "Japan": {
+          "points": 3,
+          "status": "Active",
+          "prob": 1.5
+        },
+        "Korea Republic (South Korea)": {
+          "points": 5,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Mexico": {
+          "points": 7,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Sweden": {
+          "points": 6,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Switzerland": {
+          "points": 2,
+          "status": "Active",
+          "prob": 1.1
+        },
+        "Ecuador": {
+          "points": 0,
+          "status": "Active",
+          "prob": 1
+        },
+        "Canada": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "IR Iran": {
+          "points": 3,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "Saudi Arabia": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "Austria": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.7
+        },
+        "Türkiye": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.7
+        },
+        "Paraguay": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Algeria": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Egypt": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Côte d'Ivoire": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Ghana": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Tunisia": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Australia": {
+          "points": 7,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Panama": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "South Africa": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Qatar": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Uzbekistan": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Iraq": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Jordan": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "New Zealand": {
+          "points": 3,
+          "status": "Active",
+          "prob": 0.1
+        },
+        "Bosnia and Herzegovina": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Cabo Verde": {
+          "points": 3,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Congo DR": {
+          "points": 2,
           "status": "Active",
           "prob": 0.4
         },
@@ -2520,9 +2805,9 @@
       "kickoff": "2026-06-16T19:00:00Z",
       "teamHome": "France",
       "teamAway": "Senegal",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 3,
+      "scoreAway": 1
     },
     {
       "round": 1,
@@ -2531,9 +2816,9 @@
       "kickoff": "2026-06-16T22:00:00Z",
       "teamHome": "Iraq",
       "teamAway": "Norway",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 4
     },
     {
       "round": 1,
@@ -2542,9 +2827,9 @@
       "kickoff": "2026-06-17T01:00:00Z",
       "teamHome": "Argentina",
       "teamAway": "Algeria",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 3,
+      "scoreAway": 0
     },
     {
       "round": 1,
@@ -2553,9 +2838,9 @@
       "kickoff": "2026-06-17T04:00:00Z",
       "teamHome": "Austria",
       "teamAway": "Jordan",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 3,
+      "scoreAway": 1
     },
     {
       "round": 1,
@@ -2564,9 +2849,9 @@
       "kickoff": "2026-06-17T17:00:00Z",
       "teamHome": "Portugal",
       "teamAway": "Congo DR",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 1
     },
     {
       "round": 1,
