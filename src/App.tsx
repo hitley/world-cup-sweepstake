@@ -369,8 +369,9 @@ export default function App() {
             </div>
           )}
 
-          {/* Tournament status stats bar */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Tournament status stats bar — hidden on mobile to save vertical
+              space; the tab content headings carry the context there. */}
+          <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bento-card p-5 flex items-center gap-4">
               <div className="p-3 bg-yellow-400/10 text-yellow-400 rounded-2xl border border-yellow-400/20">
                 <Calendar className="w-5 h-5" />
@@ -418,8 +419,9 @@ export default function App() {
             </div>
           </div>
 
-          {/* Matchday action + latest roundup */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bento-card">
+          {/* Matchday action + latest roundup — hidden on mobile to save space
+              (admin syncs from a desktop; the deploy is read-only anyway). */}
+          <div className="hidden sm:flex sm:flex-row sm:items-center justify-between gap-4 p-5 bento-card">
             <div className="min-w-0">
               <div className="text-xs font-bungee text-slate-300 uppercase tracking-widest mb-1 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-yellow-400" />
