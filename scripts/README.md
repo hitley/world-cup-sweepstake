@@ -13,7 +13,7 @@ The nightly job runs on **launchd**, not cron, so a run missed while the Mac is
 asleep/off fires as soon as it wakes (cron silently skips missed runs).
 
 - **LaunchAgent:** `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist`
-- **Schedule:** daily at 22:00 (`StartCalendarInterval`)
+- **Schedule:** daily at 16:00 (`StartCalendarInterval`)
 - **Runs:** `scripts/nightly-sync.sh` → `npm run sync`, then commit + push if changed
 - **Logs:** appended to `sync.log` in the repo root (stdout + stderr)
 - **Requires:** `FOOTBALL_DATA_TOKEN` in the gitignored `.env` (local only)
