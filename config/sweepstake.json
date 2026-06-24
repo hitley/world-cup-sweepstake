@@ -51,12 +51,12 @@
       "confed": "UEFA",
       "prob": 7.6,
       "status": "Active",
-      "points": 6,
+      "points": 9,
       "goalsFor": 4,
       "goalsAgainst": 2,
       "wins": 1,
-      "draws": 0,
-      "cleanSheets": 0,
+      "draws": 1,
+      "cleanSheets": 1,
       "goalPoints": 3,
       "bonusPoints": 0
     },
@@ -96,13 +96,13 @@
       "confed": "UEFA",
       "prob": 5.5,
       "status": "Active",
-      "points": 2,
-      "goalsFor": 1,
+      "points": 10,
+      "goalsFor": 6,
       "goalsAgainst": 1,
-      "wins": 0,
+      "wins": 1,
       "draws": 1,
-      "cleanSheets": 0,
-      "goalPoints": 1,
+      "cleanSheets": 1,
+      "goalPoints": 4,
       "bonusPoints": 0
     },
     {
@@ -156,13 +156,13 @@
       "confed": "UEFA",
       "prob": 3,
       "status": "Active",
-      "points": 2,
-      "goalsFor": 2,
+      "points": 8,
+      "goalsFor": 3,
       "goalsAgainst": 4,
-      "wins": 0,
+      "wins": 1,
       "draws": 0,
-      "cleanSheets": 0,
-      "goalPoints": 2,
+      "cleanSheets": 1,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -186,13 +186,13 @@
       "confed": "CONMEBOL",
       "prob": 2.5,
       "status": "Active",
-      "points": 6,
-      "goalsFor": 3,
+      "points": 12,
+      "goalsFor": 4,
       "goalsAgainst": 1,
-      "wins": 1,
+      "wins": 2,
       "draws": 0,
-      "cleanSheets": 0,
-      "goalPoints": 3,
+      "cleanSheets": 1,
+      "goalPoints": 4,
       "bonusPoints": 0
     },
     {
@@ -336,13 +336,13 @@
       "confed": "CONCACAF",
       "prob": 0.8,
       "status": "Active",
-      "points": 10,
-      "goalsFor": 7,
-      "goalsAgainst": 1,
+      "points": 11,
+      "goalsFor": 6,
+      "goalsAgainst": 0,
       "wins": 1,
       "draws": 1,
-      "cleanSheets": 1,
-      "goalPoints": 4,
+      "cleanSheets": 2,
+      "goalPoints": 3,
       "bonusPoints": 0
     },
     {
@@ -471,12 +471,12 @@
       "confed": "CAF",
       "prob": 0.4,
       "status": "Active",
-      "points": 6,
+      "points": 9,
       "goalsFor": 1,
       "goalsAgainst": 0,
       "wins": 1,
-      "draws": 0,
-      "cleanSheets": 1,
+      "draws": 1,
+      "cleanSheets": 2,
       "goalPoints": 1,
       "bonusPoints": 0
     },
@@ -518,7 +518,7 @@
       "status": "Active",
       "points": 0,
       "goalsFor": 0,
-      "goalsAgainst": 1,
+      "goalsAgainst": 2,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
@@ -563,7 +563,7 @@
       "status": "Active",
       "points": 1,
       "goalsFor": 1,
-      "goalsAgainst": 3,
+      "goalsAgainst": 8,
       "wins": 0,
       "draws": 0,
       "cleanSheets": 0,
@@ -621,13 +621,13 @@
       "confed": "UEFA",
       "prob": 0.5,
       "status": "Active",
-      "points": 3,
-      "goalsFor": 2,
-      "goalsAgainst": 5,
+      "points": 4,
+      "goalsFor": 1,
+      "goalsAgainst": 4,
       "wins": 0,
       "draws": 1,
-      "cleanSheets": 0,
-      "goalPoints": 2,
+      "cleanSheets": 1,
+      "goalPoints": 1,
       "bonusPoints": 0
     },
     {
@@ -653,7 +653,7 @@
       "status": "Active",
       "points": 2,
       "goalsFor": 1,
-      "goalsAgainst": 1,
+      "goalsAgainst": 2,
       "wins": 0,
       "draws": 1,
       "cleanSheets": 0,
@@ -721,7 +721,7 @@
       "bonusPoints": 0
     }
   ],
-  "currentDayIndex": 13,
+  "currentDayIndex": 14,
   "history": [
     {
       "dayIndex": 1,
@@ -994,13 +994,13 @@
         {
           "teamHome": "Canada",
           "teamAway": "Bosnia and Herzegovina",
-          "scoreHome": 1,
-          "scoreAway": 1,
-          "highlights": "Canada 1-1 Bosnia and Herzegovina — Canada and Bosnia and Herzegovina drew 1-1."
+          "scoreHome": 0,
+          "scoreAway": 0,
+          "highlights": "Canada 0-0 Bosnia and Herzegovina — Canada and Bosnia and Herzegovina drew 0-0."
         }
       ],
       "eliminatedTeams": [],
-      "wittyNarrative": "Matchday 2 (June 12, 2026): 2 matches settled, 5 goals scored.",
+      "wittyNarrative": "Matchday 2 (June 12, 2026): 2 matches settled, 3 goals scored.",
       "teamSnapshot": {
         "Brazil": {
           "points": 0,
@@ -1113,7 +1113,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -1208,7 +1208,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -1384,7 +1384,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -1479,7 +1479,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -1669,7 +1669,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -1764,7 +1764,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -1947,7 +1947,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -2042,7 +2042,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -2218,7 +2218,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -2313,7 +2313,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -2503,7 +2503,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.8
         },
@@ -2598,7 +2598,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 2,
+          "points": 3,
           "status": "Active",
           "prob": 0.5
         },
@@ -2781,7 +2781,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -2876,7 +2876,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 3,
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -3052,7 +3052,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -3147,7 +3147,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 3,
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -3330,7 +3330,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -3425,7 +3425,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 3,
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -3615,7 +3615,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -3710,7 +3710,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 3,
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -3886,7 +3886,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -3981,7 +3981,7 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
-          "points": 3,
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -4034,10 +4034,31 @@
           "scoreHome": 1,
           "scoreAway": 2,
           "highlights": "Jordan 1-2 Algeria — Algeria won 2-1."
+        },
+        {
+          "teamHome": "Portugal",
+          "teamAway": "Uzbekistan",
+          "scoreHome": 5,
+          "scoreAway": 0,
+          "highlights": "Portugal 5-0 Uzbekistan — Portugal won 5-0."
+        },
+        {
+          "teamHome": "England",
+          "teamAway": "Ghana",
+          "scoreHome": 0,
+          "scoreAway": 0,
+          "highlights": "England 0-0 Ghana — England and Ghana drew 0-0."
+        },
+        {
+          "teamHome": "Panama",
+          "teamAway": "Croatia",
+          "scoreHome": 0,
+          "scoreAway": 1,
+          "highlights": "Panama 0-1 Croatia — Croatia won 1-0."
         }
       ],
       "eliminatedTeams": [],
-      "wittyNarrative": "Matchday 13 (June 23, 2026): 2 matches settled, 8 goals scored.",
+      "wittyNarrative": "Matchday 13 (June 23, 2026): 5 matches settled, 14 goals scored.",
       "teamSnapshot": {
         "Brazil": {
           "points": 10,
@@ -4055,7 +4076,7 @@
           "prob": 8.5
         },
         "England": {
-          "points": 6,
+          "points": 9,
           "status": "Active",
           "prob": 7.6
         },
@@ -4070,7 +4091,7 @@
           "prob": 6
         },
         "Portugal": {
-          "points": 2,
+          "points": 10,
           "status": "Active",
           "prob": 5.5
         },
@@ -4090,7 +4111,7 @@
           "prob": 3.5
         },
         "Croatia": {
-          "points": 2,
+          "points": 8,
           "status": "Active",
           "prob": 3
         },
@@ -4150,7 +4171,7 @@
           "prob": 1
         },
         "Canada": {
-          "points": 10,
+          "points": 11,
           "status": "Active",
           "prob": 0.8
         },
@@ -4195,7 +4216,7 @@
           "prob": 0.5
         },
         "Ghana": {
-          "points": 6,
+          "points": 9,
           "status": "Active",
           "prob": 0.4
         },
@@ -4245,7 +4266,264 @@
           "prob": 0.1
         },
         "Bosnia and Herzegovina": {
+          "points": 4,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Cabo Verde": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Congo DR": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Curaçao": {
+          "points": 4,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Czechia": {
           "points": 3,
+          "status": "Active",
+          "prob": 0.6
+        },
+        "Haiti": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Scotland": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.6
+        }
+      }
+    },
+    {
+      "dayIndex": 14,
+      "date": "June 24, 2026",
+      "matches": [
+        {
+          "teamHome": "Colombia",
+          "teamAway": "Congo DR",
+          "scoreHome": 1,
+          "scoreAway": 0,
+          "highlights": "Colombia 1-0 Congo DR — Colombia won 1-0."
+        }
+      ],
+      "eliminatedTeams": [],
+      "wittyNarrative": "Matchday 14 (June 24, 2026): 1 match settled, 1 goal scored.",
+      "teamSnapshot": {
+        "Brazil": {
+          "points": 10,
+          "status": "Active",
+          "prob": 10
+        },
+        "France": {
+          "points": 14,
+          "status": "Active",
+          "prob": 9
+        },
+        "Argentina": {
+          "points": 15,
+          "status": "Active",
+          "prob": 8.5
+        },
+        "England": {
+          "points": 9,
+          "status": "Active",
+          "prob": 7.6
+        },
+        "Spain": {
+          "points": 11,
+          "status": "Active",
+          "prob": 7
+        },
+        "Germany": {
+          "points": 11,
+          "status": "Active",
+          "prob": 6
+        },
+        "Portugal": {
+          "points": 10,
+          "status": "Active",
+          "prob": 5.5
+        },
+        "Netherlands": {
+          "points": 9,
+          "status": "Active",
+          "prob": 4.5
+        },
+        "Norway": {
+          "points": 12,
+          "status": "Active",
+          "prob": 4
+        },
+        "Belgium": {
+          "points": 5,
+          "status": "Active",
+          "prob": 3.5
+        },
+        "Croatia": {
+          "points": 8,
+          "status": "Active",
+          "prob": 3
+        },
+        "Uruguay": {
+          "points": 5,
+          "status": "Active",
+          "prob": 3
+        },
+        "Colombia": {
+          "points": 12,
+          "status": "Active",
+          "prob": 2.5
+        },
+        "Morocco": {
+          "points": 8,
+          "status": "Active",
+          "prob": 2.5
+        },
+        "USA": {
+          "points": 13,
+          "status": "Active",
+          "prob": 1.8
+        },
+        "Senegal": {
+          "points": 3,
+          "status": "Active",
+          "prob": 1.8
+        },
+        "Japan": {
+          "points": 11,
+          "status": "Active",
+          "prob": 1.5
+        },
+        "Korea Republic (South Korea)": {
+          "points": 5,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Mexico": {
+          "points": 13,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Sweden": {
+          "points": 7,
+          "status": "Active",
+          "prob": 1.2
+        },
+        "Switzerland": {
+          "points": 8,
+          "status": "Active",
+          "prob": 1.1
+        },
+        "Ecuador": {
+          "points": 3,
+          "status": "Active",
+          "prob": 1
+        },
+        "Canada": {
+          "points": 11,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "IR Iran": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "Saudi Arabia": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.8
+        },
+        "Austria": {
+          "points": 6,
+          "status": "Active",
+          "prob": 0.7
+        },
+        "Türkiye": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.7
+        },
+        "Paraguay": {
+          "points": 7,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Algeria": {
+          "points": 5,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Egypt": {
+          "points": 8,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Côte d'Ivoire": {
+          "points": 7,
+          "status": "Active",
+          "prob": 0.5
+        },
+        "Ghana": {
+          "points": 9,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Tunisia": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Australia": {
+          "points": 7,
+          "status": "Active",
+          "prob": 0.4
+        },
+        "Panama": {
+          "points": 0,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "South Africa": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.3
+        },
+        "Qatar": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Uzbekistan": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Iraq": {
+          "points": 1,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "Jordan": {
+          "points": 2,
+          "status": "Active",
+          "prob": 0.2
+        },
+        "New Zealand": {
+          "points": 4,
+          "status": "Active",
+          "prob": 0.1
+        },
+        "Bosnia and Herzegovina": {
+          "points": 4,
           "status": "Active",
           "prob": 0.5
         },
@@ -4313,8 +4591,8 @@
       "teamHome": "Canada",
       "teamAway": "Bosnia and Herzegovina",
       "played": true,
-      "scoreHome": 1,
-      "scoreAway": 1
+      "scoreHome": null,
+      "scoreAway": null
     },
     {
       "round": 1,
@@ -4774,9 +5052,9 @@
       "kickoff": "2026-06-23T17:00:00Z",
       "teamHome": "Portugal",
       "teamAway": "Uzbekistan",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 5,
+      "scoreAway": 0
     },
     {
       "round": 2,
@@ -4785,9 +5063,9 @@
       "kickoff": "2026-06-23T20:00:00Z",
       "teamHome": "England",
       "teamAway": "Ghana",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 0,
+      "scoreAway": 0
     },
     {
       "round": 2,
@@ -4796,9 +5074,9 @@
       "kickoff": "2026-06-23T23:00:00Z",
       "teamHome": "Panama",
       "teamAway": "Croatia",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 0,
+      "scoreAway": 1
     },
     {
       "round": 2,
@@ -4807,9 +5085,9 @@
       "kickoff": "2026-06-24T02:00:00Z",
       "teamHome": "Colombia",
       "teamAway": "Congo DR",
-      "played": false,
-      "scoreHome": null,
-      "scoreAway": null
+      "played": true,
+      "scoreHome": 1,
+      "scoreAway": 0
     },
     {
       "round": 3,
