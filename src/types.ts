@@ -56,12 +56,26 @@ export interface GroupFixture {
   scoreAway: number | null;
 }
 
+export interface KnockoutFixture {
+  stage: string; // LAST_32 | LAST_16 | QUARTER_FINALS | SEMI_FINALS | THIRD_PLACE | FINAL
+  date: string;
+  kickoff: string; // full UTC ISO datetime
+  teamHome: string;
+  teamAway: string;
+  played: boolean;
+  scoreHome: number | null;
+  scoreAway: number | null;
+  winner: string | null; // tie winner (may be decided on penalties)
+}
+
 export interface SweepstakeState {
   participants: Participant[];
   teams: Team[];
   currentDayIndex: number;
   history: HistoricalRecord[];
+  // Shared schedule data, fetched separately from the core state.
   groupFixtures: GroupFixture[];
+  knockout: KnockoutFixture[];
 }
 
 export const MATCHDAY_DATES = [

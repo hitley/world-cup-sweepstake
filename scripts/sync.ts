@@ -1,14 +1,17 @@
 // Headless results sync — the same recompute the "Sync Latest Results" button
 // does, runnable without the UI or Express server. Reads config/sweepstake.json
 // for the team list, fetches all finished matches from football-data.org,
-// replays the tournament from scratch (idempotent), and writes the file back
-// only when something changed. Used by the nightly job and `npm run sync`.
+// replays the tournament from scratch (idempotent), and writes the split store
+// (sweepstake.json + groupFixtures.json + knockout.json) back, each file only
+// when its content changed. Used by the nightly job and `npm run sync`.
 import fs from "fs";
 import path from "path";
 import { fetchAllMatches } from "../lib/footballData";
 import { replayTournament, ReplayTeam } from "../lib/replayTournament";
+import { tournamentFiles, writeJsonIfChanged } from "../lib/tournamentFiles";
 
-const STATE_FILE = path.join(process.cwd(), "config", "sweepstake.json");
+const FILES = tournamentFiles();
+const STATE_FILE = FILES.core;
 
 // Minimal .env loader (dependency-free) so FOOTBALL_DATA_TOKEN is available.
 function loadDotEnv() {
@@ -54,23 +57,29 @@ async function main() {
   }
 
   const replay = replayTournament(seedTeams, parsed.matches);
-  const next = {
+  const core = {
     teams: replay.teams,
     currentDayIndex: replay.currentDayIndex,
-    history: replay.history,
-    groupFixtures: parsed.groupFixtures
+    history: replay.history
   };
 
-  // Idempotent: only write when the data actually changed (no spurious diffs)
-  const nextJson = JSON.stringify(next, null, 2);
-  const prevJson = JSON.stringify(prev, null, 2);
-  if (nextJson === prevJson) {
-    console.log(`Already up to date — day ${next.currentDayIndex}, no changes.`);
+  // Idempotent per file: only the files whose content changed are rewritten.
+  const changed = [
+    writeJsonIfChanged(FILES.core, core) && "sweepstake.json",
+    writeJsonIfChanged(FILES.groupFixtures, parsed.groupFixtures) && "groupFixtures.json",
+    writeJsonIfChanged(FILES.knockout, parsed.knockoutFixtures) && "knockout.json"
+  ].filter(Boolean);
+
+  if (changed.length === 0) {
+    console.log(`Already up to date — day ${core.currentDayIndex}, no changes.`);
     return;
   }
 
-  fs.writeFileSync(STATE_FILE, nextJson + "\n", "utf-8");
-  console.log(`Synced: day ${next.currentDayIndex}, ${parsed.finished} finished matches, ${next.groupFixtures.length} group fixtures.`);
+  console.log(
+    `Synced: day ${core.currentDayIndex}, ${parsed.finished} finished matches, ` +
+    `${parsed.groupFixtures.length} group + ${parsed.knockoutFixtures.length} knockout fixtures. ` +
+    `Updated: ${changed.join(", ")}.`
+  );
 }
 
 main();

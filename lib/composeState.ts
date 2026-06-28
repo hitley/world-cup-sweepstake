@@ -39,11 +39,14 @@ export interface GroupFixtureRecord {
   scoreAway: number | null;
 }
 
+// The core tournament state (config/sweepstake.json). Schedule data
+// (groupFixtures / knockout) lives in its own sibling files and is served to
+// the frontend separately, so it is not part of this composed-per-competition
+// shape.
 export interface SharedState {
   teams: ({ name: string } & TeamSnapshot & Record<string, unknown>)[];
   currentDayIndex: number;
   history: SharedHistoryRecord[];
-  groupFixtures?: GroupFixtureRecord[];
 }
 
 export function snapshotFromTeams(
@@ -90,7 +93,6 @@ export function composeState(shared: SharedState, participants: ParticipantConfi
     participants,
     teams: shared.teams,
     currentDayIndex: shared.currentDayIndex,
-    groupFixtures: shared.groupFixtures ?? [],
     history: shared.history.map(h => ({
       dayIndex: h.dayIndex,
       date: h.date,

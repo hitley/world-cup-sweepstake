@@ -1,0 +1,46 @@
+[
+  {
+    "stage": "LAST_32",
+    "date": "2026-06-28",
+    "kickoff": "2026-06-28T19:00:00Z",
+    "teamHome": "South Africa",
+    "teamAway": "Canada",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_32",
+    "date": "2026-06-29",
+    "kickoff": "2026-06-29T17:00:00Z",
+    "teamHome": "Brazil",
+    "teamAway": "Japan",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_32",
+    "date": "2026-06-30",
+    "kickoff": "2026-06-30T01:00:00Z",
+    "teamHome": "Netherlands",
+    "teamAway": "Morocco",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_32",
+    "date": "2026-07-02",
+    "kickoff": "2026-07-02T00:00:00Z",
+    "teamHome": "USA",
+    "teamAway": "Bosnia and Herzegovina",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  }
+]

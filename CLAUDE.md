@@ -16,18 +16,31 @@ app pulls real results and ranks them. Runs several **private competitions**
     from shared tournament state + a competition's participants.
   - `footballData.ts` — fetch + parse real results from football-data.org
     (competition code `WC`), map API team names → the app's 48 (alias +
-    accent-insensitive + prefix fallback in `resolveTeamName`).
+    accent-insensitive + prefix fallback in `resolveTeamName`). Captures both
+    `groupFixtures` (Head-to-Head) and `knockoutFixtures` (Knockouts view),
+    played + scheduled.
   - `replayTournament.ts` — pure, deterministic rebuild of the whole tournament
     from all finished matches (idempotent). Computes XP + breakdown.
   - `headToHead.ts` — group-stage mini-game: maps each real group fixture onto
     the two contenders who drafted those teams (football points + goals).
+  - `tournamentFiles.ts` — node-only helpers for the split config store (file
+    paths + idempotent `writeJsonIfChanged`); shared by server, sync, builder.
 
 ## Data model (key facts)
 
-- **One shared tournament**: `config/sweepstake.json` (committed) holds `teams`,
-  `currentDayIndex`, `history` (per-day team snapshots), and `groupFixtures`.
-  It is **server-written and mutates** — expect git diffs as the tournament
-  progresses. No personal data in it.
+- **One shared tournament, split across 3 committed files** (server-written,
+  mutate as the tournament progresses; no personal data):
+  - `config/sweepstake.json` — core state: `teams`, `currentDayIndex`, `history`
+    (per-day team snapshots). The bulk; changes every sync.
+  - `config/groupFixtures.json` — `GroupFixture[]` for Head-to-Head. **Frozen
+    once the group stage finishes** (stops appearing in diffs).
+  - `config/knockout.json` — `KnockoutFixture[]` (stage, score, winner) for the
+    Knockouts view; empty until the knockouts start, then fills each sync.
+  - The schedule files carry no participant data, so the static deploy serves
+    them **once** from the site root (`site/groupFixtures.json`,
+    `site/knockout.json`); the dev server exposes `/api/groupFixtures` +
+    `/api/knockout`. The frontend fetches them separately and merges into state
+    (`SweepstakeState.groupFixtures` / `.knockout`).
 - **Per-competition participants**: resolved by `lib/loadParticipants.ts` from
   env var `PARTICIPANTS_<SLUG>` (deploys) **or** the gitignored
   `config/competitions/<slug>/participants.json` (local dev). A competition
@@ -41,15 +54,16 @@ app pulls real results and ranks them. Runs several **private competitions**
 ## Results sync ("Sync Latest Results")
 
 - Recomputes the entire tournament from **all** finished matches each run →
-  **idempotent + self-catching-up**. Skips writing the file when unchanged.
+  **idempotent + self-catching-up**. Each of the 3 state files is written only
+  when its content changed (no spurious diffs).
 - Needs `FOOTBALL_DATA_TOKEN` in a gitignored `.env` (local only; the static
   deploy never calls the API). Free token: football-data.org.
 - Headless: `npm run sync` (no UI/server needed). The nightly job uses it.
-- After syncing, `config/sweepstake.json` is committed + pushed to refresh the
-  live sites.
+- After syncing, the changed `config/*.json` state files are committed + pushed
+  to refresh the live sites.
 - **Nightly automation**: `scripts/nightly-sync.sh` runs the sync then commits +
-  pushes (only if the file changed). Scheduled via **launchd** (not cron) so a
-  run missed while the Mac is asleep fires on wake. LaunchAgent:
+  pushes the 3 state files (only if any changed). Scheduled via **launchd** (not
+  cron) so a run missed while the Mac is asleep fires on wake. LaunchAgent:
   `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist` (daily 16:00,
   logs to `sync.log`). See `scripts/README.md` for managing it.
 

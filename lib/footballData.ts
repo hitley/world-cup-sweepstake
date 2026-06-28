@@ -59,6 +59,34 @@ export interface GroupFixture {
   scoreAway: number | null;
 }
 
+// A knockout-stage fixture (played or scheduled), used for the Knockouts view.
+// Mirrors GroupFixture but keyed by `stage` instead of group/round, and carries
+// the tie winner (which may be decided on penalties even when the score is a
+// draw). Only ties where both teams resolve to the app's 48 are captured, so
+// scheduled fixtures with placeholder teams ("Winner Group A") appear once the
+// bracket fills in.
+export interface KnockoutFixture {
+  stage: string; // LAST_32 | LAST_16 | QUARTER_FINALS | SEMI_FINALS | THIRD_PLACE | FINAL
+  date: string; // YYYY-MM-DD (UTC)
+  kickoff: string; // full UTC ISO datetime ("" if missing)
+  teamHome: string; // canonical app name
+  teamAway: string; // canonical app name
+  played: boolean;
+  scoreHome: number | null; // full-time score, null until played
+  scoreAway: number | null;
+  winner: string | null; // canonical app name of the tie winner, or null until decided
+}
+
+// Stage display/sort order (group stage handled separately, so omitted here).
+const KNOCKOUT_STAGE_ORDER: Record<string, number> = {
+  LAST_32: 1,
+  LAST_16: 2,
+  QUARTER_FINALS: 3,
+  SEMI_FINALS: 4,
+  THIRD_PLACE: 5,
+  FINAL: 6
+};
+
 // Normalize football-data's group value ("GROUP_A", "Group A", "A") → "Group A"
 function groupLabel(raw: unknown): string {
   if (!raw) return "";
@@ -69,6 +97,7 @@ function groupLabel(raw: unknown): string {
 export interface ParsedMatches {
   matches: RealMatch[]; // FINISHED, mapped matches (sorted by date)
   groupFixtures: GroupFixture[]; // all GROUP_STAGE fixtures, played + scheduled
+  knockoutFixtures: KnockoutFixture[]; // all knockout-stage fixtures, played + scheduled
   finished: number; // count of FINISHED matches the API returned
   totalReturned: number; // all matches returned (any status)
   unmapped: string[]; // API team names we couldn't map to the app's 48
@@ -114,6 +143,7 @@ export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatche
   const all: any[] = Array.isArray(payload?.matches) ? payload.matches : [];
   const matches: RealMatch[] = [];
   const groupFixtures: GroupFixture[] = [];
+  const knockoutFixtures: KnockoutFixture[] = [];
   const unmapped = new Set<string>();
   let finished = 0;
 
@@ -135,10 +165,12 @@ export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatche
     const scoreAway = hasScore ? ft.away : 0;
     const date = typeof m.utcDate === "string" ? m.utcDate.slice(0, 10) : "";
 
+    // Tie winner (may be set on penalties even when the full-time score is a draw)
+    let winner: string | null = null;
+    if (m.score?.winner === "HOME_TEAM") winner = teamHome;
+    else if (m.score?.winner === "AWAY_TEAM") winner = teamAway;
+
     if (isFinished) {
-      let winner: string | null = null;
-      if (m.score?.winner === "HOME_TEAM") winner = teamHome;
-      else if (m.score?.winner === "AWAY_TEAM") winner = teamAway;
       matches.push({ date, teamHome, teamAway, scoreHome, scoreAway, stage: m.stage ?? "", winner });
     }
 
@@ -156,15 +188,35 @@ export function parseMatches(payload: any, appTeamNames: string[]): ParsedMatche
         scoreAway: isFinished && hasScore ? ft.away : null
       });
     }
+
+    // Capture every knockout-stage fixture (played or not) for the Knockouts view
+    if (isKnockoutStage(m.stage)) {
+      knockoutFixtures.push({
+        stage: m.stage,
+        date,
+        kickoff: typeof m.utcDate === "string" ? m.utcDate : "",
+        teamHome,
+        teamAway,
+        played: isFinished,
+        scoreHome: isFinished && hasScore ? ft.home : null,
+        scoreAway: isFinished && hasScore ? ft.away : null,
+        winner: isFinished ? winner : null
+      });
+    }
   }
 
   // Stable sort by date so replay order is deterministic
   matches.sort((a, b) => a.date.localeCompare(b.date));
   groupFixtures.sort((a, b) => a.round - b.round || a.date.localeCompare(b.date));
+  knockoutFixtures.sort((a, b) =>
+    (KNOCKOUT_STAGE_ORDER[a.stage] ?? 99) - (KNOCKOUT_STAGE_ORDER[b.stage] ?? 99) ||
+    a.date.localeCompare(b.date)
+  );
 
   return {
     matches,
     groupFixtures,
+    knockoutFixtures,
     finished,
     totalReturned: all.length,
     unmapped: [...unmapped]

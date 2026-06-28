@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SweepstakeState, Participant } from "./types";
+import { SweepstakeState, Participant, GroupFixture, KnockoutFixture } from "./types";
 import DashboardStats from "./components/DashboardStats";
 import MatchesTimeline from "./components/MatchesTimeline";
 import SvgCharts from "./components/SvgCharts";
@@ -66,28 +66,54 @@ export default function App() {
     "Inspecting VR VAR cameras..."
   ];
 
+  // The schedule data (group + knockout fixtures) is shared across competitions
+  // and served separately from the core state — from the API in dev, or the
+  // site-root files on the static deploy. Missing/early files degrade to empty.
+  const fetchSharedFixtures = async (
+    groupUrl: string,
+    knockoutUrl: string
+  ): Promise<{ groupFixtures: GroupFixture[]; knockout: KnockoutFixture[] }> => {
+    const getArray = async (url: string) => {
+      try {
+        const r = await fetch(url, { cache: "no-store" });
+        if (!r.ok) return [];
+        const j = await r.json();
+        return Array.isArray(j) ? j : [];
+      } catch {
+        return [];
+      }
+    };
+    const [groupFixtures, knockout] = await Promise.all([getArray(groupUrl), getArray(knockoutUrl)]);
+    return { groupFixtures, knockout };
+  };
+
   // Fetch current sweepstake state
   const fetchState = async (silently = false) => {
     if (!silently) setIsLoading(true);
     try {
       if (competition) {
         // Local admin mode: talk to the Express API for the chosen competition
-        const res = await fetch(`${apiBase}/state`);
+        const [res, fixtures] = await Promise.all([
+          fetch(`${apiBase}/state`),
+          fetchSharedFixtures("/api/groupFixtures", "/api/knockout")
+        ]);
         if (!res.ok) throw new Error("Failed to contact full-stack server state");
-        setState(await res.json());
+        setState({ ...(await res.json()), ...fixtures });
         setError(null);
         return;
       }
 
       // No competition in the URL: either a static read-only deployment
-      // (sweepstake.json sits next to index.html) or the local picker.
+      // (sweepstake.json sits next to index.html, schedule files one level up at
+      // the site root) or the local picker.
       const staticRes = await fetch("sweepstake.json", { cache: "no-store" });
       const contentType = staticRes.headers.get("content-type") || "";
       if (staticRes.ok && contentType.includes("json")) {
         // Static files skip the server's read-time normalization, so guard
         // against missing fields in older state snapshots
         const data = await staticRes.json();
-        setState({ participants: [], teams: [], currentDayIndex: 0, history: [], groupFixtures: [], ...data });
+        const fixtures = await fetchSharedFixtures("../groupFixtures.json", "../knockout.json");
+        setState({ participants: [], teams: [], currentDayIndex: 0, history: [], groupFixtures: [], knockout: [], ...data, ...fixtures });
         setReadOnly(true);
         setError(null);
         return;
@@ -135,8 +161,10 @@ export default function App() {
         throw new Error(errJson.error || "Server match processing error");
       }
       const updated = await res.json();
-      setState(updated);
-      
+      // A sync can add knockout results, so re-pull the shared schedule files.
+      const fixtures = await fetchSharedFixtures("/api/groupFixtures", "/api/knockout");
+      setState({ ...updated, ...fixtures });
+
       // Auto switch to matches page to see immediate outcomes
       setActiveTab("matches");
     } catch (err: any) {
@@ -163,7 +191,9 @@ export default function App() {
         body: JSON.stringify({ mode: "Real" })
       });
       const data = await res.json();
-      setState(data);
+      // Reset clears the schedule files too — re-pull so state stays consistent.
+      const fixtures = await fetchSharedFixtures("/api/groupFixtures", "/api/knockout");
+      setState({ ...data, ...fixtures });
       setActiveTab("standings");
       setError(null);
     } catch (err) {
@@ -186,7 +216,9 @@ export default function App() {
         body: JSON.stringify({ participants: updatedParticipants })
       });
       const data = await res.json();
-      setState(data);
+      // The update-setup response carries core state only; preserve fixtures.
+      const fixtures = await fetchSharedFixtures("/api/groupFixtures", "/api/knockout");
+      setState({ ...data, ...fixtures });
       setError(null);
     } catch (err) {
       console.error(err);

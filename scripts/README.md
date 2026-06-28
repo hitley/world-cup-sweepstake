@@ -2,8 +2,8 @@
 
 | script | what it does |
 | --- | --- |
-| `sync.ts` | Headless results sync — fetches real WC results and rewrites `config/sweepstake.json` (idempotent). Run via `npm run sync`. |
-| `nightly-sync.sh` | Wraps `npm run sync`, then commits + pushes `config/sweepstake.json` **only if it changed**. Run by the launchd nightly job (below). |
+| `sync.ts` | Headless results sync — fetches real WC results and rewrites the split tournament store (`config/sweepstake.json` + `groupFixtures.json` + `knockout.json`), each file only when it changed (idempotent). Run via `npm run sync`. |
+| `nightly-sync.sh` | Wraps `npm run sync`, then commits + pushes the three `config/*.json` state files **only if any changed**. Run by the launchd nightly job (below). |
 | `build-site.sh` / `compose-site.ts` | Assemble the static per-competition `site/` for the Vercel deploy. Run via `npm run build:site`. |
 | `print-env-vars.ts` | Prints the `PARTICIPANTS_<SLUG>` env vars to set in Vercel. Run via `npm run print-env`. |
 

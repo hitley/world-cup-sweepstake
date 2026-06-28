@@ -8,8 +8,9 @@ import {
   SharedHistoryRecord
 } from "./lib/composeState";
 import { loadParticipants, participantsFile, envVarNameForSlug } from "./lib/loadParticipants";
-import { fetchAllMatches, GroupFixture } from "./lib/footballData";
+import { fetchAllMatches, GroupFixture, KnockoutFixture } from "./lib/footballData";
 import { replayTournament } from "./lib/replayTournament";
+import { tournamentFiles, readJsonFile, writeJsonIfChanged } from "./lib/tournamentFiles";
 
 // Load .env (gitignored) for local secrets like FOOTBALL_DATA_TOKEN. Minimal
 // and dependency-free: KEY=value lines, # comments, optional surrounding quotes.
@@ -37,10 +38,13 @@ const PORT = 3000;
 app.use(express.json());
 
 // Storage: the tournament itself (teams, matchdays, history) is shared by all
-// competitions and lives in config/sweepstake.json. Each competition only owns
-// its participants, in config/competitions/<slug>/participants.json. A
-// competition exists iff its config folder exists.
-const SHARED_STATE_FILE = path.join(process.cwd(), "config", "sweepstake.json");
+// competitions and lives in config/sweepstake.json, with the schedule data split
+// into sibling files (config/groupFixtures.json + config/knockout.json). Each
+// competition only owns its participants, in
+// config/competitions/<slug>/participants.json. A competition exists iff its
+// config folder exists.
+const FILES = tournamentFiles();
+const SHARED_STATE_FILE = FILES.core;
 const COMPETITIONS_DIR = path.join(process.cwd(), "config", "competitions");
 if (!fs.existsSync(COMPETITIONS_DIR)) {
   fs.mkdirSync(COMPETITIONS_DIR, { recursive: true });
@@ -139,21 +143,21 @@ const DEFAULT_PARTICIPANTS = [
 
 
 
-// The shared tournament state (config/sweepstake.json): identical for every
+// The core shared tournament state (config/sweepstake.json): identical for every
 // competition. History records carry a per-team snapshot so each competition's
-// standings can be derived for any day from its own participants.
+// standings can be derived for any day from its own participants. The schedule
+// data (group + knockout fixtures) lives in sibling files; see readGroupFixtures
+// / readKnockout below.
 interface SharedTournamentState {
   teams: typeof INITIAL_TEAMS;
   currentDayIndex: number; // 0 means not started (Eve of World Cup)
   history: SharedHistoryRecord[];
-  groupFixtures: GroupFixture[]; // group-stage fixtures for the Head-to-Head game
 }
 
 const DEFAULT_SHARED_STATE: SharedTournamentState = {
   teams: INITIAL_TEAMS,
   currentDayIndex: 0,
-  history: [],
-  groupFixtures: []
+  history: []
 };
 
 // Legacy/non-qualifying team names → correct 2026 qualified teams
@@ -237,10 +241,20 @@ function readSharedState(): SharedTournamentState {
 
 function writeSharedState(state: SharedTournamentState) {
   try {
-    writeFileEnsuringDir(SHARED_STATE_FILE, JSON.stringify(state, null, 2));
+    writeJsonIfChanged(SHARED_STATE_FILE, state);
   } catch (err) {
     console.error("Failed to save shared state:", err);
   }
+}
+
+// Schedule data lives in its own files, shared across competitions and served to
+// the frontend separately (it carries no participant data).
+function readGroupFixtures(): GroupFixture[] {
+  return readJsonFile<GroupFixture[]>(FILES.groupFixtures, []);
+}
+
+function readKnockout(): KnockoutFixture[] {
+  return readJsonFile<KnockoutFixture[]>(FILES.knockout, []);
 }
 
 // Helper to read a competition's participants (migrating legacy team names).
@@ -300,6 +314,12 @@ app.get("/api/competitions", (req, res) => {
   res.json(listCompetitions());
 });
 
+// Shared schedule data — identical for every competition and carrying no
+// participant data, so it is served from standalone endpoints (mirrored by the
+// static build's site-root groupFixtures.json / knockout.json files).
+app.get("/api/groupFixtures", (req, res) => res.json(readGroupFixtures()));
+app.get("/api/knockout", (req, res) => res.json(readKnockout()));
+
 // Guard all competition-scoped routes against unknown/malformed slugs
 app.use("/api/:comp/worldcup", (req, res, next) => {
   if (!isValidCompetition(req.params.comp)) {
@@ -320,11 +340,12 @@ app.post("/api/:comp/worldcup/reset", (req, res) => {
   const resetState: SharedTournamentState = {
     teams: INITIAL_TEAMS.map(t => ({ ...t, points: 0, goalsFor: 0, goalsAgainst: 0, status: "Active" })),
     currentDayIndex: 0,
-    history: [],
-    groupFixtures: []
+    history: []
   };
 
   writeSharedState(resetState);
+  writeJsonIfChanged(FILES.groupFixtures, []);
+  writeJsonIfChanged(FILES.knockout, []);
   res.json(composeState(resetState, readParticipants(req.params.comp)));
 });
 
@@ -369,21 +390,23 @@ app.post("/api/:comp/worldcup/fetch-results", async (req, res) => {
   }
 
   // Rebuild the entire tournament from scratch (idempotent)
+  const previousDay = readSharedState().currentDayIndex;
   const replay = replayTournament(INITIAL_TEAMS, parsed.matches);
   const newState: SharedTournamentState = {
     teams: replay.teams as typeof INITIAL_TEAMS,
     currentDayIndex: replay.currentDayIndex,
-    history: replay.history,
-    groupFixtures: parsed.groupFixtures
+    history: replay.history
   };
 
-  // Only persist when something actually changed, so re-running produces no
-  // spurious git diff on config/sweepstake.json.
-  const previous = readSharedState();
-  const changed = JSON.stringify(previous) !== JSON.stringify(newState);
-  if (changed) {
-    writeSharedState(newState);
-    console.log(`Synced tournament: ${newState.currentDayIndex} matchday(s) processed (was ${previous.currentDayIndex}).`);
+  // Persist each file only when its content changed, so re-running produces no
+  // spurious git diff (the group fixtures stop changing once groups are done).
+  const changed = [
+    writeJsonIfChanged(SHARED_STATE_FILE, newState) && "sweepstake.json",
+    writeJsonIfChanged(FILES.groupFixtures, parsed.groupFixtures) && "groupFixtures.json",
+    writeJsonIfChanged(FILES.knockout, parsed.knockoutFixtures) && "knockout.json"
+  ].filter(Boolean);
+  if (changed.length) {
+    console.log(`Synced tournament: day ${newState.currentDayIndex} (was ${previousDay}). Updated: ${changed.join(", ")}.`);
   } else {
     console.log("Tournament already up to date — no changes.");
   }
