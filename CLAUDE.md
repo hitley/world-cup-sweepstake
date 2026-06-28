@@ -20,7 +20,13 @@ app pulls real results and ranks them. Runs several **private competitions**
     `groupFixtures` (Head-to-Head) and `knockoutFixtures` (Knockouts view),
     played + scheduled.
   - `replayTournament.ts` — pure, deterministic rebuild of the whole tournament
-    from all finished matches (idempotent). Computes XP + breakdown.
+    from all finished matches + the knockout bracket (idempotent). Computes XP +
+    breakdown, eliminations, and live win probabilities (see Data model). Takes
+    `knockoutFixtures` so it can eliminate group-stage non-qualifiers.
+  - `baseTeams.ts` — the canonical 48-team seed (`INITIAL_TEAMS`): identities +
+    each team's pre-tournament win `prob` (doubles as the immutable "strength"
+    probabilities are renormalized from). Single source of truth shared by the
+    server, the headless sync and scripts, so replay strengths never drift.
   - `headToHead.ts` — group-stage mini-game: maps each real group fixture onto
     the two contenders who drafted those teams (football points + goals).
   - `tournamentFiles.ts` — node-only helpers for the split config store (file
@@ -50,6 +56,17 @@ app pulls real results and ranks them. Runs several **private competitions**
 - **XP**: `points = 3*wins + 1*draws + 2*cleanSheets + goalPoints + bonusPoints`
   (goal XP capped at 3/match; round bonuses R32+5…SF+20, champion +50). The
   breakdown is stored per team so the file is self-explanatory.
+- **Eliminations** (per team `status`): a team is `Eliminated` when it loses a
+  knockout tie, **or** — once the Round of 32 is fully drawn (all 16 ties, 32
+  teams) — when it didn't make the R32 (group-stage exit). The latter is gated
+  on a complete bracket so a partially-populated API feed never eliminates a
+  qualifier early. Until the feed fills the R32 in, the bracket can be hand-set
+  in `config/knockout.json` as a stopgap; the next sync recomputes from the API.
+- **Win probabilities** (per team `prob`): recomputed every matchday by
+  renormalizing each surviving team's seed strength (`baseTeams` `prob`) over the
+  sum of surviving strengths, so the field always totals ~100% and the odds
+  re-spread automatically at every knockout round (eliminated → 0; the last team
+  standing → ~100%). Strengths come from the constant seed, keeping it idempotent.
 
 ## Results sync ("Sync Latest Results")
 

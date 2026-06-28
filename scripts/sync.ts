@@ -8,6 +8,7 @@ import fs from "fs";
 import path from "path";
 import { fetchAllMatches } from "../lib/footballData";
 import { replayTournament, ReplayTeam } from "../lib/replayTournament";
+import { INITIAL_TEAMS } from "../lib/baseTeams";
 import { tournamentFiles, writeJsonIfChanged } from "../lib/tournamentFiles";
 
 const FILES = tournamentFiles();
@@ -41,8 +42,9 @@ async function main() {
     process.exit(1);
   }
 
-  const prev = JSON.parse(fs.readFileSync(STATE_FILE, "utf-8"));
-  const seedTeams: ReplayTeam[] = prev.teams; // 48 team identities; replay zeroes them
+  // Reseed from the canonical constant (not the mutated config) so the replay's
+  // immutable strengths never drift and the recompute stays idempotent.
+  const seedTeams: ReplayTeam[] = INITIAL_TEAMS;
 
   let parsed;
   try {
@@ -56,7 +58,7 @@ async function main() {
     console.warn("Unmapped team names from football-data.org:", parsed.unmapped.join(", "));
   }
 
-  const replay = replayTournament(seedTeams, parsed.matches);
+  const replay = replayTournament(seedTeams, parsed.matches, parsed.knockoutFixtures);
   const core = {
     teams: replay.teams,
     currentDayIndex: replay.currentDayIndex,
