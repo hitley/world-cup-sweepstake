@@ -8,7 +8,15 @@ app pulls real results and ranks them. Runs several **private competitions**
 
 - **Frontend**: React 19 + Vite + Tailwind 4 (`src/`). Dark theme, Bungee +
   Outfit fonts, yellow/rose/slate palette. Tabs: Standings, XP Ladder,
-  Head-to-Head, Matches, Trends.
+  Road to Final, Head-to-Head, Matches, Trends. The **Road to Final**
+  (`src/components/RoadToFinal.tsx`) renders the knockout bracket from
+  `state.knockout`, each tie tagged with the contender who drafted each team.
+  It hardcodes the fixed FIFA 2026 bracket topology (match numbers M73–M104 +
+  feed graph): Round-of-32 slots bind to fixtures by official kickoff time, and
+  every later slot resolves to the winners of its two feeders (then binds to the
+  API fixture whose teams match), so the tree fills in as the sync captures each
+  round. On `xl`+ it shows the full mirrored bracket (full-bleed, final centred);
+  below that, a 2-column current-round → next-round view.
 - **Backend**: Express (`server.ts`), run with `tsx` in dev. Serves the API and
   Vite middleware. Only used **locally** (admin) — the deploy is static.
 - **Shared logic** (`lib/`, dependency-light, used by server + build + scripts):
