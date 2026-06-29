@@ -12,9 +12,11 @@ app pulls real results and ranks them. Runs several **private competitions**
   (`src/components/RoadToFinal.tsx`) renders the knockout bracket from
   `state.knockout`, each tie tagged with the contender who drafted each team.
   It hardcodes the fixed FIFA 2026 bracket topology (match numbers M73–M104 +
-  feed graph): Round-of-32 slots bind to fixtures by official kickoff time, and
-  every later slot resolves to the winners of its two feeders (then binds to the
-  API fixture whose teams match), so the tree fills in as the sync captures each
+  feed graph): Round-of-32 slots bind to fixtures by chronological order (FIFA
+  numbers matches in kickoff order, so the i-th `LAST_32` fixture sorted by
+  kickoff is M73+i — robust to schedule changes, no hardcoded times), and every
+  later slot resolves to the winners of its two feeders (then binds to the API
+  fixture whose teams match), so the tree fills in as the sync captures each
   round. On `xl`+ it shows the full mirrored bracket (full-bleed, final centred);
   below that, a 2-column current-round → next-round view.
 - **Backend**: Express (`server.ts`), run with `tsx` in dev. Serves the API and

@@ -10,17 +10,15 @@ interface RoadToFinalProps {
 // ── Fixed FIFA 2026 knockout bracket topology ──────────────────────────────
 // The bracket shape is invariant (independent of who qualifies): match numbers
 // M73–M104 with a fixed feed graph. We bind live results onto these slots:
-//   • Round of 32 slots are bound by their official kickoff time (the one
-//     invariant that ties a match number to a fixture regardless of teams).
+//   • Round of 32 slots are bound by chronological order: FIFA numbers matches
+//     in kickoff order, so the i-th LAST_32 fixture (sorted by kickoff) is M73+i.
+//     This is self-correcting on every sync and needs no hardcoded schedule.
 //   • Every later slot resolves to the winners of the two matches feeding it,
 //     then binds to the API fixture whose two teams match — so the tree fills
 //     in automatically as the sync captures each round.
-const KICKOFFS: Record<string, string> = {
-  M73: "2026-06-29T03:00:00Z", M74: "2026-06-30T04:30:00Z", M75: "2026-06-30T09:00:00Z", M76: "2026-06-30T01:00:00Z",
-  M77: "2026-07-01T05:00:00Z", M78: "2026-07-01T01:00:00Z", M79: "2026-07-01T09:00:00Z", M80: "2026-07-02T00:00:00Z",
-  M81: "2026-07-02T08:00:00Z", M82: "2026-07-02T04:00:00Z", M83: "2026-07-03T07:00:00Z", M84: "2026-07-03T03:00:00Z",
-  M85: "2026-07-03T11:00:00Z", M86: "2026-07-04T06:00:00Z", M87: "2026-07-04T09:30:00Z", M88: "2026-07-04T02:00:00Z"
-};
+// R32 bracket slots in official (chronological) match-number order.
+const R32_SLOTS: string[] = Array.from({ length: 16 }, (_, i) => `M${73 + i}`);
+const isR32Slot = (id: string) => R32_SLOTS.includes(id);
 const FEEDS: Record<string, [string, string]> = {
   M89: ["M74", "M77"], M90: ["M73", "M75"], M91: ["M76", "M78"], M92: ["M79", "M80"],
   M93: ["M83", "M84"], M94: ["M81", "M82"], M95: ["M86", "M88"], M96: ["M85", "M87"],
@@ -58,9 +56,13 @@ export default function RoadToFinal({ participants, teams, knockout }: RoadToFin
   participants.forEach(p => p.teams.forEach(t => ownerOf.set(t, { name: p.name, color: p.color })));
   const emojiOf = new Map(teams.map(t => [t.name, t.emoji]));
 
-  // Bind API fixtures: R32 by kickoff, later rounds matched on their team pair.
-  const r32ByTime = new Map<number, KnockoutFixture>();
-  knockout.filter(f => f.stage === "LAST_32").forEach(f => r32ByTime.set(new Date(f.kickoff).getTime(), f));
+  // Bind API fixtures: R32 by chronological order (FIFA numbers matches in
+  // kickoff order), later rounds matched on their team pair.
+  const r32BySlot = new Map<string, KnockoutFixture>();
+  knockout
+    .filter(f => f.stage === "LAST_32")
+    .sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime() || a.teamHome.localeCompare(b.teamHome))
+    .forEach((f, i) => { if (i < R32_SLOTS.length) r32BySlot.set(R32_SLOTS[i], f); });
   const laterFixtures = knockout.filter(f => f.stage !== "LAST_32");
   const findByTeams = (a?: string, b?: string) =>
     a && b ? laterFixtures.find(f => (f.teamHome === a && f.teamAway === b) || (f.teamHome === b && f.teamAway === a)) : undefined;
@@ -82,8 +84,8 @@ export default function RoadToFinal({ participants, teams, knockout }: RoadToFin
     const cached = memo.get(id);
     if (cached) return cached;
     let r: Resolved = {};
-    if (id in KICKOFFS) {
-      const fx = r32ByTime.get(new Date(KICKOFFS[id]).getTime());
+    if (isR32Slot(id)) {
+      const fx = r32BySlot.get(id);
       if (fx) r = { teamA: fx.teamHome, teamB: fx.teamAway, fx };
     } else if (id === "M103") {
       const a = resolve(THIRD_FEEDS[0]);
@@ -322,13 +324,13 @@ export default function RoadToFinal({ participants, teams, knockout }: RoadToFin
   // Placeholder for an undecided side: "W74" (winner of M74) or, for the
   // third-place tie, "RU101" (runner-up of the semi-final).
   function placeholder(id: string, i: 0 | 1): string {
-    if (id in KICKOFFS) return "TBD";
+    if (isR32Slot(id)) return "TBD";
     if (id === "M103") return "RU" + THIRD_FEEDS[i].slice(1);
     return "W" + FEEDS[id][i].slice(1);
   }
 
-  function kickoffLabel(id: string, fx?: KnockoutFixture): string {
-    const iso = fx?.kickoff ?? KICKOFFS[id];
+  function kickoffLabel(_id: string, fx?: KnockoutFixture): string {
+    const iso = fx?.kickoff;
     if (!iso) return "";
     const d = new Date(iso);
     if (isNaN(d.getTime())) return "";
