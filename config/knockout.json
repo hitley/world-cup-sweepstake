@@ -5,10 +5,10 @@
     "kickoff": "2026-06-28T19:00:00Z",
     "teamHome": "South Africa",
     "teamAway": "Canada",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 0,
+    "scoreAway": 1,
+    "winner": "Canada"
   },
   {
     "stage": "LAST_32",
