@@ -49,10 +49,10 @@
     "kickoff": "2026-06-30T17:00:00Z",
     "teamHome": "Côte d'Ivoire",
     "teamAway": "Norway",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 2,
+    "winner": "Norway"
   },
   {
     "stage": "LAST_32",
@@ -60,21 +60,21 @@
     "kickoff": "2026-06-30T21:00:00Z",
     "teamHome": "France",
     "teamAway": "Sweden",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 0,
+    "winner": "France"
   },
   {
     "stage": "LAST_32",
     "date": "2026-07-01",
-    "kickoff": "2026-07-01T01:00:00Z",
+    "kickoff": "2026-07-01T02:00:00Z",
     "teamHome": "Mexico",
     "teamAway": "Ecuador",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "winner": "Mexico"
   },
   {
     "stage": "LAST_32",
@@ -82,10 +82,10 @@
     "kickoff": "2026-07-01T16:00:00Z",
     "teamHome": "England",
     "teamAway": "Congo DR",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "winner": "England"
   },
   {
     "stage": "LAST_32",
@@ -93,10 +93,10 @@
     "kickoff": "2026-07-01T20:00:00Z",
     "teamHome": "Belgium",
     "teamAway": "Senegal",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 2,
+    "winner": "Belgium"
   },
   {
     "stage": "LAST_32",
@@ -104,10 +104,10 @@
     "kickoff": "2026-07-02T00:00:00Z",
     "teamHome": "USA",
     "teamAway": "Bosnia and Herzegovina",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "winner": "USA"
   },
   {
     "stage": "LAST_32",
@@ -181,6 +181,28 @@
     "kickoff": "2026-07-04T17:00:00Z",
     "teamHome": "Canada",
     "teamAway": "Morocco",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-04",
+    "kickoff": "2026-07-04T21:00:00Z",
+    "teamHome": "Paraguay",
+    "teamAway": "France",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-05",
+    "kickoff": "2026-07-05T20:00:00Z",
+    "teamHome": "Brazil",
+    "teamAway": "Norway",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
