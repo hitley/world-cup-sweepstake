@@ -115,10 +115,10 @@
     "kickoff": "2026-07-02T19:00:00Z",
     "teamHome": "Spain",
     "teamAway": "Austria",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 0,
+    "winner": "Spain"
   },
   {
     "stage": "LAST_32",
@@ -126,10 +126,10 @@
     "kickoff": "2026-07-02T23:00:00Z",
     "teamHome": "Portugal",
     "teamAway": "Croatia",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "winner": "Portugal"
   },
   {
     "stage": "LAST_32",
@@ -137,10 +137,10 @@
     "kickoff": "2026-07-03T03:00:00Z",
     "teamHome": "Switzerland",
     "teamAway": "Algeria",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "winner": "Switzerland"
   },
   {
     "stage": "LAST_32",
@@ -203,6 +203,28 @@
     "kickoff": "2026-07-05T20:00:00Z",
     "teamHome": "Brazil",
     "teamAway": "Norway",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-06",
+    "kickoff": "2026-07-06T00:00:00Z",
+    "teamHome": "Mexico",
+    "teamAway": "England",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-07",
+    "kickoff": "2026-07-07T00:00:00Z",
+    "teamHome": "USA",
+    "teamAway": "Belgium",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
