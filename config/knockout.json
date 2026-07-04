@@ -148,10 +148,10 @@
     "kickoff": "2026-07-03T18:00:00Z",
     "teamHome": "Australia",
     "teamAway": "Egypt",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 5,
+    "winner": "Egypt"
   },
   {
     "stage": "LAST_32",
@@ -159,10 +159,10 @@
     "kickoff": "2026-07-03T22:00:00Z",
     "teamHome": "Argentina",
     "teamAway": "Cabo Verde",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 2,
+    "winner": "Argentina"
   },
   {
     "stage": "LAST_32",
@@ -170,10 +170,10 @@
     "kickoff": "2026-07-04T01:30:00Z",
     "teamHome": "Colombia",
     "teamAway": "Ghana",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 0,
+    "winner": "Colombia"
   },
   {
     "stage": "LAST_16",
@@ -221,10 +221,43 @@
   },
   {
     "stage": "LAST_16",
+    "date": "2026-07-06",
+    "kickoff": "2026-07-06T19:00:00Z",
+    "teamHome": "Portugal",
+    "teamAway": "Spain",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
     "date": "2026-07-07",
     "kickoff": "2026-07-07T00:00:00Z",
     "teamHome": "USA",
     "teamAway": "Belgium",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-07",
+    "kickoff": "2026-07-07T16:00:00Z",
+    "teamHome": "Argentina",
+    "teamAway": "Egypt",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "LAST_16",
+    "date": "2026-07-07",
+    "kickoff": "2026-07-07T20:00:00Z",
+    "teamHome": "Switzerland",
+    "teamAway": "Colombia",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
