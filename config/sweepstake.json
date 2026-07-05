@@ -4,7 +4,7 @@
       "name": "Brazil",
       "emoji": "🇧🇷",
       "confed": "CONMEBOL",
-      "prob": 15.2,
+      "prob": 15.5,
       "status": "Active",
       "points": 28,
       "goalsFor": 9,
@@ -19,22 +19,22 @@
       "name": "France",
       "emoji": "🇫🇷",
       "confed": "UEFA",
-      "prob": 13.6,
+      "prob": 13.9,
       "status": "Active",
-      "points": 33,
-      "goalsFor": 13,
+      "points": 49,
+      "goalsFor": 14,
       "goalsAgainst": 2,
-      "wins": 4,
+      "wins": 5,
       "draws": 0,
-      "cleanSheets": 2,
-      "goalPoints": 12,
-      "bonusPoints": 5
+      "cleanSheets": 3,
+      "goalPoints": 13,
+      "bonusPoints": 15
     },
     {
       "name": "Argentina",
       "emoji": "🇦🇷",
       "confed": "CONMEBOL",
-      "prob": 12.9,
+      "prob": 13.1,
       "status": "Active",
       "points": 32,
       "goalsFor": 11,
@@ -49,7 +49,7 @@
       "name": "England",
       "emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
       "confed": "UEFA",
-      "prob": 11.5,
+      "prob": 11.7,
       "status": "Active",
       "points": 26,
       "goalsFor": 8,
@@ -64,7 +64,7 @@
       "name": "Spain",
       "emoji": "🇪🇸",
       "confed": "UEFA",
-      "prob": 10.6,
+      "prob": 10.8,
       "status": "Active",
       "points": 30,
       "goalsFor": 8,
@@ -94,7 +94,7 @@
       "name": "Portugal",
       "emoji": "🇵🇹",
       "confed": "UEFA",
-      "prob": 8.3,
+      "prob": 8.5,
       "status": "Active",
       "points": 23,
       "goalsFor": 8,
@@ -124,7 +124,7 @@
       "name": "Norway",
       "emoji": "🇳🇴",
       "confed": "UEFA",
-      "prob": 6.1,
+      "prob": 6.2,
       "status": "Active",
       "points": 23,
       "goalsFor": 10,
@@ -139,7 +139,7 @@
       "name": "Belgium",
       "emoji": "🇧🇪",
       "confed": "UEFA",
-      "prob": 5.3,
+      "prob": 5.4,
       "status": "Active",
       "points": 22,
       "goalsFor": 9,
@@ -184,7 +184,7 @@
       "name": "Colombia",
       "emoji": "🇨🇴",
       "confed": "CONMEBOL",
-      "prob": 3.8,
+      "prob": 3.9,
       "status": "Active",
       "points": 26,
       "goalsFor": 5,
@@ -199,22 +199,22 @@
       "name": "Morocco",
       "emoji": "🇲🇦",
       "confed": "CAF",
-      "prob": 3.8,
+      "prob": 3.9,
       "status": "Active",
-      "points": 25,
-      "goalsFor": 10,
+      "points": 43,
+      "goalsFor": 13,
       "goalsAgainst": 6,
-      "wins": 3,
+      "wins": 4,
       "draws": 1,
-      "cleanSheets": 1,
-      "goalPoints": 8,
-      "bonusPoints": 5
+      "cleanSheets": 2,
+      "goalPoints": 11,
+      "bonusPoints": 15
     },
     {
       "name": "USA",
       "emoji": "🇺🇸",
       "confed": "CONCACAF",
-      "prob": 2.7,
+      "prob": 2.8,
       "status": "Active",
       "points": 27,
       "goalsFor": 10,
@@ -274,7 +274,7 @@
       "name": "Mexico",
       "emoji": "🇲🇽",
       "confed": "CONCACAF",
-      "prob": 1.8,
+      "prob": 1.9,
       "status": "Active",
       "points": 33,
       "goalsFor": 8,
@@ -334,16 +334,16 @@
       "name": "Canada",
       "emoji": "🇨🇦",
       "confed": "CONCACAF",
-      "prob": 1.2,
-      "status": "Active",
-      "points": 22,
+      "prob": 0,
+      "status": "Eliminated",
+      "points": 32,
       "goalsFor": 9,
-      "goalsAgainst": 3,
+      "goalsAgainst": 6,
       "wins": 2,
       "draws": 1,
       "cleanSheets": 2,
       "goalPoints": 6,
-      "bonusPoints": 5
+      "bonusPoints": 15
     },
     {
       "name": "IR Iran",
@@ -409,16 +409,16 @@
       "name": "Paraguay",
       "emoji": "🇵🇾",
       "confed": "CONMEBOL",
-      "prob": 0.8,
-      "status": "Active",
-      "points": 21,
+      "prob": 0,
+      "status": "Eliminated",
+      "points": 31,
       "goalsFor": 7,
-      "goalsAgainst": 8,
+      "goalsAgainst": 9,
       "wins": 2,
       "draws": 1,
       "cleanSheets": 2,
       "goalPoints": 5,
-      "bonusPoints": 5
+      "bonusPoints": 15
     },
     {
       "name": "Algeria",
@@ -7129,37 +7129,53 @@
           "scoreHome": 1,
           "scoreAway": 0,
           "highlights": "Colombia 1-0 Ghana — Colombia won 1-0."
+        },
+        {
+          "teamHome": "Canada",
+          "teamAway": "Morocco",
+          "scoreHome": 0,
+          "scoreAway": 3,
+          "highlights": "Canada 0-3 Morocco — Morocco won 3-0."
+        },
+        {
+          "teamHome": "Paraguay",
+          "teamAway": "France",
+          "scoreHome": 0,
+          "scoreAway": 1,
+          "highlights": "Paraguay 0-1 France — France won 1-0."
         }
       ],
       "eliminatedTeams": [
-        "Ghana"
+        "Ghana",
+        "Canada",
+        "Paraguay"
       ],
-      "wittyNarrative": "Matchday 24 (July 4, 2026): 1 match settled, 1 goal scored, 1 knocked out.",
+      "wittyNarrative": "Matchday 24 (July 4, 2026): 3 matches settled, 5 goals scored, 3 knocked out.",
       "teamSnapshot": {
         "Brazil": {
           "points": 28,
           "status": "Active",
-          "prob": 15.2
+          "prob": 15.5
         },
         "France": {
-          "points": 33,
+          "points": 49,
           "status": "Active",
-          "prob": 13.6
+          "prob": 13.9
         },
         "Argentina": {
           "points": 32,
           "status": "Active",
-          "prob": 12.9
+          "prob": 13.1
         },
         "England": {
           "points": 26,
           "status": "Active",
-          "prob": 11.5
+          "prob": 11.7
         },
         "Spain": {
           "points": 30,
           "status": "Active",
-          "prob": 10.6
+          "prob": 10.8
         },
         "Germany": {
           "points": 20,
@@ -7169,7 +7185,7 @@
         "Portugal": {
           "points": 23,
           "status": "Active",
-          "prob": 8.3
+          "prob": 8.5
         },
         "Netherlands": {
           "points": 23,
@@ -7179,12 +7195,12 @@
         "Norway": {
           "points": 23,
           "status": "Active",
-          "prob": 6.1
+          "prob": 6.2
         },
         "Belgium": {
           "points": 22,
           "status": "Active",
-          "prob": 5.3
+          "prob": 5.4
         },
         "Croatia": {
           "points": 19,
@@ -7199,17 +7215,17 @@
         "Colombia": {
           "points": 26,
           "status": "Active",
-          "prob": 3.8
+          "prob": 3.9
         },
         "Morocco": {
-          "points": 25,
+          "points": 43,
           "status": "Active",
-          "prob": 3.8
+          "prob": 3.9
         },
         "USA": {
           "points": 27,
           "status": "Active",
-          "prob": 2.7
+          "prob": 2.8
         },
         "Senegal": {
           "points": 18,
@@ -7229,7 +7245,7 @@
         "Mexico": {
           "points": 33,
           "status": "Active",
-          "prob": 1.8
+          "prob": 1.9
         },
         "Sweden": {
           "points": 14,
@@ -7247,9 +7263,9 @@
           "prob": 0
         },
         "Canada": {
-          "points": 22,
-          "status": "Active",
-          "prob": 1.2
+          "points": 32,
+          "status": "Eliminated",
+          "prob": 0
         },
         "IR Iran": {
           "points": 8,
@@ -7272,9 +7288,9 @@
           "prob": 0
         },
         "Paraguay": {
-          "points": 21,
-          "status": "Active",
-          "prob": 0.8
+          "points": 31,
+          "status": "Eliminated",
+          "prob": 0
         },
         "Algeria": {
           "points": 14,

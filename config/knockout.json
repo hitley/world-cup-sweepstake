@@ -181,10 +181,10 @@
     "kickoff": "2026-07-04T17:00:00Z",
     "teamHome": "Canada",
     "teamAway": "Morocco",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 0,
+    "scoreAway": 3,
+    "winner": "Morocco"
   },
   {
     "stage": "LAST_16",
@@ -192,10 +192,10 @@
     "kickoff": "2026-07-04T21:00:00Z",
     "teamHome": "Paraguay",
     "teamAway": "France",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 0,
+    "scoreAway": 1,
+    "winner": "France"
   },
   {
     "stage": "LAST_16",
@@ -258,6 +258,17 @@
     "kickoff": "2026-07-07T20:00:00Z",
     "teamHome": "Switzerland",
     "teamAway": "Colombia",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "QUARTER_FINALS",
+    "date": "2026-07-09",
+    "kickoff": "2026-07-09T20:00:00Z",
+    "teamHome": "France",
+    "teamAway": "Morocco",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
