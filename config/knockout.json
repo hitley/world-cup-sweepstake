@@ -203,21 +203,21 @@
     "kickoff": "2026-07-05T20:00:00Z",
     "teamHome": "Brazil",
     "teamAway": "Norway",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 2,
+    "winner": "Norway"
   },
   {
     "stage": "LAST_16",
     "date": "2026-07-06",
-    "kickoff": "2026-07-06T00:00:00Z",
+    "kickoff": "2026-07-06T01:00:00Z",
     "teamHome": "Mexico",
     "teamAway": "England",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 3,
+    "winner": "England"
   },
   {
     "stage": "LAST_16",
@@ -225,10 +225,10 @@
     "kickoff": "2026-07-06T19:00:00Z",
     "teamHome": "Portugal",
     "teamAway": "Spain",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 0,
+    "scoreAway": 1,
+    "winner": "Spain"
   },
   {
     "stage": "LAST_16",
@@ -236,10 +236,10 @@
     "kickoff": "2026-07-07T00:00:00Z",
     "teamHome": "USA",
     "teamAway": "Belgium",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 4,
+    "winner": "Belgium"
   },
   {
     "stage": "LAST_16",
@@ -269,6 +269,17 @@
     "kickoff": "2026-07-09T20:00:00Z",
     "teamHome": "France",
     "teamAway": "Morocco",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "QUARTER_FINALS",
+    "date": "2026-07-11",
+    "kickoff": "2026-07-11T21:00:00Z",
+    "teamHome": "Norway",
+    "teamAway": "England",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
