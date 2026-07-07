@@ -93,8 +93,9 @@ app pulls real results and ranks them. Runs several **private competitions**
 - **Nightly automation**: `scripts/nightly-sync.sh` runs the sync then commits +
   pushes the 3 state files (only if any changed). Scheduled via **launchd** (not
   cron) so a run missed while the Mac is asleep fires on wake. LaunchAgent:
-  `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist` (daily 16:00,
-  logs to `sync.log`). See `scripts/README.md` for managing it.
+  `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist` (5x/day at
+  06:00/08:00/10:00/12:00/14:00, logs to `sync.log`). See `scripts/README.md` for
+  managing it.
 
 ## Deploy
 
