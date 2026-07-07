@@ -19,7 +19,7 @@
       "name": "France",
       "emoji": "🇫🇷",
       "confed": "UEFA",
-      "prob": 19.5,
+      "prob": 19.7,
       "status": "Active",
       "points": 49,
       "goalsFor": 14,
@@ -34,22 +34,22 @@
       "name": "Argentina",
       "emoji": "🇦🇷",
       "confed": "CONMEBOL",
-      "prob": 18.4,
+      "prob": 18.6,
       "status": "Active",
-      "points": 32,
-      "goalsFor": 11,
-      "goalsAgainst": 3,
-      "wins": 4,
+      "points": 48,
+      "goalsFor": 14,
+      "goalsAgainst": 5,
+      "wins": 5,
       "draws": 0,
       "cleanSheets": 2,
-      "goalPoints": 11,
-      "bonusPoints": 5
+      "goalPoints": 14,
+      "bonusPoints": 15
     },
     {
       "name": "England",
       "emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
       "confed": "UEFA",
-      "prob": 16.5,
+      "prob": 16.6,
       "status": "Active",
       "points": 42,
       "goalsFor": 11,
@@ -64,7 +64,7 @@
       "name": "Spain",
       "emoji": "🇪🇸",
       "confed": "UEFA",
-      "prob": 15.2,
+      "prob": 15.3,
       "status": "Active",
       "points": 46,
       "goalsFor": 9,
@@ -124,7 +124,7 @@
       "name": "Norway",
       "emoji": "🇳🇴",
       "confed": "UEFA",
-      "prob": 8.7,
+      "prob": 8.8,
       "status": "Active",
       "points": 38,
       "goalsFor": 12,
@@ -139,7 +139,7 @@
       "name": "Belgium",
       "emoji": "🇧🇪",
       "confed": "UEFA",
-      "prob": 7.6,
+      "prob": 7.7,
       "status": "Active",
       "points": 38,
       "goalsFor": 13,
@@ -184,7 +184,7 @@
       "name": "Colombia",
       "emoji": "🇨🇴",
       "confed": "CONMEBOL",
-      "prob": 5.4,
+      "prob": 5.5,
       "status": "Active",
       "points": 26,
       "goalsFor": 5,
@@ -199,7 +199,7 @@
       "name": "Morocco",
       "emoji": "🇲🇦",
       "confed": "CAF",
-      "prob": 5.4,
+      "prob": 5.5,
       "status": "Active",
       "points": 43,
       "goalsFor": 13,
@@ -439,16 +439,16 @@
       "name": "Egypt",
       "emoji": "🇪🇬",
       "confed": "CAF",
-      "prob": 1.1,
-      "status": "Active",
-      "points": 21,
-      "goalsFor": 10,
-      "goalsAgainst": 6,
+      "prob": 0,
+      "status": "Eliminated",
+      "points": 33,
+      "goalsFor": 12,
+      "goalsAgainst": 9,
       "wins": 2,
       "draws": 2,
       "cleanSheets": 0,
-      "goalPoints": 8,
-      "bonusPoints": 5
+      "goalPoints": 10,
+      "bonusPoints": 15
     },
     {
       "name": "Côte d'Ivoire",
@@ -7930,12 +7930,20 @@
           "scoreHome": 1,
           "scoreAway": 4,
           "highlights": "USA 1-4 Belgium — Belgium won 4-1."
+        },
+        {
+          "teamHome": "Argentina",
+          "teamAway": "Egypt",
+          "scoreHome": 3,
+          "scoreAway": 2,
+          "highlights": "Argentina 3-2 Egypt — Argentina won 3-2."
         }
       ],
       "eliminatedTeams": [
-        "USA"
+        "USA",
+        "Egypt"
       ],
-      "wittyNarrative": "Matchday 27 (July 7, 2026): 1 match settled, 5 goals scored, 1 knocked out.",
+      "wittyNarrative": "Matchday 27 (July 7, 2026): 2 matches settled, 10 goals scored, 2 knocked out.",
       "teamSnapshot": {
         "Brazil": {
           "points": 39,
@@ -7945,22 +7953,22 @@
         "France": {
           "points": 49,
           "status": "Active",
-          "prob": 19.5
+          "prob": 19.7
         },
         "Argentina": {
-          "points": 32,
+          "points": 48,
           "status": "Active",
-          "prob": 18.4
+          "prob": 18.6
         },
         "England": {
           "points": 42,
           "status": "Active",
-          "prob": 16.5
+          "prob": 16.6
         },
         "Spain": {
           "points": 46,
           "status": "Active",
-          "prob": 15.2
+          "prob": 15.3
         },
         "Germany": {
           "points": 20,
@@ -7980,12 +7988,12 @@
         "Norway": {
           "points": 38,
           "status": "Active",
-          "prob": 8.7
+          "prob": 8.8
         },
         "Belgium": {
           "points": 38,
           "status": "Active",
-          "prob": 7.6
+          "prob": 7.7
         },
         "Croatia": {
           "points": 19,
@@ -8000,12 +8008,12 @@
         "Colombia": {
           "points": 26,
           "status": "Active",
-          "prob": 5.4
+          "prob": 5.5
         },
         "Morocco": {
           "points": 43,
           "status": "Active",
-          "prob": 5.4
+          "prob": 5.5
         },
         "USA": {
           "points": 38,
@@ -8083,9 +8091,9 @@
           "prob": 0
         },
         "Egypt": {
-          "points": 21,
-          "status": "Active",
-          "prob": 1.1
+          "points": 33,
+          "status": "Eliminated",
+          "prob": 0
         },
         "Côte d'Ivoire": {
           "points": 20,

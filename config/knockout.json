@@ -247,10 +247,10 @@
     "kickoff": "2026-07-07T16:00:00Z",
     "teamHome": "Argentina",
     "teamAway": "Egypt",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 2,
+    "winner": "Argentina"
   },
   {
     "stage": "LAST_16",
@@ -269,6 +269,17 @@
     "kickoff": "2026-07-09T20:00:00Z",
     "teamHome": "France",
     "teamAway": "Morocco",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "QUARTER_FINALS",
+    "date": "2026-07-10",
+    "kickoff": "2026-07-10T19:00:00Z",
+    "teamHome": "Spain",
+    "teamAway": "Belgium",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
