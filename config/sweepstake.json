@@ -186,14 +186,14 @@
       "confed": "CONMEBOL",
       "prob": 5.5,
       "status": "Active",
-      "points": 26,
-      "goalsFor": 5,
-      "goalsAgainst": 1,
+      "points": 39,
+      "goalsFor": 8,
+      "goalsAgainst": 5,
       "wins": 3,
       "draws": 1,
       "cleanSheets": 3,
-      "goalPoints": 5,
-      "bonusPoints": 5
+      "goalPoints": 8,
+      "bonusPoints": 15
     },
     {
       "name": "Morocco",
@@ -306,14 +306,14 @@
       "confed": "UEFA",
       "prob": 2.4,
       "status": "Active",
-      "points": 25,
-      "goalsFor": 9,
-      "goalsAgainst": 3,
-      "wins": 3,
+      "points": 41,
+      "goalsFor": 13,
+      "goalsAgainst": 6,
+      "wins": 4,
       "draws": 1,
       "cleanSheets": 1,
-      "goalPoints": 8,
-      "bonusPoints": 5
+      "goalPoints": 11,
+      "bonusPoints": 15
     },
     {
       "name": "Ecuador",
@@ -7937,13 +7937,20 @@
           "scoreHome": 3,
           "scoreAway": 2,
           "highlights": "Argentina 3-2 Egypt — Argentina won 3-2."
+        },
+        {
+          "teamHome": "Switzerland",
+          "teamAway": "Colombia",
+          "scoreHome": 4,
+          "scoreAway": 3,
+          "highlights": "Switzerland 4-3 Colombia — Switzerland and Colombia drew 4-3."
         }
       ],
       "eliminatedTeams": [
         "USA",
         "Egypt"
       ],
-      "wittyNarrative": "Matchday 27 (July 7, 2026): 2 matches settled, 10 goals scored, 2 knocked out.",
+      "wittyNarrative": "Matchday 27 (July 7, 2026): 3 matches settled, 17 goals scored, 2 knocked out.",
       "teamSnapshot": {
         "Brazil": {
           "points": 39,
@@ -8006,7 +8013,7 @@
           "prob": 0
         },
         "Colombia": {
-          "points": 26,
+          "points": 39,
           "status": "Active",
           "prob": 5.5
         },
@@ -8046,7 +8053,7 @@
           "prob": 0
         },
         "Switzerland": {
-          "points": 25,
+          "points": 41,
           "status": "Active",
           "prob": 2.4
         },

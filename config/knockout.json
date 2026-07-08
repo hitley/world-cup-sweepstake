@@ -258,9 +258,9 @@
     "kickoff": "2026-07-07T20:00:00Z",
     "teamHome": "Switzerland",
     "teamAway": "Colombia",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
+    "played": true,
+    "scoreHome": 4,
+    "scoreAway": 3,
     "winner": null
   },
   {
