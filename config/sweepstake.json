@@ -19,7 +19,7 @@
       "name": "France",
       "emoji": "🇫🇷",
       "confed": "UEFA",
-      "prob": 19.7,
+      "prob": 20.8,
       "status": "Active",
       "points": 49,
       "goalsFor": 14,
@@ -34,7 +34,7 @@
       "name": "Argentina",
       "emoji": "🇦🇷",
       "confed": "CONMEBOL",
-      "prob": 18.6,
+      "prob": 19.7,
       "status": "Active",
       "points": 48,
       "goalsFor": 14,
@@ -49,7 +49,7 @@
       "name": "England",
       "emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
       "confed": "UEFA",
-      "prob": 16.6,
+      "prob": 17.6,
       "status": "Active",
       "points": 42,
       "goalsFor": 11,
@@ -64,7 +64,7 @@
       "name": "Spain",
       "emoji": "🇪🇸",
       "confed": "UEFA",
-      "prob": 15.3,
+      "prob": 16.2,
       "status": "Active",
       "points": 46,
       "goalsFor": 9,
@@ -124,7 +124,7 @@
       "name": "Norway",
       "emoji": "🇳🇴",
       "confed": "UEFA",
-      "prob": 8.8,
+      "prob": 9.3,
       "status": "Active",
       "points": 38,
       "goalsFor": 12,
@@ -139,7 +139,7 @@
       "name": "Belgium",
       "emoji": "🇧🇪",
       "confed": "UEFA",
-      "prob": 7.7,
+      "prob": 8.1,
       "status": "Active",
       "points": 38,
       "goalsFor": 13,
@@ -184,8 +184,8 @@
       "name": "Colombia",
       "emoji": "🇨🇴",
       "confed": "CONMEBOL",
-      "prob": 5.5,
-      "status": "Active",
+      "prob": 0,
+      "status": "Eliminated",
       "points": 39,
       "goalsFor": 8,
       "goalsAgainst": 5,
@@ -199,7 +199,7 @@
       "name": "Morocco",
       "emoji": "🇲🇦",
       "confed": "CAF",
-      "prob": 5.5,
+      "prob": 5.8,
       "status": "Active",
       "points": 43,
       "goalsFor": 13,
@@ -304,7 +304,7 @@
       "name": "Switzerland",
       "emoji": "🇨🇭",
       "confed": "UEFA",
-      "prob": 2.4,
+      "prob": 2.5,
       "status": "Active",
       "points": 41,
       "goalsFor": 13,
@@ -7943,14 +7943,15 @@
           "teamAway": "Colombia",
           "scoreHome": 4,
           "scoreAway": 3,
-          "highlights": "Switzerland 4-3 Colombia — Switzerland and Colombia drew 4-3."
+          "highlights": "Switzerland 4-3 Colombia — Switzerland won 4-3."
         }
       ],
       "eliminatedTeams": [
         "USA",
-        "Egypt"
+        "Egypt",
+        "Colombia"
       ],
-      "wittyNarrative": "Matchday 27 (July 7, 2026): 3 matches settled, 17 goals scored, 2 knocked out.",
+      "wittyNarrative": "Matchday 27 (July 7, 2026): 3 matches settled, 17 goals scored, 3 knocked out.",
       "teamSnapshot": {
         "Brazil": {
           "points": 39,
@@ -7960,22 +7961,22 @@
         "France": {
           "points": 49,
           "status": "Active",
-          "prob": 19.7
+          "prob": 20.8
         },
         "Argentina": {
           "points": 48,
           "status": "Active",
-          "prob": 18.6
+          "prob": 19.7
         },
         "England": {
           "points": 42,
           "status": "Active",
-          "prob": 16.6
+          "prob": 17.6
         },
         "Spain": {
           "points": 46,
           "status": "Active",
-          "prob": 15.3
+          "prob": 16.2
         },
         "Germany": {
           "points": 20,
@@ -7995,12 +7996,12 @@
         "Norway": {
           "points": 38,
           "status": "Active",
-          "prob": 8.8
+          "prob": 9.3
         },
         "Belgium": {
           "points": 38,
           "status": "Active",
-          "prob": 7.7
+          "prob": 8.1
         },
         "Croatia": {
           "points": 19,
@@ -8014,13 +8015,13 @@
         },
         "Colombia": {
           "points": 39,
-          "status": "Active",
-          "prob": 5.5
+          "status": "Eliminated",
+          "prob": 0
         },
         "Morocco": {
           "points": 43,
           "status": "Active",
-          "prob": 5.5
+          "prob": 5.8
         },
         "USA": {
           "points": 38,
@@ -8055,7 +8056,7 @@
         "Switzerland": {
           "points": 41,
           "status": "Active",
-          "prob": 2.4
+          "prob": 2.5
         },
         "Ecuador": {
           "points": 13,

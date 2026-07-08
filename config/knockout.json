@@ -261,7 +261,7 @@
     "played": true,
     "scoreHome": 4,
     "scoreAway": 3,
-    "winner": null
+    "winner": "Switzerland"
   },
   {
     "stage": "QUARTER_FINALS",
@@ -291,6 +291,17 @@
     "kickoff": "2026-07-11T21:00:00Z",
     "teamHome": "Norway",
     "teamAway": "England",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "QUARTER_FINALS",
+    "date": "2026-07-12",
+    "kickoff": "2026-07-12T01:00:00Z",
+    "teamHome": "Argentina",
+    "teamAway": "Switzerland",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
