@@ -280,10 +280,10 @@
     "kickoff": "2026-07-10T19:00:00Z",
     "teamHome": "Spain",
     "teamAway": "Belgium",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 1,
+    "winner": "Spain"
   },
   {
     "stage": "QUARTER_FINALS",
