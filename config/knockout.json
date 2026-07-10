@@ -269,10 +269,10 @@
     "kickoff": "2026-07-09T20:00:00Z",
     "teamHome": "France",
     "teamAway": "Morocco",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 2,
+    "scoreAway": 0,
+    "winner": "France"
   },
   {
     "stage": "QUARTER_FINALS",
