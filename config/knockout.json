@@ -291,10 +291,10 @@
     "kickoff": "2026-07-11T21:00:00Z",
     "teamHome": "Norway",
     "teamAway": "England",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 2,
+    "winner": "England"
   },
   {
     "stage": "QUARTER_FINALS",
@@ -302,6 +302,28 @@
     "kickoff": "2026-07-12T01:00:00Z",
     "teamHome": "Argentina",
     "teamAway": "Switzerland",
+    "played": true,
+    "scoreHome": 3,
+    "scoreAway": 1,
+    "winner": "Argentina"
+  },
+  {
+    "stage": "SEMI_FINALS",
+    "date": "2026-07-14",
+    "kickoff": "2026-07-14T19:00:00Z",
+    "teamHome": "France",
+    "teamAway": "Spain",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "SEMI_FINALS",
+    "date": "2026-07-15",
+    "kickoff": "2026-07-15T19:00:00Z",
+    "teamHome": "England",
+    "teamAway": "Argentina",
     "played": false,
     "scoreHome": null,
     "scoreAway": null,
