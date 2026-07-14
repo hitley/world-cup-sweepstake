@@ -313,10 +313,10 @@
     "kickoff": "2026-07-14T19:00:00Z",
     "teamHome": "France",
     "teamAway": "Spain",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 0,
+    "scoreAway": 2,
+    "winner": "Spain"
   },
   {
     "stage": "SEMI_FINALS",
