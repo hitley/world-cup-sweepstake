@@ -328,5 +328,27 @@
     "scoreHome": 1,
     "scoreAway": 2,
     "winner": "Argentina"
+  },
+  {
+    "stage": "THIRD_PLACE",
+    "date": "2026-07-18",
+    "kickoff": "2026-07-18T21:00:00Z",
+    "teamHome": "France",
+    "teamAway": "England",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
+  },
+  {
+    "stage": "FINAL",
+    "date": "2026-07-19",
+    "kickoff": "2026-07-19T19:00:00Z",
+    "teamHome": "Spain",
+    "teamAway": "Argentina",
+    "played": false,
+    "scoreHome": null,
+    "scoreAway": null,
+    "winner": null
   }
 ]
