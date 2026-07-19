@@ -335,10 +335,10 @@
     "kickoff": "2026-07-18T21:00:00Z",
     "teamHome": "France",
     "teamAway": "England",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 4,
+    "scoreAway": 6,
+    "winner": "England"
   },
   {
     "stage": "FINAL",
