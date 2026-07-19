@@ -7,6 +7,8 @@ import XpLadder from "./components/XpLadder";
 import RoadToFinal from "./components/RoadToFinal";
 import HeadToHead from "./components/HeadToHead";
 import SetupDialog from "./components/SetupDialog";
+import WinnersModal from "./components/WinnersModal";
+import { isTournamentComplete } from "@/lib/prizes";
 import { trackEvent } from "./analytics";
 import {
   Trophy,
@@ -56,6 +58,9 @@ export default function App() {
   const [activeTab, setActiveTab ] = useState<"standings" | "ladder" | "roadtofinal" | "headtohead" | "matches" | "trends">("standings");
   const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Winners reveal: default-true means it auto-opens on every visit once the
+  // final is played, and dismissing only lasts for this page load (no persistence).
+  const [showWinners, setShowWinners] = useState(true);
 
   // Loading quotes pool
   const LOADING_QUOTES = [
@@ -325,6 +330,19 @@ export default function App() {
                   <span>Draft Setup</span>
                 </button>
               </>
+            )}
+
+            {/* Winners trophy: only once the tournament is decided. Re-opens the
+                reveal for anyone who dismissed it. */}
+            {isTournamentComplete(state.knockout) && !printMode && (
+              <button
+                onClick={() => { trackEvent("winners_modal_open"); setShowWinners(true); }}
+                className="p-2 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 rounded-xl transition border border-yellow-400/30 cursor-pointer"
+                title="Show the winners"
+              >
+                <Trophy className="w-4 h-4" />
+                <span className="sr-only">Show winners</span>
+              </button>
             )}
 
             <button
@@ -600,6 +618,18 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Winners reveal modal — auto-opens over a blurred page once the final is
+          played; suppressed in print mode. Click-away / Esc / X dismiss it. */}
+      {showWinners && !printMode && isTournamentComplete(state.knockout) && (
+        <WinnersModal
+          participants={state.participants}
+          teams={state.teams}
+          knockout={state.knockout}
+          groupFixtures={state.groupFixtures}
+          onClose={() => setShowWinners(false)}
+        />
       )}
     </div>
   );

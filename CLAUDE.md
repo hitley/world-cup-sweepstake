@@ -21,6 +21,11 @@ app pulls real results and ranks them. Runs several **private competitions**
   of its two feeders (then binds to the API fixture whose teams match), so the
   tree fills in as the sync captures each round. On `xl`+ it shows the full mirrored bracket (full-bleed, final centred);
   below that, a 2-column current-round → next-round view.
+  The **Winners reveal** (`src/components/WinnersModal.tsx`) is a blurred-backdrop
+  modal that auto-opens once the `FINAL` is played (dismiss = click-away / `Esc` /
+  X, in-session only via a default-true `showWinners` state — no persistence; a
+  header trophy button re-opens it). Page 1 announces the five prizes; page 2 the
+  fun honours. Suppressed in print mode.
 - **Backend**: Express (`server.ts`), run with `tsx` in dev. Serves the API and
   Vite middleware. Only used **locally** (admin) — the deploy is static.
 - **Shared logic** (`lib/`, dependency-light, used by server + build + scripts):
@@ -41,6 +46,13 @@ app pulls real results and ranks them. Runs several **private competitions**
     server, the headless sync and scripts, so replay strengths never drift.
   - `headToHead.ts` — group-stage mini-game: maps each real group fixture onto
     the two contenders who drafted those teams (football points + goals).
+  - `prizes.ts` — resolves the five sweepstake prizes for `WinnersModal` from the
+    **real tournament outcome** (not XP): 1st/2nd = winner/loser of the `FINAL`,
+    3rd/4th = winner/loser of the `THIRD_PLACE` play-off, 🥄 wooden spoon = worst
+    group-stage team (fewest group points, then worst goal difference, then fewest
+    goals for). Each prize's winner is the contender who drafted that team
+    (case-insensitive; `null` if undrafted). `isTournamentComplete()` mirrors
+    `replayTournament.ts`'s champion check (a played `FINAL` with a winner).
   - `tournamentFiles.ts` — node-only helpers for the split config store (file
     paths + idempotent `writeJsonIfChanged`); shared by server, sync, builder.
 
@@ -68,6 +80,12 @@ app pulls real results and ranks them. Runs several **private competitions**
 - **XP**: `points = 3*wins + 1*draws + 2*cleanSheets + goalPoints + bonusPoints`
   (goal XP capped at 3/match; round bonuses R32+5…SF+20, champion +50). The
   breakdown is stored per team so the file is self-explanatory.
+- **Prizes** (the actual payout, distinct from XP; see `lib/prizes.ts`): 1st–4th
+  follow the **real finishing position** — 1st/2nd = the two finalists, 3rd/4th =
+  the two `THIRD_PLACE` play-off teams — and the wooden spoon is the worst
+  group-stage team (least group points, then worst goal difference). The prize
+  goes to whoever **drafted** that team. Not derivable from the XP totals, so it's
+  computed separately for the Winners reveal.
 - **Eliminations** (per team `status`): a team is `Eliminated` when it loses a
   knockout tie, **or** — once the Round of 32 is fully drawn (all 16 ties, 32
   teams) — when it didn't make the R32 (group-stage exit). The latter is gated
