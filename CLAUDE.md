@@ -108,12 +108,15 @@ app pulls real results and ranks them. Runs several **private competitions**
 - Headless: `npm run sync` (no UI/server needed). The nightly job uses it.
 - After syncing, the changed `config/*.json` state files are committed + pushed
   to refresh the live sites.
-- **Nightly automation**: `scripts/nightly-sync.sh` runs the sync then commits +
-  pushes the 3 state files (only if any changed). Scheduled via **launchd** (not
-  cron) so a run missed while the Mac is asleep fires on wake. LaunchAgent:
-  `~/Library/LaunchAgents/com.hitley.sweepstake-nightly-sync.plist` (5x/day at
-  06:00/08:00/10:00/12:00/14:00, logs to `sync.log`). See `scripts/README.md` for
-  managing it.
+- **Nightly automation** (currently **not installed** — the tournament is over, so
+  the launchd job has been unloaded/removed): `scripts/nightly-sync.sh` runs the
+  sync then commits + pushes the 3 state files (only if any changed). Scheduled
+  via **launchd** (not cron) so a run missed while the Mac is asleep fires on wake.
+  A template LaunchAgent is kept in-repo at
+  `scripts/com.hitley.sweepstake-nightly-sync.plist` (5x/day at
+  06:00/08:00/10:00/12:00/14:00, logs to `sync.log`); install it to
+  `~/Library/LaunchAgents/` to reinstate. See `scripts/README.md` for the
+  (re)install + management steps.
 
 ## Deploy
 

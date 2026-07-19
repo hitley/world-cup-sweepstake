@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.hitley.sweepstake-nightly-sync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/hitley/code/fifa-world-cup-2026-sweepstake-tracker/scripts/nightly-sync.sh</string>
+    </array>
+
+    <!-- Run 5x/day at 06:00, 08:00, 10:00, 12:00 and 14:00. If the Mac is
+         asleep/off at a scheduled time, launchd runs the job once as soon as it
+         wakes (cron would skip it); coalesced to a single catch-up run. -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>6</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>8</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>10</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>12</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>14</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/Users/hitley/code/fifa-world-cup-2026-sweepstake-tracker/sync.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/hitley/code/fifa-world-cup-2026-sweepstake-tracker/sync.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
