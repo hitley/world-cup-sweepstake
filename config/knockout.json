@@ -346,9 +346,9 @@
     "kickoff": "2026-07-19T19:00:00Z",
     "teamHome": "Spain",
     "teamAway": "Argentina",
-    "played": false,
-    "scoreHome": null,
-    "scoreAway": null,
-    "winner": null
+    "played": true,
+    "scoreHome": 1,
+    "scoreAway": 0,
+    "winner": "Spain"
   }
 ]

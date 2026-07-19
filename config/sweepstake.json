@@ -34,11 +34,11 @@
       "name": "Argentina",
       "emoji": "🇦🇷",
       "confed": "CONMEBOL",
-      "prob": 54.8,
-      "status": "Active",
+      "prob": 0,
+      "status": "Eliminated",
       "points": 94,
       "goalsFor": 19,
-      "goalsAgainst": 7,
+      "goalsAgainst": 8,
       "wins": 7,
       "draws": 0,
       "cleanSheets": 2,
@@ -64,16 +64,16 @@
       "name": "Spain",
       "emoji": "🇪🇸",
       "confed": "UEFA",
-      "prob": 45.2,
+      "prob": 100,
       "status": "Active",
-      "points": 93,
-      "goalsFor": 13,
+      "points": 149,
+      "goalsFor": 14,
       "goalsAgainst": 1,
-      "wins": 6,
+      "wins": 7,
       "draws": 1,
-      "cleanSheets": 6,
-      "goalPoints": 12,
-      "bonusPoints": 50
+      "cleanSheets": 7,
+      "goalPoints": 13,
+      "bonusPoints": 100
     },
     {
       "name": "Germany",
@@ -721,7 +721,7 @@
       "bonusPoints": 0
     }
   ],
-  "currentDayIndex": 34,
+  "currentDayIndex": 35,
   "history": [
     {
       "dayIndex": 1,
@@ -9788,6 +9788,265 @@
           "points": 93,
           "status": "Active",
           "prob": 45.2
+        },
+        "Germany": {
+          "points": 20,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Portugal": {
+          "points": 33,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Netherlands": {
+          "points": 23,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Norway": {
+          "points": 54,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Belgium": {
+          "points": 54,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Croatia": {
+          "points": 19,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Uruguay": {
+          "points": 5,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Colombia": {
+          "points": 39,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Morocco": {
+          "points": 58,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "USA": {
+          "points": 38,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Senegal": {
+          "points": 18,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Japan": {
+          "points": 19,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Korea Republic (South Korea)": {
+          "points": 5,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Mexico": {
+          "points": 45,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Sweden": {
+          "points": 14,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Switzerland": {
+          "points": 57,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Ecuador": {
+          "points": 13,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Canada": {
+          "points": 32,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "IR Iran": {
+          "points": 8,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Saudi Arabia": {
+          "points": 5,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Austria": {
+          "points": 15,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Türkiye": {
+          "points": 6,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Paraguay": {
+          "points": 31,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Algeria": {
+          "points": 14,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Egypt": {
+          "points": 33,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Côte d'Ivoire": {
+          "points": 20,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Ghana": {
+          "points": 15,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Tunisia": {
+          "points": 2,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Australia": {
+          "points": 18,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Panama": {
+          "points": 0,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "South Africa": {
+          "points": 13,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Qatar": {
+          "points": 3,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Uzbekistan": {
+          "points": 2,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Iraq": {
+          "points": 1,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Jordan": {
+          "points": 3,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "New Zealand": {
+          "points": 5,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Bosnia and Herzegovina": {
+          "points": 14,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Cabo Verde": {
+          "points": 16,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Congo DR": {
+          "points": 14,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Curaçao": {
+          "points": 4,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Czechia": {
+          "points": 3,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Haiti": {
+          "points": 2,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Scotland": {
+          "points": 6,
+          "status": "Eliminated",
+          "prob": 0
+        }
+      }
+    },
+    {
+      "dayIndex": 35,
+      "date": "July 19, 2026",
+      "matches": [
+        {
+          "teamHome": "Spain",
+          "teamAway": "Argentina",
+          "scoreHome": 1,
+          "scoreAway": 0,
+          "highlights": "Spain 1-0 Argentina — Spain won 1-0."
+        }
+      ],
+      "eliminatedTeams": [
+        "Argentina"
+      ],
+      "wittyNarrative": "Matchday 35 (July 19, 2026): 1 match settled, 1 goal scored, 1 knocked out.",
+      "teamSnapshot": {
+        "Brazil": {
+          "points": 39,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "France": {
+          "points": 94,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Argentina": {
+          "points": 94,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "England": {
+          "points": 89,
+          "status": "Eliminated",
+          "prob": 0
+        },
+        "Spain": {
+          "points": 149,
+          "status": "Active",
+          "prob": 100
         },
         "Germany": {
           "points": 20,
